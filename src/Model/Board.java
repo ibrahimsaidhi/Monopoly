@@ -2,6 +2,13 @@ package Model;
 
 import java.util.HashMap;
 
+/**
+ * Board Class: sets up the board to be played on
+ * Date: October 22, 2021
+ * @author Hamza Zafar, 101158275
+ * @version 1.0
+ */
+
 public class Board {
 
     private HashMap<Integer, Square> board;
