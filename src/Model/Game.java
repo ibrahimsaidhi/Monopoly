@@ -196,6 +196,8 @@ public class Game {
         if(input.equalsIgnoreCase("yes")){
             players.get(currentPlayerInteger).addProperty((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition()));
             players.get(currentPlayerInteger).decrementBalance(((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition())).getValue());
+            System.out.println("Congratulations, you now own property: " + (Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition())
+            + ". Your new balance is: $" + players.get(currentPlayerInteger).getBalance() + "\nSpend wisely!");
         } else if (input.equalsIgnoreCase("no")){
             passTurn();
         } else {
