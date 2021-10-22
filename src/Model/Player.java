@@ -40,11 +40,11 @@ public class Player {
         return position;
     }
 
-    public void decrementBalance(int amount) {
+    public void decrementBalance(float amount) {
         this.balance -= amount;
     }
 
-    public void incrementBalance(int amount) {
+    public void incrementBalance(float amount) {
         this.balance += amount;
     }
 

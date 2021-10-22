@@ -83,6 +83,15 @@ public class Game {
         return false;
     }
 
+    private Player whoOwnsProperty(Property property){
+        for (int i = 0; i < players.size(); i++){
+            if (players.get(i).getOwnedProperties().contains(property)){
+                return players.get(i);
+            }
+        }
+        return null;
+    }
+
     private void printState() {
         /**
          * @author John Afolayan
@@ -176,9 +185,10 @@ public class Game {
         if (board.getBoard().get(players.get(currentPlayerInteger).getPosition()) instanceof Property){
             System.out.println("You have rolled 2 die that combine to " + x + ". You are currently in position " + players.get(currentPlayerInteger).getPosition() + ": " + ((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition())).getName());
             if(!propertyOwned((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition()))){
-                System.out.println("This property is available for purchase! Would you like to purchase it? " +
-                        "\nEnter 'yes' to purchase it or 'no' to skip this purchase.");
                 promptUserToPurchase();
+            } else if(propertyOwned((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition()))){
+                taxPlayer();
+                passTurn();
             }
         }
         else if (board.getBoard().get(players.get(currentPlayerInteger).getPosition())instanceof Square) {
@@ -191,6 +201,8 @@ public class Game {
      * A method to prompt a user to purchase a property or not
      */
     public void promptUserToPurchase(){
+        System.out.println("This property is available for purchase! Would you like to purchase it? " +
+                "\nEnter 'yes' to purchase it or 'no' to skip this purchase.");
         Scanner sc = new Scanner(System.in);
         String input = sc.next();
         if(input.equalsIgnoreCase("yes")){
@@ -198,6 +210,7 @@ public class Game {
             players.get(currentPlayerInteger).decrementBalance(((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition())).getValue());
             System.out.println("Congratulations, you now own property: " + (Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition())
             + ". Your new balance is: $" + players.get(currentPlayerInteger).getBalance() + "\nSpend wisely!");
+            passTurn();
         } else if (input.equalsIgnoreCase("no")){
             passTurn();
         } else {
@@ -206,16 +219,16 @@ public class Game {
     }
 
     /**
-    private boolean checkCommandSyntax(Command command) {
-        if (!command.hasSecondWord()) {
-            System.out.println("Which property are you purchasing?");
-            return false;
-        }
-        return true;
-    }
+     * @author John Afolayan
+     * This method taxes a player whenver they land on another player's property
      */
-
-
+    public void taxPlayer(){
+        Player ownedBy = whoOwnsProperty((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition())); //player who owns property
+        int amount = (int) (((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition())).getValue() * 0.1); //amount to decrement by
+        System.out.printf("You've landed on a property owned by another player: %s%n", ownedBy.getName());
+        players.get(currentPlayerInteger).decrementBalance(amount);
+        System.out.println("You've been taxed $" + amount + ", your new balance is $" + players.get(currentPlayerInteger).getBalance());
+    }
 
     public void play() {
         /**
