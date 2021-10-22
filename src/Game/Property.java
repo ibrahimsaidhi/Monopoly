@@ -1,6 +1,4 @@
-package Game;
-
-import Model.Player;
+package Model;
 
 /**
  * The Property class: A Square on the board that can be bought by a Player
