@@ -31,18 +31,18 @@ public class Board {
         Property property5 = new Property("Airport", "purple", 700);
         Square empty5 = new Square("");
 
-        board.put(1,GO);
-        board.put(2,property1);
-        board.put(3,property2);
-        board.put(4,empty);
-        board.put(5,empty2);
-        board.put(6,property3);
-        board.put(7,empty3);
-        board.put(8,empty4);
-        board.put(9,property4);
+        board.put(0,GO);
+        board.put(1,property1);
+        board.put(2,property2);
+        board.put(3,empty);
+        board.put(4,empty2);
+        board.put(5,property3);
+        board.put(6,empty3);
+        board.put(7,empty4);
+        board.put(8,property4);
+        board.put(9,property5);
         board.put(10,property5);
-        board.put(11,property5);
-        board.put(12,empty5);
+        board.put(11,empty5);
 
     }
 
