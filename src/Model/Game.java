@@ -71,10 +71,17 @@ public class Game {
     }
 
     private void buyProperty(){
-        System.out.println("Do you wish to buy this property?");
+
     }
 
-
+    private boolean propertyOwned(Property property){
+        for (int i = 0; i < players.size(); i++){
+            if (players.get(i).getOwnedProperties().contains(property)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void printState() {
         /**
@@ -165,8 +172,13 @@ public class Game {
             z = board.getBoard().size() - players.get(currentPlayerInteger).getPosition();
             players.get(currentPlayerInteger).setPosition(1 + (x - z));
         }
-        System.out.println("You have rolled 2 die that combine to " + x + ". You are currently in position " + players.get(currentPlayerInteger).getPosition() + ": " + board.getBoard().get(players.get(currentPlayerInteger).getPosition()).getName());
 
+        if (board.getBoard().get(players.get(currentPlayerInteger).getPosition()) instanceof Property){
+            System.out.println("You have rolled 2 die that combine to " + x + ". You are currently in position " + players.get(currentPlayerInteger).getPosition() + ": " + ((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition())).getName());
+        }
+        else if (board.getBoard().get(players.get(currentPlayerInteger).getPosition())instanceof Square) {
+            System.out.println("You have rolled 2 die that combine to " + x + ". You are currently in position " + players.get(currentPlayerInteger).getPosition() + ": " + board.getBoard().get(players.get(currentPlayerInteger).getPosition()).getName());
+        }
     }
 
     /**
@@ -178,6 +190,8 @@ public class Game {
         return true;
     }
      */
+
+
 
     public void play() {
         /**
