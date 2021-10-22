@@ -13,14 +13,18 @@ public class Property extends Square {
 
     private int value;
 
-    private Player player;
-
     // class constructor
     public Property(String name, String color, int value){
         super(name);
         this.value = value;
         this.color = color;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
 
     /**
      * Accessor for the name of the Property
@@ -74,15 +78,5 @@ public class Property extends Square {
      * Sets a Player to the Property
      * @param player
      */
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
 
-    /**
-     * Gets the player associated with the Property
-     * @return player;
-     */
-    public Player getPlayer() {
-        return player;
-    }
 }
