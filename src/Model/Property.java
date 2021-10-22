@@ -15,7 +15,8 @@ public class Property extends Square {
 
     // class constructor
     public Property(String name, String color, int value){
-        super(name);
+        super();
+        this.name = name;
         this.value = value;
         this.color = color;
     }
@@ -74,9 +75,5 @@ public class Property extends Square {
         this.value = value;
     }
 
-    /**
-     * Sets a Player to the Property
-     * @param player
-     */
 
 }
