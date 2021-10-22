@@ -1,3 +1,7 @@
+package Game;
+
+import Model.Player;
+
 /**
  * The Property class: A Square on the board that can be bought by a Player
  * Date: October 17, 2021
