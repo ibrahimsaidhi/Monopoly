@@ -2,6 +2,8 @@ package Model;
 
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Player {
     private String name;
@@ -15,7 +17,7 @@ public class Player {
     public Player(String name, int playerNumber){
         this.name = name;
         this.playerNumber = playerNumber;
-        this.balance = 1500;
+        this.balance = 1500; //default starting balance
         this.position = 0; //start at the first square
     }
 
@@ -35,4 +37,20 @@ public class Player {
     public void addProperty(Property property){
         ownedProperties.add(property);
     }
+
+    public ArrayList getOwnedProperties(){
+        return ownedProperties;
+    }
+
+    private List<Integer> rollDice() {
+        Integer numberOfDiceToRoll = 2; //rolling two dices
+        List<Integer> diceRolls = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < numberOfDiceToRoll; i++) {
+            int diceRoll = random.nextInt(6) + 1;
+            diceRolls.add(diceRoll);
+        }
+        return diceRolls;
+    }
+
 }

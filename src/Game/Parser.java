@@ -12,13 +12,13 @@ public class Parser
     private CommandWords commands;  // holds all valid command words
     private Scanner reader;         // source of command input
 
-    public Parser()    {
+    public Parser() {
         commands = new CommandWords();
         reader = new Scanner(System.in);
     }
-    public Command getCommand(int currentPlayer)    {
+    public Command getCommand(int currentPlayer) {
         /**
-         * @author      John Afolayan
+         * @author John Afolayan
          *
          * This method handles the user input.
          *
