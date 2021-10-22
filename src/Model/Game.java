@@ -27,6 +27,7 @@ public class Game {
     private int numberOfPlayers;
     private String newPlayerName;
     private InputStream inputStream;
+    private Board board = new Board();
 
     public Game() {
         parser = new Parser();
@@ -56,7 +57,7 @@ public class Game {
                 passTurn();
                 break;
             case "buy":
-                buyProperty();
+                //buyProperty();
                 break;
             case "state":
                 printState();
@@ -67,6 +68,10 @@ public class Game {
         }
 
         return wantToQuit;
+    }
+
+    private void buyProperty(){
+
     }
 
     private void printState() {

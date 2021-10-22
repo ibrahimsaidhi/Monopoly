@@ -1,5 +1,11 @@
 package Model;
 
+/**
+ * Player class: Creates players, name, position and balance
+ * Date: October 22, 2021
+ * @author Hamza Zafar, 101158275
+ * @version 1.0
+ */
 
 import java.util.ArrayList;
 import java.util.List;
