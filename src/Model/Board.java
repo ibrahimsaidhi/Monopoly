@@ -41,8 +41,8 @@ public class Board {
         board.put(8,empty4);
         board.put(9,property4);
         board.put(10,property5);
-        board.put(10,property5);
-        board.put(10,empty5);
+        board.put(11,property5);
+        board.put(12,empty5);
 
     }
 
