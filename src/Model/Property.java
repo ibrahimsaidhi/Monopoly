@@ -1,7 +1,7 @@
 package Model;
 
 /**
- * The Property class: A Square on the board that can be bought by a Player
+ * The Property class: A Model.Square on the board that can be bought by a Player
  * Date: October 17, 2021
  * @author Ibrahim Said, 101158275
  * @version 1.0

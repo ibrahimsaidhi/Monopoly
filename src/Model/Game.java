@@ -6,7 +6,6 @@ import Game.Parser;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 
@@ -20,12 +19,13 @@ import java.util.Scanner;
 
 public class Game {
     private Parser parser;
-    private int currentPlayer = 0;
+    private Property property;
+    private int currentPlayerInteger = 0;
     private int initialAmountOfMoney;
     private List<Player> players;
 
     private int numberOfPlayers;
-    private Info myInfo;
+    private String newPlayerName;
     private InputStream inputStream;
 
     public Game() {
@@ -35,7 +35,7 @@ public class Game {
 
     private void printCurrentPlayer() {
         System.out.println("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
-        System.out.println("The current player is player-" + (currentPlayer + 1) + "\n");
+        System.out.println("The current player is player-" + (currentPlayerInteger + 1) + "\n");
     }
 
     public boolean processCommand(Command command) {
@@ -50,13 +50,16 @@ public class Game {
         String commandWord = command.getCommandWord();
         switch (commandWord) {
             case "move":
-                moveToken(command);
+                moveToken();
                 break;
             case "pass":
                 passTurn();
                 break;
             case "buy":
                 buyProperty();
+                break;
+            case "state":
+                printState();
                 break;
             case "quit":
                 wantToQuit = true;
@@ -73,17 +76,18 @@ public class Game {
          * Print a representation of the game's state
          *
          */
-        System.out.println(this.myInfo);
+        System.out.println("You are player " + (currentPlayerInteger + 1) + "\nYou own the following properties:\n"
+        + players.get(currentPlayerInteger).getOwnedProperties().toString());
     }
 
     private void passTurn() {
         /**
          * @author John Afolayan
          *
-         * Pass the turn to the next player
+         * Passes turn to the next player
          *
          */
-        this.currentPlayer = (this.currentPlayer == this.numberOfPlayers) ? 0 : this.currentPlayer + 1;
+        this.currentPlayerInteger = (this.currentPlayerInteger == this.numberOfPlayers) ? 0 : this.currentPlayerInteger + 1;
         newTurn();
     }
 
@@ -96,8 +100,8 @@ public class Game {
         /**
          * @author John Afolayan
          *
-         * Ask the user for the number of players that will be playing, and then calls setup() to
-         * determine how much money/items each player will start off with.
+         * Ask the user for the number of players that will be playing, and then
+         * initializes them accordingly.
          *
          */
         Scanner sc = new Scanner(System.in);
@@ -111,21 +115,18 @@ public class Game {
                 correctNumberOfPlayers = false;
                 System.out.println("The number of players allowed is 2,3,4,5,6,7 or 8 players. Please try again.");
                 numberOfPlayers = sc.nextInt();
-
             }
         } while (!correctNumberOfPlayers);
-        createPlayers(numberOfPlayers, setup(numberOfPlayers));
-    }
-
-    private int setup(int numberOfPlayers) {
-        initialAmountOfMoney = 1500;
-        return initialAmountOfMoney;
+        createPlayers(numberOfPlayers);
     }
 
     private void createPlayers(int numberOfPlayers) {
+        Scanner sc = new Scanner(System.in);
         players = new ArrayList<Player>();
         for (int i = 1; i <= numberOfPlayers; i++) {
-            players.add(new Player(i));
+            System.out.println("Hi player " + i + "! What would you like to call yourself?");
+            this.newPlayerName = sc.next();
+            players.add(new Player(newPlayerName, i));
         }
     }
 
@@ -134,11 +135,11 @@ public class Game {
     }
 
     private void printListOfCurrentPlayerStats() {
-        System.out.println("Player " + (currentPlayer + 1) + " currently owns the following properties: ");
-        System.out.println(players.get(currentPlayer).getMyProperties().toString());
+        System.out.println("Player " + (currentPlayerInteger + 1) + " currently owns the following properties: ");
+        System.out.println(players.get(currentPlayerInteger).getOwnedProperties().toString()); //Prints all properties which currentPlayer owns
     }
 
-    private void moveToken(Command command) {
+    private void moveToken() {
         /**
          * @author John Afolayan
          *
@@ -146,40 +147,10 @@ public class Game {
          * where n is the value which is rolled on a dice.
          *
          */
-        if (!checkCommandSyntax(command)) return;
-
 
     }
-    
-    //Unfinished Implementation of move outcome
-    private List<Integer> checkOutcomeOfMove(List<Integer> playerDiceResults) {
-        int highestRoll = 0;
-        int secondHighestRoll = 0;
-        System.out.println("\n******************************Dice Rolled!******************************");
-        System.out.println("Current player's dice roll :" + playerDiceResults);
 
-        for (Integer i : playerDiceResults) {
-            if (i.intValue() >= highestRoll) {
-                secondHighestRoll = highestRoll;
-                highestRoll = i.intValue();
-            }
-            if (i.intValue() > secondHighestRoll && i.intValue() != highestRoll)
-                secondHighestRoll = i.intValue();
-            System.out.println("Checking dice; Highest roll is = " + highestRoll + " Second highest roll is = " + secondHighestRoll);
-        }
-        return null;
-    }
-
-    private List<Integer> rollDice(Integer numberOfDiceToRoll) {
-        List<Integer> diceRolls = new ArrayList<>();
-        Random random = new Random();
-        for (int i = 0; i < numberOfDiceToRoll; i++) {
-            int diceRoll = random.nextInt(6) + 1;
-            diceRolls.add(diceRoll);
-        }
-        return diceRolls;
-    }
-
+    /**
     private boolean checkCommandSyntax(Command command) {
         if (!command.hasSecondWord()) {
             System.out.println("Which property are you purchasing?");
@@ -187,12 +158,13 @@ public class Game {
         }
         return true;
     }
+     */
 
     public void play() {
         /**
          * @author John Afolayan
          *
-         * The main loop of the game. Takes user input until the user inputs Quit.
+         * The main loop of the game. Takes user(s) input until the user(s) inputs Quit.
          *
          */
         boolean startedGame = false;
@@ -209,21 +181,20 @@ public class Game {
         boolean finished = false;
         while (!finished) {
             try {
-                Command command = parser.getCommand(this.currentPlayer);
+                Command command = parser.getCommand(this.currentPlayerInteger);
                 finished = processCommand(command);
             } catch (Exception exception) {
                 System.err.println("You have encountered an error :/\n Please report it to the developer");
                 exception.printStackTrace();
             }
         }
-        System.out.println("Thank you for playing!");
+        System.out.println("Thank you for playing Monopoly!");
     }
 
     public void startGame() {
         initializePlayers();
         System.out.println("There will be " + numberOfPlayers + " players this game!");
         newTurn();
-
     }
 
     public static void main(String[] args) {
