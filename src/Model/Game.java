@@ -175,9 +175,31 @@ public class Game {
 
         if (board.getBoard().get(players.get(currentPlayerInteger).getPosition()) instanceof Property){
             System.out.println("You have rolled 2 die that combine to " + x + ". You are currently in position " + players.get(currentPlayerInteger).getPosition() + ": " + ((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition())).getName());
+            if(!propertyOwned((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition()))){
+                System.out.println("This property is available for purchase! Would you like to purchase it? " +
+                        "\nEnter 'yes' to purchase it or 'no' to skip this purchase.");
+                promptUserToPurchase();
+            }
         }
         else if (board.getBoard().get(players.get(currentPlayerInteger).getPosition())instanceof Square) {
             System.out.println("You have rolled 2 die that combine to " + x + ". You are currently in position " + players.get(currentPlayerInteger).getPosition() + ": " + board.getBoard().get(players.get(currentPlayerInteger).getPosition()).getName());
+        }
+    }
+
+    /**
+     * @author John Afolayan
+     * A method to prompt a user to purchase a property or not
+     */
+    public void promptUserToPurchase(){
+        Scanner sc = new Scanner(System.in);
+        String input = sc.next();
+        if(input.equalsIgnoreCase("yes")){
+            players.get(currentPlayerInteger).addProperty((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition()));
+            players.get(currentPlayerInteger).decrementBalance(((Property) board.getBoard().get(players.get(currentPlayerInteger).getPosition())).getValue());
+        } else if (input.equalsIgnoreCase("no")){
+            passTurn();
+        } else {
+            System.out.println("That command isn't recognized, please try again.");
         }
     }
 
