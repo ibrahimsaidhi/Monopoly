@@ -42,15 +42,17 @@ public class Player {
         return ownedProperties;
     }
 
-    private List<Integer> rollDice() {
+    private Integer rollDice() {
         Integer numberOfDiceToRoll = 2; //rolling two dices
         List<Integer> diceRolls = new ArrayList<>();
+        int dieRoll = 0;
         Random random = new Random();
         for (int i = 0; i < numberOfDiceToRoll; i++) {
             int diceRoll = random.nextInt(6) + 1;
             diceRolls.add(diceRoll);
+            dieRoll += diceRoll;
         }
-        return diceRolls;
+        return dieRoll;
     }
 
 }
