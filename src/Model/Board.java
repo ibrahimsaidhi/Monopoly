@@ -34,6 +34,8 @@ public class Board {
         board.put(7,empty4);
         board.put(8,property4);
         board.put(9,property5);
+        board.put(9,property5);
+        board.put(9,empty5);
 
     }
 }
