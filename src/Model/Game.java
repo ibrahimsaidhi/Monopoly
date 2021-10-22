@@ -57,7 +57,7 @@ public class Game {
                 passTurn();
                 break;
             case "buy":
-                //buyProperty();
+                buyProperty();
                 break;
             case "state":
                 printState();
@@ -71,8 +71,10 @@ public class Game {
     }
 
     private void buyProperty(){
-
+        System.out.println("Do you wish to buy this property?");
     }
+
+
 
     private void printState() {
         /**
@@ -92,7 +94,7 @@ public class Game {
          * Passes turn to the next player
          *
          */
-        this.currentPlayerInteger = (this.currentPlayerInteger == this.numberOfPlayers) ? 0 : this.currentPlayerInteger + 1;
+        this.currentPlayerInteger = (this.currentPlayerInteger == this.numberOfPlayers - 1) ? 0 : this.currentPlayerInteger + 1;
         newTurn();
     }
 
@@ -161,8 +163,9 @@ public class Game {
         }
         else if (board.getBoard().size() <= y) { // if the size of the board is less than the roll + the current position, then set the player's position to be
             z = board.getBoard().size() - players.get(currentPlayerInteger).getPosition();
-            players.get(currentPlayerInteger).setPosition(1 + x - z);
+            players.get(currentPlayerInteger).setPosition(1 + (x - z));
         }
+        System.out.println("You have rolled 2 die that combine to " + x + ". You are currently in position " + players.get(currentPlayerInteger).getPosition() + ": " + board.getBoard().get(players.get(currentPlayerInteger).getPosition()).getName());
 
     }
 
