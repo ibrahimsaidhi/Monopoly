@@ -186,7 +186,7 @@ public class Game {
             System.out.println("You have rolled 2 die that combine to " + x + ". You are currently in position " + players.get(currentPlayerInt).getPosition() + ": " + ((Property) board.getBoard().get(players.get(currentPlayerInt).getPosition())).getName());
             if(!propertyOwned((Property) board.getBoard().get(players.get(currentPlayerInt).getPosition()))){
                 promptUserToPurchase();
-
+                checkPlayerBalance(players.get(currentPlayerInt));
             } else if(propertyOwned((Property) board.getBoard().get(players.get(currentPlayerInt).getPosition()))){
                 taxPlayer();
                 passTurn();
@@ -229,7 +229,7 @@ public class Game {
      */
     public void taxPlayer(){
         Player ownedBy = whoOwnsProperty((Property) board.getBoard().get(players.get(currentPlayerInt).getPosition())); //player who owns property
-        int amount = (int) (((Property) board.getBoard().get(players.get(currentPlayerInt).getPosition())).getValue() * 0.9); //amount to decrement by, 10%
+        int amount = (int) (((Property) board.getBoard().get(players.get(currentPlayerInt).getPosition())).getValue() * 0.1); //amount to decrement by, 10%
         System.out.printf("You've landed on a property owned by another player: %s%n", ownedBy.getName());
         players.get(currentPlayerInt).decrementBalance(amount); //remove $amount from player being taxed
         ownedBy.incrementBalance(amount); //add $amount to player who owns property
