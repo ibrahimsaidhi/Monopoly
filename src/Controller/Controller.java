@@ -31,21 +31,20 @@ public class Controller implements ActionListener {
                 gameView.getNewGameButton().setEnabled(false);
                 break;
             case "Roll Die":
-                int x = gameModel.getCurrentPlayer().rollDice();
                 gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
-                gameView.setFeedbackArea("You have rolled two dice that have added up to " + x);
-                gameModel.moveToken(x);
+                gameModel.moveToken();
                 gameView.setFeedbackArea("Your new position is now " + gameModel.getCurrentPlayer().getPosition());
+                goToTheBottomOfTextField();
                 break;
             case "Pass Turn":
-                gameView.setFeedbackArea("Player # " + gameModel.getCurrentPlayer().getPlayerNumber() + " has passed their turn");
+                gameView.setFeedbackArea("\nPlayer # " + gameModel.getCurrentPlayer().getPlayerNumber() + " has passed their turn\n");
                 gameModel.passTurn();
                 gameView.setFeedbackArea("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
-                gameView.setFeedbackArea(gameModel.getCurrentPlayer().getPlayerNumber() + "it is now your turn");
+                gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + " it is now your turn");
                 goToTheBottomOfTextField();
                 break;
             case "State":
-                gameView.setFeedbackArea("Current Player: " + gameModel.getCurrentPlayer().getName() + "Properties owned: " + gameModel.getCurrentPlayer().getOwnedProperties().toString());
+                gameView.setFeedbackArea("\nCurrent Player: " + gameModel.getCurrentPlayer().getName() + "Properties owned: " + gameModel.getCurrentPlayer().getOwnedProperties().toString());
                 goToTheBottomOfTextField();
                 break;
             case "Quit Game":

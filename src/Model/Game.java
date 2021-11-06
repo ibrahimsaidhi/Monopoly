@@ -53,7 +53,7 @@ public class Game {
         String commandWord = command.getCommandWord();
         switch (commandWord) {
             case "move":
-                moveToken(players.get(currentPlayerInt).rollDice());
+                moveToken();
                 break;
             case "pass":
                 passTurn();
@@ -168,7 +168,7 @@ public class Game {
         return x;
     }
 
-    public void moveToken(int rollNum) {
+    public void moveToken() {
         /**
          * @author John Afolayan and Ibrahim Said
          *
@@ -176,9 +176,10 @@ public class Game {
          * where n is the value which is rolled on a dice.
          *
          */
-        int x, y, z;
-        rollNum = this.rollDie(players.get(currentPlayerInt));
-        y = players.get(currentPlayerInt).getPosition() + rollNum;
+        int x, y;
+        x = players.get(currentPlayerInt).rollDice();
+        y = players.get(currentPlayerInt).getPosition() + x;
+        JOptionPane.showMessageDialog(null, "You have rolled two die that added up to " + x);
         players.get(currentPlayerInt).setPosition(y%11); // if the size of the board is greater than the board size (40), then set the current player's position to be the difference
 
         /*
@@ -200,7 +201,6 @@ public class Game {
             }
         }
         else if (board.getIndex(players.get(currentPlayerInt).getPosition())instanceof Square) {
-            System.out.println("You have rolled 2 die that combine to " + rollNum + ". You are currently in position " + players.get(currentPlayerInt).getPosition() + ": " + board.getIndex(players.get(currentPlayerInt).getPosition()).getName());
             passTurn();
         }
     }
