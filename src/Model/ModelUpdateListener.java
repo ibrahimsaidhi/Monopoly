@@ -1,5 +1,5 @@
 package Model;
 
 public interface ModelUpdateListener {
-    public void modelUpdated();
+    void modelUpdated();
 }

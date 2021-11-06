@@ -3,7 +3,6 @@ package Controller;
 import Game.Command;
 import Model.Game;
 import View.View;
-import Model.Player;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +13,6 @@ import java.util.List;
 public class Controller implements ActionListener {
     View gameView;
     Game gameModel;
-    Player player;
 
     public Controller(Game gameModel, View gameView) {
         this.gameModel = gameModel;
@@ -24,30 +22,29 @@ public class Controller implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         switch (e.getActionCommand()) {
             case "New Game":
                 int numberOfPlayers = gameView.numberOfPlayersRequest();
                 gameModel.initializePlayers(numberOfPlayers);
                 gameView.unlockButtons();
-                gameView.setFeedbackArea("A new game has begun with " + numberOfPlayers + " players. " + "\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                gameView.setFeedbackArea("A new game has begun with " + numberOfPlayers + " players\n" + "\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 gameView.getNewGameButton().setEnabled(false);
                 break;
             case "Roll Die":
-
-
+                gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                gameModel.moveToken();
+                gameView.setFeedbackArea("Your new position is now " + gameModel.getCurrentPlayer().getPosition());
+                goToTheBottomOfTextField();
                 break;
             case "Pass Turn":
-                gameView.setFeedbackArea("Player # " + player.getName() + " has passed their turn");
+                gameView.setFeedbackArea("\nPlayer # " + gameModel.getCurrentPlayer().getPlayerNumber() + " has passed their turn\n");
                 gameModel.passTurn();
                 gameView.setFeedbackArea("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
-                gameView.setFeedbackArea(player.getName()+ "it is now your turn");
+                gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + " it is now your turn");
                 goToTheBottomOfTextField();
-
-
                 break;
             case "State":
-                gameView.setFeedbackArea("");
+                gameView.setFeedbackArea("\nCurrent Player: " + gameModel.getCurrentPlayer().getName() + "Properties owned: " + gameModel.getCurrentPlayer().getOwnedProperties().toString());
                 goToTheBottomOfTextField();
                 break;
             case "Quit Game":
