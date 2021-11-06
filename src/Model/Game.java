@@ -2,6 +2,7 @@ package Model;
 
 import Game.Command;
 import Game.Parser;
+import View.View;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -24,15 +25,21 @@ public class Game {
     private Player currentPlayer;
     private int currentPlayerInt = 0;
     private List<Player> players;
-    private ModelUpdateListener viewer;
+    private List<ModelUpdateListener> viewers;
     private int numberOfPlayers;
     private String newPlayerName;
     private InputStream inputStream;
     private Board board = new Board();
     boolean wantToQuit = false;
+    //private List<View> views;
+
     public Game() {
         parser = new Parser();
+        viewers = new ArrayList<>();
+        //views = new ArrayList<View>();
     }
+
+
 
 
     private void printCurrentPlayer() {
@@ -104,7 +111,7 @@ public class Game {
                 + players.get(currentPlayerInt).getOwnedProperties().toString() + "\nYour current balance is " + players.get(currentPlayerInt).getBalance());
     }
 
-    private void passTurn() {
+    public void passTurn() {
         /**
          * @author John Afolayan
          *
@@ -129,7 +136,6 @@ public class Game {
          * initializes them accordingly.
          *
          */
-
         this.numberOfPlayers = numberOfPlayers;
         createPlayers(numberOfPlayers);
         this.currentPlayer = players.get(0);
@@ -137,13 +143,11 @@ public class Game {
     }
 
     private void update() {
-        if (this.viewer != null)
-            this.viewer.modelUpdated();
+        for (ModelUpdateListener v: viewers){
+            v.modelUpdated();
+        }
     }
 
-    public void setViewer(ModelUpdateListener viewer) {
-        this.viewer = viewer;
-    }
 
     private void createPlayers(int numberOfPlayers) {
         Scanner sc = new Scanner(System.in);
@@ -291,6 +295,7 @@ public class Game {
         initializePlayers(numberOfPlayers);
         //System.out.println("There will be " + numberOfPlayers + " players this game!");
         newTurn();
+
     }
 
     public void quitGame() {
