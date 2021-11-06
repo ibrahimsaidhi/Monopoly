@@ -22,20 +22,20 @@ public class Controller implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         switch (e.getActionCommand()) {
             case "New Game":
                 int numberOfPlayers = gameView.numberOfPlayersRequest();
                 gameModel.initializePlayers(numberOfPlayers);
                 gameView.unlockButtons();
-                gameView.setFeedbackArea("A new game has begun with " + numberOfPlayers + " players. " + "\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                gameView.setFeedbackArea("A new game has begun with " + numberOfPlayers + " players\n" + "\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 gameView.getNewGameButton().setEnabled(false);
                 break;
             case "Roll Die":
                 int x = gameModel.getCurrentPlayer().rollDice();
-                gameView.setFeedbackArea("Current turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                gameView.setFeedbackArea("You have rolled two dice that have added up to " + x);
                 gameModel.moveToken(x);
-                gameView.setFeedbackArea("You have rolled two dice that have added up to " + x + ". Your new position is now " + gameModel.getCurrentPlayer().getPosition());
+                gameView.setFeedbackArea("Your new position is now " + gameModel.getCurrentPlayer().getPosition());
                 break;
             case "Pass Turn":
                 gameView.setFeedbackArea("Player # " + gameModel.getCurrentPlayer().getPlayerNumber() + " has passed their turn");

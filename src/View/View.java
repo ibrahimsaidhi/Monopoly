@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class View extends JFrame implements ModelUpdateListener{
+public class View extends JFrame implements ModelUpdateListener {
     Game gameModel;
     JButton newGameButton;
     JButton rollDieButton;
@@ -35,7 +35,7 @@ public class View extends JFrame implements ModelUpdateListener{
     public static void main(String[] args) {
         Game gameModel = new Game();
         View gameView = new View(gameModel);
-        //gameModel.setViewer(gameView);
+        gameModel.setViewer(gameView);
         Controller gameController = new Controller(gameModel, gameView);
         gameView.initialize(gameController);
     }
@@ -74,12 +74,11 @@ public class View extends JFrame implements ModelUpdateListener{
 
         jLayeredPane.add(propertyPanel, JLayeredPane.POPUP_LAYER);
         root.add(jLayeredPane, BorderLayout.CENTER);
-//        listOfPropertyButtons = new ArrayList<CircleButton>();
-//        listOfPropertyButtons.add(carletonUni);
 
         //Menu Panel will have the set of commands that a user can choose from in order to play the game
         JPanel menuPanel = new JPanel();
-        //Creating the buttons and adding actionlistener to them
+
+        //Creating JButtons and adding actionlisteners for them
         newGameButton = new JButton("New Game");
         rollDieButton = new JButton("Roll Die");
         passTurnButton = new JButton("Pass Turn");
@@ -118,7 +117,7 @@ public class View extends JFrame implements ModelUpdateListener{
         this.setVisible(true);
         this.setResizable(false);
         this.setSize(950, 650);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     private void initialize(Controller gameController) {
@@ -140,12 +139,10 @@ public class View extends JFrame implements ModelUpdateListener{
      *
      * This method updates the model
      */
-
     @Override
     public void modelUpdated() {
 
     }
-
 
     public void unlockButtons() {
         for (JButton button : listOfCommandButtons) {
@@ -169,6 +166,7 @@ public class View extends JFrame implements ModelUpdateListener{
         Integer[] choices = new Integer[]{2, 3, 4, 5, 6, 7, 8};
         int choice = askUser(choices);
         return choice;
+
     }
 
     /*
