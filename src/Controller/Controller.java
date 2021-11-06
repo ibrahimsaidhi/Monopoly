@@ -32,13 +32,16 @@ public class Controller implements ActionListener {
                 gameView.getNewGameButton().setEnabled(false);
                 break;
             case "Roll Die":
-
+                int x = gameModel.getCurrentPlayer().rollDice();
+                gameView.setFeedbackArea("Current turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                gameModel.moveToken(x);
+                gameView.setFeedbackArea("You have rolled two dice that have added up to " + x + ". Your new position is now " + gameModel.getCurrentPlayer().getPosition());
                 break;
             case "Pass Turn":
 
                 break;
             case "State":
-                gameView.setFeedbackArea("");
+                gameView.setFeedbackArea("Current Player: " + gameModel.getCurrentPlayer().getName() + "Properties owned: " + gameModel.getCurrentPlayer().getOwnedProperties().toString());
                 goToTheBottomOfTextField();
                 break;
             case "Quit Game":
