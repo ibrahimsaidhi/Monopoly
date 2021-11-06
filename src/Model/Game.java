@@ -146,12 +146,12 @@ public class Game {
     }
 
     private void createPlayers(int numberOfPlayers) {
-        Scanner sc = new Scanner(System.in);
+        //Scanner sc = new Scanner(System.in);
         players = new ArrayList<Player>();
         for (int i = 1; i <= numberOfPlayers; i++) {
-            System.out.println("Hi player " + i + "! What would you like to call yourself?");
-            this.newPlayerName = sc.next();
-            players.add(new Player(newPlayerName, i));
+            //System.out.println("Hi player " + i + "! What would you like to call yourself?");
+            //this.newPlayerName = sc.next();
+            players.add(new Player(i));
         }
     }
 

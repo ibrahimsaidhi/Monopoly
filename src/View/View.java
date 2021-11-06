@@ -74,12 +74,11 @@ public class View extends JFrame implements ModelUpdateListener {
 
         jLayeredPane.add(propertyPanel, JLayeredPane.POPUP_LAYER);
         root.add(jLayeredPane, BorderLayout.CENTER);
-//        listOfPropertyButtons = new ArrayList<CircleButton>();
-//        listOfPropertyButtons.add(carletonUni);
 
         //Menu Panel will have the set of commands that a user can choose from in order to play the game
         JPanel menuPanel = new JPanel();
-        //Creating the buttons and adding actionlistener to them
+
+        //Creating JButtons and adding actionlisteners for them
         newGameButton = new JButton("New Game");
         rollDieButton = new JButton("Roll Die");
         passTurnButton = new JButton("Pass Turn");

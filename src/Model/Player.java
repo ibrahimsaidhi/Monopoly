@@ -20,8 +20,8 @@ public class Player {
     private ArrayList<Property> ownedProperties = new ArrayList<>();
 
     //constructor
-    public Player(String name, int playerNumber){
-        this.name = name;
+    public Player(int playerNumber){
+        //this.name = name;
         this.playerNumber = playerNumber;
         this.balance = 1500; //default starting balance
         this.position = 0; //start at the first square
