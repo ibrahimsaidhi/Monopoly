@@ -60,6 +60,10 @@ public class Player {
         return ownedProperties;
     }
 
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
     public Integer rollDice() {
         Integer numberOfDiceToRoll = 2; //rolling two dices
         List<Integer> diceRolls = new ArrayList<>();

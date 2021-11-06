@@ -21,9 +21,10 @@ import java.util.Scanner;
 public class Game {
     private Parser parser;
     private Property property;
+    private Player currentPlayer;
     private int currentPlayerInt = 0;
     private List<Player> players;
-
+    private ModelUpdateListener viewer;
     private int numberOfPlayers;
     private String newPlayerName;
     private InputStream inputStream;
@@ -111,6 +112,7 @@ public class Game {
          *
          */
         this.currentPlayerInt = (this.currentPlayerInt == this.numberOfPlayers - 1) ? 0 : this.currentPlayerInt + 1;
+        this.currentPlayer = this.players.get(this.currentPlayerInt);
         newTurn();
     }
 
@@ -119,7 +121,7 @@ public class Game {
         parser.showCommands();
     }
 
-    private void initializePlayers() {
+    public void initializePlayers(int numberOfPlayers) {
         /**
          * @author John Afolayan
          *
@@ -127,20 +129,20 @@ public class Game {
          * initializes them accordingly.
          *
          */
-        Scanner sc = new Scanner(System.in);
-        this.numberOfPlayers = sc.nextInt();
-        boolean correctNumberOfPlayers;
-        do {
-            if (numberOfPlayers <= 8 && numberOfPlayers >= 2) {
-                correctNumberOfPlayers = true;
 
-            } else {
-                correctNumberOfPlayers = false;
-                System.out.println("The number of players allowed is 2,3,4,5,6,7 or 8 players. Please try again.");
-                numberOfPlayers = sc.nextInt();
-            }
-        } while (!correctNumberOfPlayers);
+        this.numberOfPlayers = numberOfPlayers;
         createPlayers(numberOfPlayers);
+        this.currentPlayer = players.get(0);
+        update();
+    }
+
+    private void update() {
+        if (this.viewer != null)
+            this.viewer.modelUpdated();
+    }
+
+    public void setViewer(ModelUpdateListener viewer) {
+        this.viewer = viewer;
     }
 
     private void createPlayers(int numberOfPlayers) {
@@ -173,7 +175,9 @@ public class Game {
         int x, y, z;
         x = players.get(currentPlayerInt).rollDice();
         y = players.get(currentPlayerInt).getPosition() + x;
+        players.get(currentPlayerInt).setPosition(y%40); // if the size of the board is greater than the board size (40), then set the current player's position to be the difference
 
+        /*
         if (board.getBoard().size() > y){
             players.get(currentPlayerInt).setPosition(y); // if the size of the board is greater than the position + the roll, then set the current player's position to be the current position + the roll
         }
@@ -181,6 +185,7 @@ public class Game {
             z = board.getBoard().size() - players.get(currentPlayerInt).getPosition();
             players.get(currentPlayerInt).setPosition(1 + (x - z));
         }
+        */
 
         if (board.getBoard().get(players.get(currentPlayerInt).getPosition()) instanceof Property){
             System.out.println("You have rolled 2 die that combine to " + x + ". You are currently in position " + players.get(currentPlayerInt).getPosition() + ": " + ((Property) board.getBoard().get(players.get(currentPlayerInt).getPosition())).getName());
@@ -229,13 +234,15 @@ public class Game {
      */
     public void taxPlayer(){
         Player ownedBy = whoOwnsProperty((Property) board.getBoard().get(players.get(currentPlayerInt).getPosition())); //player who owns property
-        int amount = (int) (((Property) board.getBoard().get(players.get(currentPlayerInt).getPosition())).getValue() * 0.1); //amount to decrement by, 10%
-        System.out.printf("You've landed on a property owned by another player: %s%n", ownedBy.getName());
-        players.get(currentPlayerInt).decrementBalance(amount); //remove $amount from player being taxed
-        ownedBy.incrementBalance(amount); //add $amount to player who owns property
-        System.out.println("You've been taxed $" + amount + ", your new balance is $" + players.get(currentPlayerInt).getBalance());
-        checkPlayerBalance(players.get(currentPlayerInt));
-        lookingForWinner();
+        if(!ownedBy.equals(players.get(currentPlayerInt))){ //If current player who lands on property doesn't own that property, tax them.
+            int amount = (int) (((Property) board.getBoard().get(players.get(currentPlayerInt).getPosition())).getValue() * 0.1); //amount to decrement by, 10%
+            System.out.printf("You've landed on a property owned by another player: %s%n", ownedBy.getName());
+            players.get(currentPlayerInt).decrementBalance(amount); //remove $amount from player being taxed
+            ownedBy.incrementBalance(amount); //add $amount to player who owns property
+            System.out.println("You've been taxed $" + amount + ", your new balance is $" + players.get(currentPlayerInt).getBalance());
+            checkPlayerBalance(players.get(currentPlayerInt));
+            lookingForWinner();
+        }
     }
 
     /**
@@ -269,45 +276,22 @@ public class Game {
         }
     }
 
-    public void play() {
-        /**
-         * @author John Afolayan
-         *
-         * The main loop of the game. Takes user(s) input until the user(s) inputs Quit.
-         *
-         */
-        boolean startedGame = false;
-        System.out.println("Welcome to Monopoly! How many players will be playing today? This version of Monopoly can hold up to 8 players.");
-        do {
-            try {
-                startGame();
-                startedGame = true;
-            } catch (Exception exception) {
-                System.err.println("Please enter a valid integer for the number of players. Your options are 2,3,4,5,6,7,8. ");
-            }
-        }
-        while (!startedGame);
-        boolean finished = false;
-        while (!finished) {
-            try {
-                Command command = parser.getCommand(this.currentPlayerInt);
-                finished = processCommand(command);
-            } catch (Exception exception) {
-                System.err.println("You have encountered an error :/\n Please report it to the developer");
-                exception.printStackTrace();
-            }
-        }
-        System.out.println("Thank you for playing Monopoly!");
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
-    public void startGame() {
-        initializePlayers();
-        System.out.println("There will be " + numberOfPlayers + " players this game!");
+    public void startGame(int numberOfPlayers) {
+        initializePlayers(numberOfPlayers);
+        //System.out.println("There will be " + numberOfPlayers + " players this game!");
         newTurn();
     }
 
-    public static void main(String[] args) {
+    public void quitGame() {
+        System.exit(0);
+    }
+
+    /*public static void main(String[] args) {
         Game game = new Game();
         game.play();
-    }
+    }*/
 }
