@@ -31,10 +31,15 @@ public class Controller implements ActionListener {
                 gameView.getNewGameButton().setEnabled(false);
                 break;
             case "Roll Die":
+                //gameModel.moveToken();
+                int diceRoll = gameModel.rollDie();
+                gameModel.setCurrentPlayerPosition(diceRoll);
+                JOptionPane.showMessageDialog(null, "You have rolled two die that added up to " + diceRoll);
                 gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
-                gameModel.moveToken();
-                gameView.setFeedbackArea("Your new position is now " + gameModel.getCurrentPlayer().getPosition());
+                int pos = gameModel.getCurrentPlayerPosition();
+                gameView.setFeedbackArea("Your new position is now " + pos);
                 goToTheBottomOfTextField();
+                gameModel.passTurn();
                 break;
             case "Pass Turn":
                 gameView.setFeedbackArea("\nPlayer # " + gameModel.getCurrentPlayer().getPlayerNumber() + " has passed their turn\n");

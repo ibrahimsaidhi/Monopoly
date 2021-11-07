@@ -112,14 +112,14 @@ public class Game {
          * Passes turn to the next player
          *
          */
-        this.currentPlayerInt = (this.currentPlayerInt == this.numberOfPlayers - 1) ? 0 : this.currentPlayerInt + 1;
+        this.currentPlayerInt = (this.currentPlayerInt == (this.numberOfPlayers - 1)) ? 0 : this.currentPlayerInt + 1;
         this.currentPlayer = this.players.get(this.currentPlayerInt);
-        newTurn();
+        //newTurn();
     }
 
     private void newTurn() {
         printCurrentPlayer();
-        parser.showCommands();
+        //parser.showCommands();
     }
 
     public void initializePlayers(int numberOfPlayers) {
@@ -162,10 +162,19 @@ public class Game {
         System.out.println(players.get(currentPlayerInt).getOwnedProperties().toString()); //Prints all properties which currentPlayer owns
     }
 
-    public int rollDie(Player player){
-        int x;
-        x = player.rollDice();
-        return x;
+    public int rollDie(){
+        return getCurrentPlayer().rollDice();
+    }
+
+    public void setCurrentPlayerPosition(int pos) {
+        getCurrentPlayer().setPosition((getCurrentPlayerPosition() + pos) % board.size());
+        //System.out.println();
+        System.out.println("Player " + getCurrentPlayer().getPlayerNumber() + ", Set modulo position: " + (pos % board.size()) + " Pos: " + pos + " Board: " + board.size());
+    }
+
+    public int getCurrentPlayerPosition() {
+        System.out.println("Player " + getCurrentPlayer().getPlayerNumber() + ", Position: " + getCurrentPlayer().getPosition());
+        return getCurrentPlayer().getPosition();
     }
 
     public void moveToken() {
@@ -177,20 +186,10 @@ public class Game {
          *
          */
         int x, y;
-        x = players.get(currentPlayerInt).rollDice();
-        y = players.get(currentPlayerInt).getPosition() + x;
+        x = getCurrentPlayer().rollDice();
+        y = getCurrentPlayer().getPosition() + x;
         JOptionPane.showMessageDialog(null, "You have rolled two die that added up to " + x);
-        players.get(currentPlayerInt).setPosition(y%11); // if the size of the board is greater than the board size (40), then set the current player's position to be the difference
-
-        /*
-        if (board.getBoard().size() > y){
-            players.get(currentPlayerInt).setPosition(y); // if the size of the board is greater than the position + the roll, then set the current player's position to be the current position + the roll
-        }
-        else if (board.getBoard().size() <= y) { // if the size of the board is less than the roll + the current position, then set the player's position to be
-            z = board.getBoard().size() - players.get(currentPlayerInt).getPosition();
-            players.get(currentPlayerInt).setPosition(1 + (x - z));
-        }
-        */
+        getCurrentPlayer().setPosition(y%11); // if the size of the board is greater than the board size (40), then set the current player's position to be the difference
 
         if (board.getIndex(players.get(currentPlayerInt).getPosition()) instanceof Property){
             if(!propertyOwned((Property) board.getIndex(players.get(currentPlayerInt).getPosition()))){

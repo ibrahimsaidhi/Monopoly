@@ -98,7 +98,7 @@ public class View extends JFrame implements ModelUpdateListener {
 
 
         feedbackArea = new JTextArea("Welcome to Monopoly! Please press New Game in order to start!\n");
-        feedbackArea.setRows(4);
+        feedbackArea.setRows(8);
         JScrollPane feedbackAreaScrollPane = new JScrollPane(feedbackArea);
         menuPanel.setLayout(new BorderLayout());
         menuPanel.add(feedbackAreaScrollPane, BorderLayout.NORTH);
@@ -180,7 +180,7 @@ public class View extends JFrame implements ModelUpdateListener {
             try {
                 InputStream iS = this.getClass().getClassLoader().getResourceAsStream("Monopoly.png");
                 BufferedImage loadedImage = ImageIO.read(iS);
-                image = loadedImage.getScaledInstance(935, 490, Image.SCALE_AREA_AVERAGING);
+                image = loadedImage.getScaledInstance(935, 430, Image.SCALE_AREA_AVERAGING);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
