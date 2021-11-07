@@ -205,7 +205,10 @@ public class Game {
                 passTurn();
             }
         }
+
         else if (board.getIndex(players.get(currentPlayerInt).getPosition()) instanceof Square) {
+            checkPlayerBalance(players.get(currentPlayerInt));
+            lookingForWinner();
             passTurn();
         }
     }
@@ -222,8 +225,12 @@ public class Game {
             players.get(currentPlayerInt).decrementBalance(((Property) board.getIndex(players.get(currentPlayerInt).getPosition())).getValue());
             JOptionPane.showMessageDialog(null, "Congratulations, you now own property: " + (Property) board.getIndex(players.get(currentPlayerInt).getPosition())
                     + ". Your new balance is: $" + players.get(currentPlayerInt).getBalance() + "\nSpend wisely!");
+            checkPlayerBalance(players.get(currentPlayerInt));
+            lookingForWinner();
             passTurn();
         } else if (input == JOptionPane.NO_OPTION){
+            checkPlayerBalance(players.get(currentPlayerInt));
+            lookingForWinner();
             passTurn();
         }
         checkPlayerBalance(players.get(currentPlayerInt));
