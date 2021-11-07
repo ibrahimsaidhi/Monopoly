@@ -34,8 +34,8 @@ public class Game {
     public Game() {
         parser = new Parser();
     }
-    public int x = 0;
-    public int y = 0;
+    public int x;
+    public int y;
     /*
     private void printCurrentPlayer() {
 
@@ -178,12 +178,12 @@ public class Game {
     }
 
     public int rollDie(){
-
+        x = getCurrentPlayer().rollDice();
         return x;
     }
 
     public void setAPosition(){
-        x = getCurrentPlayer().rollDice();
+        rollDie();
         y = players.get(currentPlayerInt).getPosition() + x;
         players.get(currentPlayerInt).setPosition(y % board.size()); // if the size of the board is greater than the board size (40), then set the current player's position to be the difference
     }
