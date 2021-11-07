@@ -36,10 +36,6 @@ public class Player {
         return balance;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
     public void decrementBalance(float amount) {
         this.balance -= amount;
     }
@@ -51,6 +47,8 @@ public class Player {
     public void setPosition(int position) {
         this.position = position;
     }
+
+    public int getPosition() { return this.position; }
 
     public void addProperty(Property property){
         ownedProperties.add(property);
@@ -74,7 +72,12 @@ public class Player {
             diceRolls.add(diceRoll);
             dieRoll += diceRoll;
         }
-        return dieRoll;
+        if(dieRoll >=0){
+            return dieRoll;
+        } else {
+            rollDice();
+        }
+        return 2;
     }
 
 }

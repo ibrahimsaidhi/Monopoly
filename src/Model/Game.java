@@ -34,18 +34,11 @@ public class Game {
     public Game() {
         parser = new Parser();
     }
-    public int x;
-    public int y;
-    /*
-    private void printCurrentPlayer() {
 
+
+    private void printCurrentPlayer() {
         System.out.println("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
         System.out.println("The current player is " + players.get(currentPlayerInt).getName() + "\n");
-    }
-    */
-
-    public int getCurrentPlayerInt() {
-        return currentPlayerInt;
     }
 
     public boolean processCommand(Command command) {
@@ -119,14 +112,14 @@ public class Game {
          * Passes turn to the next player
          *
          */
-        this.currentPlayerInt = (this.currentPlayerInt == this.numberOfPlayers - 1) ? 0 : this.currentPlayerInt + 1;
+        this.currentPlayerInt = (this.currentPlayerInt == (this.numberOfPlayers - 1)) ? 0 : this.currentPlayerInt + 1;
         this.currentPlayer = this.players.get(this.currentPlayerInt);
-        newTurn();
+        //newTurn();
     }
 
     private void newTurn() {
-        //printCurrentPlayer();
-        parser.showCommands();
+        printCurrentPlayer();
+        //parser.showCommands();
     }
 
     public void initializePlayers(int numberOfPlayers) {
@@ -169,23 +162,19 @@ public class Game {
         System.out.println(players.get(currentPlayerInt).getOwnedProperties().toString()); //Prints all properties which currentPlayer owns
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     public int rollDie(){
-        x = getCurrentPlayer().rollDice();
-        return x;
+        return getCurrentPlayer().rollDice();
     }
 
-    public void setAPosition(){
-        rollDie();
-        y = players.get(currentPlayerInt).getPosition() + x;
-        players.get(currentPlayerInt).setPosition(y % board.size()); // if the size of the board is greater than the board size (40), then set the current player's position to be the difference
+    public void setCurrentPlayerPosition(int pos) {
+        getCurrentPlayer().setPosition((getCurrentPlayerPosition() + pos) % board.size());
+        //System.out.println();
+        System.out.println("Player " + getCurrentPlayer().getPlayerNumber() + ", Set modulo position: " + (pos % board.size()) + " Pos: " + pos + " Board: " + board.size());
+    }
+
+    public int getCurrentPlayerPosition() {
+        System.out.println("Player " + getCurrentPlayer().getPlayerNumber() + ", Position: " + getCurrentPlayer().getPosition());
+        return getCurrentPlayer().getPosition();
     }
 
     public void moveToken() {
@@ -196,7 +185,12 @@ public class Game {
          * where n is the value which is rolled on a dice.
          *
          */
-        setAPosition();
+        int x, y;
+        x = getCurrentPlayer().rollDice();
+        y = getCurrentPlayer().getPosition() + x;
+        JOptionPane.showMessageDialog(null, "You have rolled two die that added up to " + x);
+        getCurrentPlayer().setPosition(y%11); // if the size of the board is greater than the board size (40), then set the current player's position to be the difference
+
         if (board.getIndex(players.get(currentPlayerInt).getPosition()) instanceof Property){
             if(!propertyOwned((Property) board.getIndex(players.get(currentPlayerInt).getPosition()))){
                 promptUserToPurchase();
@@ -205,10 +199,7 @@ public class Game {
                 passTurn();
             }
         }
-
-        else if (board.getIndex(players.get(currentPlayerInt).getPosition()) instanceof Square) {
-            checkPlayerBalance(players.get(currentPlayerInt));
-            lookingForWinner();
+        else if (board.getIndex(players.get(currentPlayerInt).getPosition())instanceof Square) {
             passTurn();
         }
     }
@@ -225,12 +216,8 @@ public class Game {
             players.get(currentPlayerInt).decrementBalance(((Property) board.getIndex(players.get(currentPlayerInt).getPosition())).getValue());
             JOptionPane.showMessageDialog(null, "Congratulations, you now own property: " + (Property) board.getIndex(players.get(currentPlayerInt).getPosition())
                     + ". Your new balance is: $" + players.get(currentPlayerInt).getBalance() + "\nSpend wisely!");
-            checkPlayerBalance(players.get(currentPlayerInt));
-            lookingForWinner();
             passTurn();
         } else if (input == JOptionPane.NO_OPTION){
-            checkPlayerBalance(players.get(currentPlayerInt));
-            lookingForWinner();
             passTurn();
         }
         checkPlayerBalance(players.get(currentPlayerInt));
