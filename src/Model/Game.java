@@ -185,11 +185,6 @@ public class Game {
          * where n is the value which is rolled on a dice.
          *
          */
-        int x, y;
-        x = getCurrentPlayer().rollDice();
-        y = getCurrentPlayer().getPosition() + x;
-        JOptionPane.showMessageDialog(null, "You have rolled two die that added up to " + x);
-        getCurrentPlayer().setPosition(y%11); // if the size of the board is greater than the board size (40), then set the current player's position to be the difference
 
         if (board.getIndex(players.get(currentPlayerInt).getPosition()) instanceof Property){
             if(!propertyOwned((Property) board.getIndex(players.get(currentPlayerInt).getPosition()))){

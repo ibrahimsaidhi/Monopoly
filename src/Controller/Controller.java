@@ -35,11 +35,11 @@ public class Controller implements ActionListener {
                 int diceRoll = gameModel.rollDie();
                 gameModel.setCurrentPlayerPosition(diceRoll);
                 JOptionPane.showMessageDialog(null, "You have rolled two die that added up to " + diceRoll);
-                gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 int pos = gameModel.getCurrentPlayerPosition();
                 gameView.setFeedbackArea("Your new position is now " + pos);
+                gameModel.moveToken();
+                gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 goToTheBottomOfTextField();
-                gameModel.passTurn();
                 break;
             case "Pass Turn":
                 gameView.setFeedbackArea("\nPlayer # " + gameModel.getCurrentPlayer().getPlayerNumber() + " has passed their turn\n");
