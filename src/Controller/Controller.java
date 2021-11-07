@@ -31,7 +31,6 @@ public class Controller implements ActionListener {
                 gameView.getNewGameButton().setEnabled(false);
                 break;
             case "Roll Die":
-                //gameModel.moveToken();
                 int diceRoll = gameModel.rollDie();
                 gameModel.setCurrentPlayerPosition(diceRoll);
                 JOptionPane.showMessageDialog(null, "You have rolled two die that added up to " + diceRoll);
@@ -49,7 +48,7 @@ public class Controller implements ActionListener {
                 goToTheBottomOfTextField();
                 break;
             case "State":
-                gameView.setFeedbackArea("\nCurrent Player: " + gameModel.getCurrentPlayer().getName() + "Properties owned: " + gameModel.getCurrentPlayer().getOwnedProperties().toString());
+                gameView.setFeedbackArea("\nCurrent Player: " + gameModel.getCurrentPlayer().getPlayerNumber() + ". Properties owned: " + gameModel.getCurrentPlayer().getOwnedProperties().toString());
                 goToTheBottomOfTextField();
                 break;
             case "Quit Game":
