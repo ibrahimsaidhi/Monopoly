@@ -17,7 +17,6 @@ public class Controller implements ActionListener {
     public Controller(Game gameModel, View gameView) {
         this.gameModel = gameModel;
         this.gameView = gameView;
-
     }
 
     @Override
