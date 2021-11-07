@@ -146,7 +146,7 @@ public class Game {
         this.viewer = viewer;
     }
 
-    private void createPlayers(int numberOfPlayers) {
+    public void createPlayers(int numberOfPlayers) {
         players = new ArrayList<Player>();
         for (int i = 1; i <= numberOfPlayers; i++) {
             players.add(new Player(i));
@@ -205,14 +205,18 @@ public class Game {
      */
     public void promptUserToPurchase(){
         int propertyPrice = ((Property) board.getIndex(players.get(currentPlayerInt).getPosition())).getValue();
-        int input = JOptionPane.showConfirmDialog(null, "Would you like to purchase this property? It costs $" + propertyPrice + " Click yes to purchase or no to move on.", "Select Property?", JOptionPane.YES_NO_OPTION);
+        int input = JOptionPane.showConfirmDialog(null, "Would you like to purchase this property? It costs $" + propertyPrice + ". Click yes to purchase or no to move on.", "Select Property?", JOptionPane.YES_NO_OPTION);
         if(input == JOptionPane.YES_OPTION){
             players.get(currentPlayerInt).addProperty((Property) board.getIndex(players.get(currentPlayerInt).getPosition()));
             players.get(currentPlayerInt).decrementBalance(((Property) board.getIndex(players.get(currentPlayerInt).getPosition())).getValue());
             JOptionPane.showMessageDialog(null, "Congratulations, you now own property: " + (Property) board.getIndex(players.get(currentPlayerInt).getPosition())
                     + ". Your new balance is: $" + players.get(currentPlayerInt).getBalance() + "\nSpend wisely!");
+            checkPlayerBalance(players.get(currentPlayerInt));
+            lookingForWinner();
             passTurn();
         } else if (input == JOptionPane.NO_OPTION){
+            checkPlayerBalance(players.get(currentPlayerInt));
+            lookingForWinner();
             passTurn();
         }
         checkPlayerBalance(players.get(currentPlayerInt));

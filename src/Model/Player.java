@@ -36,6 +36,10 @@ public class Player {
         return balance;
     }
 
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
     public void decrementBalance(float amount) {
         this.balance -= amount;
     }
