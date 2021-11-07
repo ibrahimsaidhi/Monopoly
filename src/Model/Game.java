@@ -34,11 +34,18 @@ public class Game {
     public Game() {
         parser = new Parser();
     }
-
-
+    public int x = 0;
+    public int y = 0;
+    /*
     private void printCurrentPlayer() {
+
         System.out.println("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
         System.out.println("The current player is " + players.get(currentPlayerInt).getName() + "\n");
+    }
+    */
+
+    public int getCurrentPlayerInt() {
+        return currentPlayerInt;
     }
 
     public boolean processCommand(Command command) {
@@ -118,7 +125,7 @@ public class Game {
     }
 
     private void newTurn() {
-        printCurrentPlayer();
+        //printCurrentPlayer();
         parser.showCommands();
     }
 
@@ -162,10 +169,23 @@ public class Game {
         System.out.println(players.get(currentPlayerInt).getOwnedProperties().toString()); //Prints all properties which currentPlayer owns
     }
 
-    public int rollDie(Player player){
-        int x;
-        x = player.rollDice();
+    public int getX() {
         return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int rollDie(){
+
+        return x;
+    }
+
+    public void setAPosition(){
+        x = getCurrentPlayer().rollDice();
+        y = players.get(currentPlayerInt).getPosition() + x;
+        players.get(currentPlayerInt).setPosition(y % board.size()); // if the size of the board is greater than the board size (40), then set the current player's position to be the difference
     }
 
     public void moveToken() {
@@ -176,22 +196,7 @@ public class Game {
          * where n is the value which is rolled on a dice.
          *
          */
-        int x, y;
-        x = players.get(currentPlayerInt).rollDice();
-        y = players.get(currentPlayerInt).getPosition() + x;
-        JOptionPane.showMessageDialog(null, "You have rolled two die that added up to " + x);
-        players.get(currentPlayerInt).setPosition(y%11); // if the size of the board is greater than the board size (40), then set the current player's position to be the difference
-
-        /*
-        if (board.getBoard().size() > y){
-            players.get(currentPlayerInt).setPosition(y); // if the size of the board is greater than the position + the roll, then set the current player's position to be the current position + the roll
-        }
-        else if (board.getBoard().size() <= y) { // if the size of the board is less than the roll + the current position, then set the player's position to be
-            z = board.getBoard().size() - players.get(currentPlayerInt).getPosition();
-            players.get(currentPlayerInt).setPosition(1 + (x - z));
-        }
-        */
-
+        setAPosition();
         if (board.getIndex(players.get(currentPlayerInt).getPosition()) instanceof Property){
             if(!propertyOwned((Property) board.getIndex(players.get(currentPlayerInt).getPosition()))){
                 promptUserToPurchase();
@@ -200,7 +205,7 @@ public class Game {
                 passTurn();
             }
         }
-        else if (board.getIndex(players.get(currentPlayerInt).getPosition())instanceof Square) {
+        else if (board.getIndex(players.get(currentPlayerInt).getPosition()) instanceof Square) {
             passTurn();
         }
     }
