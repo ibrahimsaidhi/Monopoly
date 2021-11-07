@@ -38,7 +38,7 @@ public class Game {
 
     private void printCurrentPlayer() {
         System.out.println("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
-        System.out.println("The current player is " + players.get(currentPlayerInt).getName() + "\n");
+        System.out.println("The current player is " + getCurrentPlayer().getName() + "\n");
     }
 
     public boolean processCommand(Command command) {
@@ -94,15 +94,15 @@ public class Game {
         return null;
     }
 
-    private void printState() {
+    public String printState() {
         /**
          * @author John Afolayan
          *
          * Print a representation of the game's state
          *
          */
-        System.out.println("You are player " + (currentPlayerInt + 1) + " aka " + players.get(currentPlayerInt).getName() +"\nYou own the following properties:\n"
-                + players.get(currentPlayerInt).getOwnedProperties().toString() + "\nYour current balance is " + players.get(currentPlayerInt).getBalance());
+        return("You are player " + (currentPlayerInt + 1) + "\nYou own the following properties:\n"
+                + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is " + getCurrentPlayer().getBalance());
     }
 
     public void passTurn() {
@@ -159,7 +159,7 @@ public class Game {
 
     private void printListOfCurrentPlayerStats() {
         System.out.println("Player " + (currentPlayerInt + 1) + " currently owns the following properties: ");
-        System.out.println(players.get(currentPlayerInt).getOwnedProperties().toString()); //Prints all properties which currentPlayer owns
+        System.out.println(getCurrentPlayer().getOwnedProperties().toString()); //Prints all properties which currentPlayer owns
     }
 
     public int rollDie(){
@@ -168,12 +168,11 @@ public class Game {
 
     public void setCurrentPlayerPosition(int pos) {
         getCurrentPlayer().setPosition((getCurrentPlayerPosition() + pos) % board.size());
-        //System.out.println();
-        System.out.println("Player " + getCurrentPlayer().getPlayerNumber() + ", Set modulo position: " + (pos % board.size()) + " Pos: " + pos + " Board: " + board.size());
+        //System.out.println("Player " + getCurrentPlayer().getPlayerNumber() + ", Set modulo position: " + (pos % board.size()) + " Pos: " + pos + " Board: " + board.size());
     }
 
     public int getCurrentPlayerPosition() {
-        System.out.println("Player " + getCurrentPlayer().getPlayerNumber() + ", Position: " + getCurrentPlayer().getPosition());
+        //System.out.println("Player " + getCurrentPlayer().getPlayerNumber() + ", Position: " + getCurrentPlayer().getPosition());
         return getCurrentPlayer().getPosition();
     }
 
@@ -186,15 +185,15 @@ public class Game {
          *
          */
 
-        if (board.getIndex(players.get(currentPlayerInt).getPosition()) instanceof Property){
-            if(!propertyOwned((Property) board.getIndex(players.get(currentPlayerInt).getPosition()))){
+        if (board.getIndex(getCurrentPlayer().getPosition()) instanceof Property){
+            if(!propertyOwned((Property) board.getIndex(getCurrentPlayer().getPosition()))){
                 promptUserToPurchase();
-            } else if(propertyOwned((Property) board.getIndex(players.get(currentPlayerInt).getPosition()))){
+            } else if(propertyOwned((Property) board.getIndex(getCurrentPlayer().getPosition()))){
                 taxPlayer();
                 passTurn();
             }
         }
-        else if (board.getIndex(players.get(currentPlayerInt).getPosition())instanceof Square) {
+        else if (board.getIndex(getCurrentPlayer().getPosition())instanceof Square) {
             passTurn();
         }
     }
@@ -204,13 +203,13 @@ public class Game {
      * A method to prompt a user to purchase a property or not
      */
     public void promptUserToPurchase(){
-        int propertyPrice = ((Property) board.getIndex(players.get(currentPlayerInt).getPosition())).getValue();
-        int input = JOptionPane.showConfirmDialog(null, "Would you like to purchase this property? It costs $" + propertyPrice + ". Click yes to purchase or no to move on.", "Select Property?", JOptionPane.YES_NO_OPTION);
+        int propertyPrice = ((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue();
+        int input = JOptionPane.showConfirmDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase this property? It costs $" + propertyPrice + ". Click yes to purchase or no to move on.", "Select Property?", JOptionPane.YES_NO_OPTION);
         if(input == JOptionPane.YES_OPTION){
-            players.get(currentPlayerInt).addProperty((Property) board.getIndex(players.get(currentPlayerInt).getPosition()));
-            players.get(currentPlayerInt).decrementBalance(((Property) board.getIndex(players.get(currentPlayerInt).getPosition())).getValue());
-            JOptionPane.showMessageDialog(null, "Congratulations, you now own property: " + (Property) board.getIndex(players.get(currentPlayerInt).getPosition())
-                    + ". Your new balance is: $" + players.get(currentPlayerInt).getBalance() + "\nSpend wisely!");
+            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
+            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
+            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
+                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
             checkPlayerBalance(players.get(currentPlayerInt));
             lookingForWinner();
             passTurn();
@@ -228,13 +227,13 @@ public class Game {
      * This method taxes a player whenver they land on another player's property
      */
     public void taxPlayer(){
-        Player ownedBy = whoOwnsProperty((Property) board.getIndex(players.get(currentPlayerInt).getPosition())); //player who owns property
+        Player ownedBy = whoOwnsProperty((Property) board.getIndex(getCurrentPlayer().getPosition())); //player who owns property
         if(!ownedBy.equals(players.get(currentPlayerInt))){ //If current player who lands on property doesn't own that property, tax them.
-            int amount = (int) (((Property) board.getIndex(players.get(currentPlayerInt).getPosition())).getValue() * 0.1); //amount to decrement by, 10%
-            players.get(currentPlayerInt).decrementBalance(amount); //remove $amount from player being taxed
+            int amount = (int) (((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue() * 0.1); //amount to decrement by, 10%
+            getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed
             ownedBy.incrementBalance(amount); //add $amount to player who owns property
-            JOptionPane.showMessageDialog(null, "You've landed on a property owned by another player: "+  ownedBy.getName() + ". You've been taxed $" + amount + ", your new balance is $" + players.get(currentPlayerInt).getBalance());
-            checkPlayerBalance(players.get(currentPlayerInt));
+            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + getCurrentPlayer().getBalance());
+            checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
         }
     }
@@ -247,13 +246,13 @@ public class Game {
         int balance = player.getBalance();
         if (balance <= 0){
             removeBankruptPlayer();
-            JOptionPane.showMessageDialog(null, "You are now bankrupt! You have been kicked out of the game. Too bad...");
+            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": You are now bankrupt! You have been kicked out of the game. Too bad...");
         }
     }
 
     public void lookingForWinner(){
         if (players.size() == 1){
-            JOptionPane.showMessageDialog(null, players.get(0).getName() + " has won the game! Congratulations");
+            JOptionPane.showMessageDialog(null, "Player " + players.get(0).getPlayerNumber() + " has won the game! Congratulations");
             System.exit(0);
         }
     }

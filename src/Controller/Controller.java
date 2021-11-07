@@ -33,7 +33,7 @@ public class Controller implements ActionListener {
             case "Roll Die":
                 int diceRoll = gameModel.rollDie();
                 gameModel.setCurrentPlayerPosition(diceRoll);
-                JOptionPane.showMessageDialog(null, "You have rolled two die that added up to " + diceRoll);
+                JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die that added up to " + diceRoll);
                 int pos = gameModel.getCurrentPlayerPosition();
                 gameView.setFeedbackArea("Your new position is now " + pos);
                 gameModel.moveToken();
@@ -48,7 +48,8 @@ public class Controller implements ActionListener {
                 goToTheBottomOfTextField();
                 break;
             case "State":
-                gameView.setFeedbackArea("\nCurrent Player: " + gameModel.getCurrentPlayer().getPlayerNumber() + ". Properties owned: " + gameModel.getCurrentPlayer().getOwnedProperties().toString());
+                //gameView.setFeedbackArea("\nCurrent Player: " + gameModel.getCurrentPlayer().getPlayerNumber() + ". Properties owned: " + gameModel.getCurrentPlayer().getOwnedProperties().toString());
+                gameView.setFeedbackArea(gameModel.printState()+"\n");
                 goToTheBottomOfTextField();
                 break;
             case "Quit Game":

@@ -3,6 +3,7 @@ package View;
 import Controller.Controller;
 import Model.Game;
 import Model.ModelUpdateListener;
+import Model.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,8 +12,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class View extends JFrame implements ModelUpdateListener {
     Game gameModel;
@@ -21,13 +20,12 @@ public class View extends JFrame implements ModelUpdateListener {
     JButton passTurnButton;
     JButton quitButton;
     ArrayList<JButton> listOfCommandButtons;
-    ArrayList<CircleButton> listOfPropertyButtons;
     JTextArea feedbackArea;
     JButton stateButton;
-    //Map<String, CircleButton> mapOfButtons = new HashMap<>();
-    //CircleButton carletonUni;
+    //MyPanel panel;
 
     public View(Game gameModel) {
+        super("Monopoly");
         Initialize();
         this.gameModel = gameModel;
     }
@@ -53,6 +51,16 @@ public class View extends JFrame implements ModelUpdateListener {
     }
 
     public void Initialize() {
+        /*MyPanel a functionality I (John)
+        was working on to show each player
+        on the GUI board using a color pixel
+        but did not have success with
+        I may try again later.
+
+        panel = new MyPanel();
+        this.add(panel);
+        this.pack();*/
+
         //Initialize the View
         JFrame myFrame = new JFrame("Monopoly");
         Container root = getContentPane();
@@ -65,14 +73,13 @@ public class View extends JFrame implements ModelUpdateListener {
         monopolyBoard monopolyBoard = new monopolyBoard();
         jLayeredPane.add(monopolyBoard, JLayeredPane.DEFAULT_LAYER);
 
-        JPanel propertyPanel = new JPanel();
-        propertyPanel.setSize(950, 550);
-        propertyPanel.setOpaque(false);
-        propertyPanel.setLayout(null);
+        JPanel boardPanel = new JPanel();
+        boardPanel.setSize(950, 550);
+        boardPanel.setOpaque(false);
+        boardPanel.setLayout(null);
         propertyCoordinates();
-        //propertyPanel.add(carletonUni);
 
-        jLayeredPane.add(propertyPanel, JLayeredPane.POPUP_LAYER);
+        jLayeredPane.add(boardPanel, JLayeredPane.POPUP_LAYER);
         root.add(jLayeredPane, BorderLayout.CENTER);
 
         //Menu Panel will have the set of commands that a user can choose from in order to play the game
@@ -124,9 +131,6 @@ public class View extends JFrame implements ModelUpdateListener {
         for (JButton button : listOfCommandButtons) {
             button.addActionListener(gameController);
         }
-        for (CircleButton button : listOfPropertyButtons) {
-            button.addActionListener(gameController);
-        }
     }
 
     /*
@@ -166,7 +170,6 @@ public class View extends JFrame implements ModelUpdateListener {
         Integer[] choices = new Integer[]{2, 3, 4, 5, 6, 7, 8};
         int choice = askUser(choices);
         return choice;
-
     }
 
     /*
@@ -190,6 +193,7 @@ public class View extends JFrame implements ModelUpdateListener {
         protected void paintComponent(Graphics graphics) {
             super.paintComponent(graphics);
             graphics.drawImage(image, 0, 0, this);
+            graphics.drawRect(0,0,getWidth()-1, getHeight()-1);
         }
     }
 
