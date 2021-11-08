@@ -43,8 +43,6 @@ public class Game {
 
     public boolean processCommand(Command command) {
 
-
-
         if (command.isUnknown()) {
             System.out.println("Unknown command");
             return false;
@@ -58,9 +56,6 @@ public class Game {
             case "pass":
                 passTurn();
                 break;
-            case "buy":
-                buyProperty();
-                break;
             case "state":
                 printState();
                 break;
@@ -70,10 +65,6 @@ public class Game {
         }
 
         return wantToQuit;
-    }
-
-    private void buyProperty(){
-
     }
 
     private boolean propertyOwned(Property property){
@@ -168,12 +159,14 @@ public class Game {
 
     public void setCurrentPlayerPosition(int pos) {
         getCurrentPlayer().setPosition((getCurrentPlayerPosition() + pos) % board.size());
-        //System.out.println("Player " + getCurrentPlayer().getPlayerNumber() + ", Set modulo position: " + (pos % board.size()) + " Pos: " + pos + " Board: " + board.size());
     }
 
     public int getCurrentPlayerPosition() {
-        //System.out.println("Player " + getCurrentPlayer().getPlayerNumber() + ", Position: " + getCurrentPlayer().getPosition());
         return getCurrentPlayer().getPosition();
+    }
+
+    public String getBoardName() {
+        return board.getIndex(getCurrentPlayer().getPosition()).getName();
     }
 
     public void moveToken() {
@@ -204,7 +197,7 @@ public class Game {
      */
     public void promptUserToPurchase(){
         int propertyPrice = ((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue();
-        int input = JOptionPane.showConfirmDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase this property? It costs $" + propertyPrice + ". Click yes to purchase or no to move on.", "Select Property?", JOptionPane.YES_NO_OPTION);
+        int input = JOptionPane.showConfirmDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + getBoardName() + "? It costs $" + propertyPrice + " and you currently have $" + getCurrentPlayer().getBalance() + ". Click yes to purchase or no to move on.", "Purchase " + getBoardName() + "?", JOptionPane.YES_NO_OPTION);
         if(input == JOptionPane.YES_OPTION){
             getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
             getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
@@ -260,7 +253,6 @@ public class Game {
     public void removeBankruptPlayer(){
         for (final Iterator<Player> iterator = players.iterator(); iterator.hasNext();) {
             Player temp = iterator.next();
-            ArrayList<Player> toBeRemoved = new ArrayList<>();
             if (temp.getBalance() <= 0) {
                 iterator.remove();
                 this.numberOfPlayers -= 1;
