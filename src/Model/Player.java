@@ -20,8 +20,8 @@ public class Player {
     private ArrayList<Property> ownedProperties = new ArrayList<>();
 
     //constructor
-    public Player(String name, int playerNumber){
-        this.name = name;
+    public Player(int playerNumber){
+        //this.name = name;
         this.playerNumber = playerNumber;
         this.balance = 1500; //default starting balance
         this.position = 0; //start at the first square
@@ -36,8 +36,8 @@ public class Player {
         return balance;
     }
 
-    public int getPosition() {
-        return position;
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
     public void decrementBalance(float amount) {
@@ -52,12 +52,18 @@ public class Player {
         this.position = position;
     }
 
+    public int getPosition() { return this.position; }
+
     public void addProperty(Property property){
         ownedProperties.add(property);
     }
 
     public ArrayList getOwnedProperties(){
         return ownedProperties;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
     }
 
     public Integer rollDice() {
@@ -70,7 +76,12 @@ public class Player {
             diceRolls.add(diceRoll);
             dieRoll += diceRoll;
         }
-        return dieRoll;
+        if(dieRoll >=0){
+            return dieRoll;
+        } else {
+            rollDice();
+        }
+        return 2;
     }
 
 }
