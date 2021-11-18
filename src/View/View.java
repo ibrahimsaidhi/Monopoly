@@ -130,6 +130,7 @@ public class View extends JFrame implements ModelUpdateListener {
                 "? It costs $" + propertyPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
         checkPlayerBalance(gameModel.getCurrentPlayer());
         lookingForWinner();
+        rollDieButton.setEnabled(true);
     }
 
     /**
@@ -197,10 +198,11 @@ public class View extends JFrame implements ModelUpdateListener {
         }
     }
 
-    public void lockBuyButton(boolean locked){
-        if(locked == true){
-            buyButton.setEnabled(false);
-        }
+    public void lockBuyButton(){
+        buyButton.setEnabled(false);
+    }
+
+    public void unlockBuyButton(){
         buyButton.setEnabled(true);
     }
 
