@@ -36,7 +36,6 @@ public class Game {
         parser = new Parser();
         players = new ArrayList<>();
     }
-    public enum State {NEW_GAME,};
 
 
     private void printCurrentPlayer() {
