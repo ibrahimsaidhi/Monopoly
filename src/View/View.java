@@ -3,11 +3,13 @@ package View;
 import Controller.Controller;
 import Model.Game;
 import Model.ModelUpdateListener;
-import Model.Player;
+import Model.Property;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,16 +20,19 @@ public class View extends JFrame implements ModelUpdateListener {
     JButton newGameButton;
     JButton rollDieButton;
     JButton passTurnButton;
+    JButton buyButton;
     JButton quitButton;
     ArrayList<JButton> listOfCommandButtons;
     JTextArea feedbackArea;
     JButton stateButton;
+    BoardOverlay boardOverlay;
+    MonopolyBoard monopolyBoard;
     //MyPanel panel;
 
     public View(Game gameModel) {
         super("Monopoly");
-        Initialize();
         this.gameModel = gameModel;
+        initialize();
     }
 
     public static void main(String[] args) {
@@ -50,36 +55,21 @@ public class View extends JFrame implements ModelUpdateListener {
         return s;
     }
 
-    public void Initialize() {
-        /*MyPanel a functionality I (John)
-        was working on to show each player
-        on the GUI board using a color pixel
-        but did not have success with
-        I may try again later.
-
-        panel = new MyPanel();
-        this.add(panel);
-        this.pack();*/
-
+    public void initialize() {
         //Initialize the View
         JFrame myFrame = new JFrame("Monopoly");
         Container root = getContentPane();
         root.setLayout(new BorderLayout());
 
 
-        //The layered pane will have multiple layers in-order for us to overlay components
+        //The layered pane will have multiple layers in order for us to overlay components
         JLayeredPane jLayeredPane = new JLayeredPane();
         jLayeredPane.setSize(950, 550);
-        monopolyBoard monopolyBoard = new monopolyBoard();
+        monopolyBoard = new MonopolyBoard();
         jLayeredPane.add(monopolyBoard, JLayeredPane.DEFAULT_LAYER);
 
-        JPanel boardPanel = new JPanel();
-        boardPanel.setSize(950, 550);
-        boardPanel.setOpaque(false);
-        boardPanel.setLayout(null);
-        propertyCoordinates();
-
-        jLayeredPane.add(boardPanel, JLayeredPane.POPUP_LAYER);
+        boardOverlay = new BoardOverlay(gameModel);
+        jLayeredPane.add(boardOverlay, JLayeredPane.POPUP_LAYER);
         root.add(jLayeredPane, BorderLayout.CENTER);
 
         //Menu Panel will have the set of commands that a user can choose from in order to play the game
@@ -88,16 +78,19 @@ public class View extends JFrame implements ModelUpdateListener {
         //Creating JButtons and adding actionlisteners for them
         newGameButton = new JButton("New Game");
         rollDieButton = new JButton("Roll Die");
+        buyButton = new JButton("Buy");
         passTurnButton = new JButton("Pass Turn");
         quitButton = new JButton("Quit Game");
         stateButton = new JButton("State");
         rollDieButton.setEnabled(false);
         passTurnButton.setEnabled(false);
+        buyButton.setEnabled(false);
         stateButton.setEnabled(false);
         passTurnButton.setEnabled(false);
         quitButton.setEnabled(false);
         listOfCommandButtons = new ArrayList<JButton>();
         listOfCommandButtons.add(rollDieButton);
+        listOfCommandButtons.add(buyButton);
         listOfCommandButtons.add(passTurnButton);
         listOfCommandButtons.add(stateButton);
         listOfCommandButtons.add(quitButton);
@@ -115,6 +108,7 @@ public class View extends JFrame implements ModelUpdateListener {
         centerPanel.setLayout(new BorderLayout());
         menuPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(rollDieButton, BorderLayout.CENTER);
+        centerPanel.add(buyButton, BorderLayout.WEST);
         centerPanel.add(stateButton, BorderLayout.EAST);
         menuPanel.add(passTurnButton, BorderLayout.EAST);
         menuPanel.add(quitButton, BorderLayout.SOUTH);
@@ -134,23 +128,21 @@ public class View extends JFrame implements ModelUpdateListener {
     }
 
     /*
-     * This method contains the x,y coordinates of the properties on the monopoly board
-     */
-    private void propertyCoordinates() {
-    }
-
-    /*
-     *
      * This method updates the model
      */
     @Override
     public void modelUpdated() {
-
+        repaint();
     }
 
+    /**
+     * @author John Afolayan
+     * This method unlocks GUI buttons after a player specifies amount of players
+     */
     public void unlockButtons() {
         for (JButton button : listOfCommandButtons) {
-            button.setEnabled(true);
+            if(!button.getText().equalsIgnoreCase("Buy"))
+                button.setEnabled(true);
         }
     }
 
@@ -170,31 +162,6 @@ public class View extends JFrame implements ModelUpdateListener {
         Integer[] choices = new Integer[]{2, 3, 4, 5, 6, 7, 8};
         int choice = askUser(choices);
         return choice;
-    }
-
-    /*
-     * The JPanel is an image of the Monopoly board that we will be overlaying the components over.
-     */
-    class monopolyBoard extends JPanel {
-        private Image image;
-
-        public monopolyBoard() {
-            this.setSize(950, 560);
-            try {
-                InputStream iS = this.getClass().getClassLoader().getResourceAsStream("Monopoly.png");
-                BufferedImage loadedImage = ImageIO.read(iS);
-                image = loadedImage.getScaledInstance(935, 430, Image.SCALE_AREA_AVERAGING);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        @Override
-        protected void paintComponent(Graphics graphics) {
-            super.paintComponent(graphics);
-            graphics.drawImage(image, 0, 0, this);
-            graphics.drawRect(0,0,getWidth()-1, getHeight()-1);
-        }
     }
 
 }

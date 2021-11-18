@@ -33,6 +33,7 @@ public class Game {
     boolean wantToQuit = false;
     public Game() {
         parser = new Parser();
+        players = new ArrayList<>();
     }
 
 
@@ -67,6 +68,11 @@ public class Game {
         return wantToQuit;
     }
 
+    /**
+     * @author John Afolayan
+     * @param property Property a player lands on
+     * This method checks to see if a property is owned.
+     */
     private boolean propertyOwned(Property property){
         for (int i = 0; i < players.size(); i++){
             if (players.get(i).getOwnedProperties().contains(property)){
@@ -76,6 +82,11 @@ public class Game {
         return false;
     }
 
+    /**
+     * @author John Afolayan
+     * @param property Property a player lands on
+     * This method checks who owns the property landed on.
+     */
     private Player whoOwnsProperty(Property property){
         for (int i = 0; i < players.size(); i++){
             if (players.get(i).getOwnedProperties().contains(property)){
@@ -85,6 +96,10 @@ public class Game {
         return null;
     }
 
+    /**
+     * @author John Afolayan
+     * This method prints the state of the current player.
+     */
     public String printState() {
         /**
          * @author John Afolayan
@@ -125,7 +140,6 @@ public class Game {
         this.numberOfPlayers = numberOfPlayers;
         createPlayers(numberOfPlayers);
         this.currentPlayer = players.get(0);
-        update();
     }
 
     private void update() {
@@ -137,6 +151,10 @@ public class Game {
         this.viewer = viewer;
     }
 
+    /**
+     * @author John Afolayan
+     * This method creates the specified amount players for a new game
+     */
     public void createPlayers(int numberOfPlayers) {
         players = new ArrayList<Player>();
         for (int i = 1; i <= numberOfPlayers; i++) {
@@ -148,25 +166,32 @@ public class Game {
         return players;
     }
 
-    private void printListOfCurrentPlayerStats() {
-        System.out.println("Player " + (currentPlayerInt + 1) + " currently owns the following properties: ");
-        System.out.println(getCurrentPlayer().getOwnedProperties().toString()); //Prints all properties which currentPlayer owns
-    }
-
     public int rollDie(){
         return getCurrentPlayer().rollDice();
     }
 
+    /**
+     * @author John Afolayan
+     * This method sets the new position of a player after a die is rolled
+     */
     public void setCurrentPlayerPosition(int pos) {
         getCurrentPlayer().setPosition((getCurrentPlayerPosition() + pos) % board.size());
     }
 
+    /**
+     * @author John Afolayan
+     * This method gets the position of the current player
+     */
     public int getCurrentPlayerPosition() {
         return getCurrentPlayer().getPosition();
     }
 
     public String getBoardName() {
         return board.getIndex(getCurrentPlayer().getPosition()).getName();
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     public void moveToken() {
@@ -189,10 +214,11 @@ public class Game {
         else if (board.getIndex(getCurrentPlayer().getPosition())instanceof Square) {
             passTurn();
         }
+        update();
     }
 
     /**
-     * @author John Afolayan
+     * @author John Afolayan, Ibrahim Said
      * A method to prompt a user to purchase a property or not
      */
     public void promptUserToPurchase(){
@@ -243,6 +269,10 @@ public class Game {
         }
     }
 
+    /**
+     * @author Ibrahim Said
+     * This method checks if a player has won the game.
+     */
     public void lookingForWinner(){
         if (players.size() == 1){
             JOptionPane.showMessageDialog(null, "Player " + players.get(0).getPlayerNumber() + " has won the game! Congratulations");
@@ -250,6 +280,10 @@ public class Game {
         }
     }
 
+    /**
+     * @author John Afolayan
+     * This method removes a banrupt player from the game.
+     */
     public void removeBankruptPlayer(){
         for (final Iterator<Player> iterator = players.iterator(); iterator.hasNext();) {
             Player temp = iterator.next();
@@ -261,6 +295,10 @@ public class Game {
         }
     }
 
+    /**
+     * @author John Afolayan
+     * This method returns the current player of the game.
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
@@ -274,9 +312,4 @@ public class Game {
     public void quitGame() {
         System.exit(0);
     }
-
-    /*public static void main(String[] args) {
-        Game game = new Game();
-        game.play();
-    }*/
 }

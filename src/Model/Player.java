@@ -27,45 +27,81 @@ public class Player {
         this.position = 0; //start at the first square
     }
 
-
+    /**
+     * returns Player's name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * returns Player's balance
+     */
     public int getBalance() {
         return balance;
     }
 
+    /**
+     * @param balance specified balance
+     * sets a Player's balance
+     */
     public void setBalance(int balance) {
         this.balance = balance;
     }
 
+    /**
+     * @param amount to be decremented
+     * decrements a Player's balance
+     */
     public void decrementBalance(float amount) {
         this.balance -= amount;
     }
 
+    /**
+     * @param amount to be incremented
+     * increments a Player's balance
+     */
     public void incrementBalance(float amount) {
         this.balance += amount;
     }
 
+    /**
+     * @param position new position
+     * sets a player's new position
+     */
     public void setPosition(int position) {
         this.position = position;
     }
 
+    /**
+     * gets a player's new position
+     */
     public int getPosition() { return this.position; }
 
+    /**
+     * adds a new property a player's collected
+     */
     public void addProperty(Property property){
         ownedProperties.add(property);
     }
 
+    /**
+     * returns a player's property collection
+     */
     public ArrayList getOwnedProperties(){
         return ownedProperties;
     }
 
+    /**
+     * returns a player's number
+     */
     public int getPlayerNumber() {
         return playerNumber;
     }
 
+    /**
+     * Calculates a random die roll based on 2 die
+     */
     public Integer rollDice() {
         Integer numberOfDiceToRoll = 2; //rolling two dices
         List<Integer> diceRolls = new ArrayList<>();
