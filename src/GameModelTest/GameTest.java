@@ -62,14 +62,14 @@ public class GameTest {
         game.removeBankruptPlayer();
         assertEquals(2, game.getPlayers().size());
     }
-
+/*
     @Test
     public void testSearchForAWinner(){
         game.startGame(2);
         game.getCurrentPlayer().setBalance(-100);
         game.checkPlayerBalance(game.getCurrentPlayer());
         assertEquals(1, game.getPlayers().size());
-    }
+    }*/
 
 
 }

@@ -73,7 +73,7 @@ public class Game {
      * @param property Property a player lands on
      * This method checks to see if a property is owned.
      */
-    private boolean propertyOwned(Property property){
+    public boolean propertyOwned(Property property){
         for (int i = 0; i < players.size(); i++){
             if (players.get(i).getOwnedProperties().contains(property)){
                 return true;
@@ -87,7 +87,7 @@ public class Game {
      * @param property Property a player lands on
      * This method checks who owns the property landed on.
      */
-    private Player whoOwnsProperty(Property property){
+    public Player whoOwnsProperty(Property property){
         for (int i = 0; i < players.size(); i++){
             if (players.get(i).getOwnedProperties().contains(property)){
                 return players.get(i);
@@ -204,10 +204,8 @@ public class Game {
          */
 
         if (board.getIndex(getCurrentPlayer().getPosition()) instanceof Property){
-            if(!propertyOwned((Property) board.getIndex(getCurrentPlayer().getPosition()))){
-                promptUserToPurchase();
-            } else if(propertyOwned((Property) board.getIndex(getCurrentPlayer().getPosition()))){
-                taxPlayer();
+            if(propertyOwned((Property) board.getIndex(getCurrentPlayer().getPosition()))){
+                //taxPlayer();
                 passTurn();
             }
         }
@@ -217,10 +215,11 @@ public class Game {
         update();
     }
 
+
     /**
      * @author John Afolayan, Ibrahim Said
      * A method to prompt a user to purchase a property or not
-     */
+     *//*
     public void promptUserToPurchase(){
         int propertyPrice = ((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue();
         int input = JOptionPane.showConfirmDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + getBoardName() + "? It costs $" + propertyPrice + " and you currently have $" + getCurrentPlayer().getBalance() + ". Click yes to purchase or no to move on.", "Purchase " + getBoardName() + "?", JOptionPane.YES_NO_OPTION);
@@ -239,46 +238,9 @@ public class Game {
         }
         checkPlayerBalance(players.get(currentPlayerInt));
         lookingForWinner();
-    }
+    }*/
 
-    /**
-     * @author John Afolayan
-     * This method taxes a player whenver they land on another player's property
-     */
-    public void taxPlayer(){
-        Player ownedBy = whoOwnsProperty((Property) board.getIndex(getCurrentPlayer().getPosition())); //player who owns property
-        if(!ownedBy.equals(players.get(currentPlayerInt))){ //If current player who lands on property doesn't own that property, tax them.
-            int amount = (int) (((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue() * 0.1); //amount to decrement by, 10%
-            getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed
-            ownedBy.incrementBalance(amount); //add $amount to player who owns property
-            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + getCurrentPlayer().getBalance());
-            checkPlayerBalance(getCurrentPlayer());
-            lookingForWinner();
-        }
-    }
 
-    /**
-     * @author Ibrahim Said
-     * This method checks the balance of a player and determines if they are eliminated or not.
-     */
-    public void checkPlayerBalance(Player player){
-        int balance = player.getBalance();
-        if (balance <= 0){
-            removeBankruptPlayer();
-            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": You are now bankrupt! You have been kicked out of the game. Too bad...");
-        }
-    }
-
-    /**
-     * @author Ibrahim Said
-     * This method checks if a player has won the game.
-     */
-    public void lookingForWinner(){
-        if (players.size() == 1){
-            JOptionPane.showMessageDialog(null, "Player " + players.get(0).getPlayerNumber() + " has won the game! Congratulations");
-            System.exit(0);
-        }
-    }
 
     /**
      * @author John Afolayan

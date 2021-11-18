@@ -2,6 +2,7 @@ package Controller;
 
 import Game.Command;
 import Model.Game;
+import Model.Property;
 import View.View;
 
 import javax.swing.*;
@@ -36,11 +37,42 @@ public class Controller implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die that added up to " + diceRoll);
                 int pos = gameModel.getCurrentPlayerPosition();
                 gameView.setFeedbackArea("\nYour new position is now " + pos + ": " + gameModel.getBoardName());
-                gameModel.moveToken();
+                if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
+                    if (!gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
+                        gameView.lockBuyButton(false); //Unlock the 'Buy' button.
+                        gameView.promptUserToPurchase();
+                        goToTheBottomOfTextField();
+                        break;
+                    } else if (gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on is owned by someone else
+                        gameView.taxPlayer();
+                        gameModel.passTurn();
+                        gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                        break;
+                    }
+                }
+                gameModel.passTurn();
                 gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 goToTheBottomOfTextField();
+                //gameModel.moveToken();
+                break;
+            case "Buy":
+                gameView.lockBuyButton(true);
+                if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
+                    gameModel.getCurrentPlayer().addProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
+                    gameModel.getCurrentPlayer().decrementBalance(((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue());
+                    gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) +
+                            "\nYour new balance is: $" + gameModel.getCurrentPlayer().getBalance() + "\nSpend wisely!");
+                    gameModel.passTurn();
+                    gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                }
+                gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
+                gameView.lookingForWinner();
                 break;
             case "Pass Turn":
+                gameView.lockBuyButton(true);
+                gameView.unlockRollDieButton();
+                gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
+                gameView.lookingForWinner();
                 gameView.setFeedbackArea("\nPlayer # " + gameModel.getCurrentPlayer().getPlayerNumber() + " has passed their turn\n");
                 gameModel.passTurn();
                 gameView.setFeedbackArea("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
@@ -48,7 +80,6 @@ public class Controller implements ActionListener {
                 goToTheBottomOfTextField();
                 break;
             case "State":
-                //gameView.setFeedbackArea("\nCurrent Player: " + gameModel.getCurrentPlayer().getPlayerNumber() + ". Properties owned: " + gameModel.getCurrentPlayer().getOwnedProperties().toString());
                 gameView.setFeedbackArea(gameModel.printState()+"\n");
                 goToTheBottomOfTextField();
                 break;

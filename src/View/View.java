@@ -3,6 +3,7 @@ package View;
 import Controller.Controller;
 import Model.Game;
 import Model.ModelUpdateListener;
+import Model.Player;
 import Model.Property;
 
 import javax.imageio.ImageIO;
@@ -121,6 +122,56 @@ public class View extends JFrame implements ModelUpdateListener {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+
+    public void promptUserToPurchase(){
+        rollDieButton.setEnabled(false);
+        int propertyPrice = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
+                "? It costs $" + propertyPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+        checkPlayerBalance(gameModel.getCurrentPlayer());
+        lookingForWinner();
+    }
+
+    /**
+     * @author John Afolayan
+     * This method taxes a player whenver they land on another player's property
+     */
+    public void taxPlayer(){
+        Player ownedBy = gameModel.whoOwnsProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())); //player who owns property
+        if(!ownedBy.equals(gameModel.getCurrentPlayer())){ //If current player who lands on property doesn't own that property, tax them.
+            int amount = (int) (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue() * 0.1); //amount to decrement by, 10%
+            gameModel.getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed
+            ownedBy.incrementBalance(amount); //add $amount to player who owns property
+            JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
+            checkPlayerBalance(gameModel.getCurrentPlayer());
+            lookingForWinner();
+        }
+    }
+
+    /**
+     * @author Ibrahim Said
+     * This method checks the balance of a player and determines if they are eliminated or not.
+     */
+    public void checkPlayerBalance(Player player){
+        int balance = player.getBalance();
+        if (balance <= 0){
+            gameModel.removeBankruptPlayer();
+            JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You are now bankrupt! You have been kicked out of the game. Too bad...");
+        }
+    }
+
+    /**
+     * @author Ibrahim Said
+     * This method checks if a player has won the game.
+     */
+    public void lookingForWinner(){
+        if (gameModel.getPlayers().size() == 1){
+            JOptionPane.showMessageDialog(null, "Player " + gameModel.getPlayers().get(0).getPlayerNumber() + " has won the game! Congratulations");
+            System.exit(0);
+        }
+    }
+
+
     private void initialize(Controller gameController) {
         for (JButton button : listOfCommandButtons) {
             button.addActionListener(gameController);
@@ -144,6 +195,17 @@ public class View extends JFrame implements ModelUpdateListener {
             if(!button.getText().equalsIgnoreCase("Buy"))
                 button.setEnabled(true);
         }
+    }
+
+    public void lockBuyButton(boolean locked){
+        if(locked == true){
+            buyButton.setEnabled(false);
+        }
+        buyButton.setEnabled(true);
+    }
+
+    public void unlockRollDieButton(){
+        rollDieButton.setEnabled(true);
     }
 
     public JTextArea getFeedbackArea() {
