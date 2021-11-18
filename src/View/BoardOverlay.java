@@ -27,7 +27,6 @@ public class BoardOverlay extends JPanel {
      */
     public void storeHashmapLocations(){
         Point coord;
-        System.out.println("Game board size: " + game.getBoard().size());
         for(int i = 0; i < game.getBoard().size(); i++){
             String boardName = game.getBoard().getIndex(i).getName();
             if(boardName.equalsIgnoreCase("Go!")){
@@ -156,7 +155,7 @@ public class BoardOverlay extends JPanel {
 
     public Color setPlayerColor(int num){
         if(num == 1){
-            return Color.BLACK;
+            return Color.WHITE;
         } else if(num == 2){
             return Color.CYAN;
         } else if(num == 3){
@@ -179,7 +178,6 @@ public class BoardOverlay extends JPanel {
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         //Draw a circle for the amount of players in the game
-        try {
             for (int i = 0; i < game.getPlayers().size(); i++) {
                 int intPos = game.getPlayers().get(i).getPosition(); //Get the integer position of the current player
                 String positionName = game.getBoard().getIndex(intPos).getName(); //Get the name of the square which player is currently on
@@ -189,8 +187,5 @@ public class BoardOverlay extends JPanel {
                     graphics.setColor(setPlayerColor(game.getPlayers().get(i).getPlayerNumber())); //Passes player's number as parameter for getPlayerColor() which has a player's assigned color
                 }
             }
-        } catch (Exception e) {
-
-        }
     }
 }

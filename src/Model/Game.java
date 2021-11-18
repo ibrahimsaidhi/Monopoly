@@ -33,6 +33,7 @@ public class Game {
     boolean wantToQuit = false;
     public Game() {
         parser = new Parser();
+        players = new ArrayList<>();
     }
 
 
@@ -139,7 +140,6 @@ public class Game {
         this.numberOfPlayers = numberOfPlayers;
         createPlayers(numberOfPlayers);
         this.currentPlayer = players.get(0);
-        update();
     }
 
     private void update() {
