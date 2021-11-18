@@ -3,6 +3,7 @@ package View;
 import Controller.Controller;
 import Model.Game;
 import Model.ModelUpdateListener;
+import Model.Property;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -19,6 +20,7 @@ public class View extends JFrame implements ModelUpdateListener {
     JButton newGameButton;
     JButton rollDieButton;
     JButton passTurnButton;
+    JButton buyButton;
     JButton quitButton;
     ArrayList<JButton> listOfCommandButtons;
     JTextArea feedbackArea;
@@ -66,8 +68,6 @@ public class View extends JFrame implements ModelUpdateListener {
         monopolyBoard = new MonopolyBoard();
         jLayeredPane.add(monopolyBoard, JLayeredPane.DEFAULT_LAYER);
 
-        propertyCoordinates();
-
         boardOverlay = new BoardOverlay(gameModel);
         jLayeredPane.add(boardOverlay, JLayeredPane.POPUP_LAYER);
         root.add(jLayeredPane, BorderLayout.CENTER);
@@ -78,16 +78,19 @@ public class View extends JFrame implements ModelUpdateListener {
         //Creating JButtons and adding actionlisteners for them
         newGameButton = new JButton("New Game");
         rollDieButton = new JButton("Roll Die");
+        buyButton = new JButton("Buy");
         passTurnButton = new JButton("Pass Turn");
         quitButton = new JButton("Quit Game");
         stateButton = new JButton("State");
         rollDieButton.setEnabled(false);
         passTurnButton.setEnabled(false);
+        buyButton.setEnabled(false);
         stateButton.setEnabled(false);
         passTurnButton.setEnabled(false);
         quitButton.setEnabled(false);
         listOfCommandButtons = new ArrayList<JButton>();
         listOfCommandButtons.add(rollDieButton);
+        listOfCommandButtons.add(buyButton);
         listOfCommandButtons.add(passTurnButton);
         listOfCommandButtons.add(stateButton);
         listOfCommandButtons.add(quitButton);
@@ -105,6 +108,7 @@ public class View extends JFrame implements ModelUpdateListener {
         centerPanel.setLayout(new BorderLayout());
         menuPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(rollDieButton, BorderLayout.CENTER);
+        centerPanel.add(buyButton, BorderLayout.WEST);
         centerPanel.add(stateButton, BorderLayout.EAST);
         menuPanel.add(passTurnButton, BorderLayout.EAST);
         menuPanel.add(quitButton, BorderLayout.SOUTH);
@@ -115,21 +119,29 @@ public class View extends JFrame implements ModelUpdateListener {
         this.setResizable(false);
         this.setSize(950, 650);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        this.addMouseListener(new MouseListener() {
-            public void mousePressed(MouseEvent me) { }
-            public void mouseReleased(MouseEvent me) { }
-            public void mouseEntered(MouseEvent me) { }
-            public void mouseExited(MouseEvent me) { }
-            public void mouseClicked(MouseEvent me) {
-                int x = me.getX();
-                int y = me.getY();
-                System.out.println("X:" + x + " Y:" + y);
-            }
-        });
-
-
     }
+
+/*
+    public void promptUserToPurchase(){
+        int propertyPrice = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
+        feedbackArea = new JTextArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() + "? It costs $" + propertyPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ". Click the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+        if(input == JOptionPane.YES_OPTION){
+            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
+            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
+            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
+                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
+            checkPlayerBalance(players.get(currentPlayerInt));
+            lookingForWinner();
+            passTurn();
+        } else if (input == JOptionPane.NO_OPTION){
+            checkPlayerBalance(players.get(currentPlayerInt));
+            lookingForWinner();
+            passTurn();
+        }
+        checkPlayerBalance(players.get(currentPlayerInt));
+        lookingForWinner();
+    }
+*/
 
     private void initialize(Controller gameController) {
         for (JButton button : listOfCommandButtons) {
@@ -138,13 +150,6 @@ public class View extends JFrame implements ModelUpdateListener {
     }
 
     /*
-     * This method contains the x,y coordinates of the properties on the monopoly board
-     */
-    private void propertyCoordinates() {
-    }
-
-    /*
-     *
      * This method updates the model
      */
     @Override
@@ -158,7 +163,8 @@ public class View extends JFrame implements ModelUpdateListener {
      */
     public void unlockButtons() {
         for (JButton button : listOfCommandButtons) {
-            button.setEnabled(true);
+            if(!button.getText().equalsIgnoreCase("Buy"))
+                button.setEnabled(true);
         }
     }
 

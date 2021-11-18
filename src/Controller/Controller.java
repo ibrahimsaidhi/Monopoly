@@ -52,7 +52,7 @@ public class Controller implements ActionListener {
                 goToTheBottomOfTextField();
                 break;
             case "Quit Game":
-                gameView.setFeedbackArea("Quit game has been called!\n");
+                gameView.setFeedbackArea("Quitting game...\n");
                 goToTheBottomOfTextField();
                 gameModel.quitGame();
                 break;
