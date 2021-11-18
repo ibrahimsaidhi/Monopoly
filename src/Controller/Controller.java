@@ -39,7 +39,7 @@ public class Controller implements ActionListener {
                 gameView.setFeedbackArea("\nYour new position is now " + pos + ": " + gameModel.getBoardName());
                 if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
                     if (!gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
-                        gameView.lockBuyButton(false); //Unlock the 'Buy' button.
+                        gameView.unlockBuyButton(); //Unlock the 'Buy' button.
                         gameView.promptUserToPurchase();
                         goToTheBottomOfTextField();
                         break;
@@ -56,7 +56,7 @@ public class Controller implements ActionListener {
                 //gameModel.moveToken();
                 break;
             case "Buy":
-                gameView.lockBuyButton(true);
+                gameView.lockBuyButton();
                 if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
                     gameModel.getCurrentPlayer().addProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
                     gameModel.getCurrentPlayer().decrementBalance(((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue());
@@ -70,7 +70,7 @@ public class Controller implements ActionListener {
                 gameView.lockBuyButton(false);
                 break;
             case "Pass Turn":
-                gameView.lockBuyButton(true);
+                gameView.lockBuyButton();
                 gameView.unlockRollDieButton();
                 gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
                 gameView.lookingForWinner();
