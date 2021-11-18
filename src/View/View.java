@@ -121,28 +121,6 @@ public class View extends JFrame implements ModelUpdateListener {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-/*
-    public void promptUserToPurchase(){
-        int propertyPrice = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
-        feedbackArea = new JTextArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() + "? It costs $" + propertyPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ". Click the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
-        if(input == JOptionPane.YES_OPTION){
-            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
-            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
-            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
-                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
-            checkPlayerBalance(players.get(currentPlayerInt));
-            lookingForWinner();
-            passTurn();
-        } else if (input == JOptionPane.NO_OPTION){
-            checkPlayerBalance(players.get(currentPlayerInt));
-            lookingForWinner();
-            passTurn();
-        }
-        checkPlayerBalance(players.get(currentPlayerInt));
-        lookingForWinner();
-    }
-*/
-
     private void initialize(Controller gameController) {
         for (JButton button : listOfCommandButtons) {
             button.addActionListener(gameController);
