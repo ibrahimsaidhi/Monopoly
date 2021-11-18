@@ -235,10 +235,6 @@ public class Game {
         update();
     }
 
-    public int getRent(int diceValue){
-        return utility.getValue() * diceValue;
-    }
-
 
     /**
      * @author John Afolayan, Ibrahim Said

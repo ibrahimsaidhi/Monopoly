@@ -52,8 +52,7 @@ public class Controller implements ActionListener {
                         break;
                     }
                 }
-
-                if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Utility){
+                else if(gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Utility){
                     if (!gameModel.utilityOwned((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
                         gameView.unlockBuyButton(); //Unlock the 'Buy' button.
                         gameView.promptUtilityPurchase();

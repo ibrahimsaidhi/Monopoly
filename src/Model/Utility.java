@@ -36,4 +36,8 @@ public class Utility extends Square{
     public void setValue(int value) {
         this.value = value;
     }
+
+    public int getRent(int diceValue){
+        return getValue() * diceValue;
+    }
 }
