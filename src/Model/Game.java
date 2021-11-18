@@ -215,6 +215,37 @@ public class Game {
         update();
     }
 
+    public void checkingForHouseEligibility(){
+        if (getCurrentPlayer().getBrownProperties() == 3) {
+            //TODO
+        }
+
+        else if (getCurrentPlayer().getPurpleProperties() == 1){
+            //TODO
+        }
+        else if (getCurrentPlayer().getGreenProperties() == 1){
+            //TODO
+        }
+        else if (getCurrentPlayer().getBlueProperties() == 1){
+            //TODO
+        }
+        else if (getCurrentPlayer().getLightBlueProperties() == 1){
+            //TODO
+        }
+        else if (getCurrentPlayer().getYellowProperties() == 1){
+            //TODO
+        }
+        else if (getCurrentPlayer().getRedProperties() == 1){
+            //TODO
+        }
+        else if (getCurrentPlayer().getOrangeProperties() == 1){
+            //TODO
+        }
+
+
+    }
+
+
 
     /**
      * @author John Afolayan, Ibrahim Said

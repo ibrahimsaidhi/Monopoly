@@ -67,6 +67,7 @@ public class Controller implements ActionListener {
                 }
                 gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
                 gameView.lookingForWinner();
+                gameView.lockBuyButton(false);
                 break;
             case "Pass Turn":
                 gameView.lockBuyButton(true);

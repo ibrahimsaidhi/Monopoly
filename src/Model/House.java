@@ -1,0 +1,25 @@
+package Model;
+
+public class House {
+    private String name;
+    private int price;
+    private String color;
+
+    public House(String name, int price, String color) {
+        this.price = price;
+        this.name = name;
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+}

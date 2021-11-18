@@ -204,6 +204,8 @@ public class View extends JFrame implements ModelUpdateListener {
         buyButton.setEnabled(true);
     }
 
+
+
     public void unlockRollDieButton(){
         rollDieButton.setEnabled(true);
     }
