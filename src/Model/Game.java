@@ -22,6 +22,7 @@ import java.util.Scanner;
 public class Game {
     private Parser parser;
     private Property property;
+    private Utility utility;
     private Player currentPlayer;
     private int currentPlayerInt = 0;
     private List<Player> players;
@@ -35,6 +36,7 @@ public class Game {
         parser = new Parser();
         players = new ArrayList<>();
     }
+    public enum State {NEW_GAME,};
 
 
     private void printCurrentPlayer() {
@@ -82,6 +84,15 @@ public class Game {
         return false;
     }
 
+    public boolean utilityOwned(Utility utility){
+        for (int i = 0; i < players.size(); i++){
+            if (players.get(i).getOwnedProperties().contains(property)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * @author John Afolayan
      * @param property Property a player lands on
@@ -90,6 +101,15 @@ public class Game {
     public Player whoOwnsProperty(Property property){
         for (int i = 0; i < players.size(); i++){
             if (players.get(i).getOwnedProperties().contains(property)){
+                return players.get(i);
+            }
+        }
+        return null;
+    }
+
+    public Player whoOwnsUtility(Utility utility){
+        for (int i = 0; i < players.size(); i++){
+            if (players.get(i).getOwnedUtility().contains(utility)){
                 return players.get(i);
             }
         }
@@ -213,6 +233,10 @@ public class Game {
             passTurn();
         }
         update();
+    }
+
+    public int getRent(int diceValue){
+        return utility.getValue() * diceValue;
     }
 
 

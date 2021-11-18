@@ -18,6 +18,7 @@ public class Player {
     private int position;
     private int balance;
     private ArrayList<Property> ownedProperties = new ArrayList<>();
+    private ArrayList<Utility> ownedUtility = new ArrayList<>();
 
     //constructor
     public Player(int playerNumber){
@@ -85,6 +86,10 @@ public class Player {
         ownedProperties.add(property);
     }
 
+    public void addUtility(Utility utility){
+        ownedUtility.add(utility);
+    }
+
     /**
      * returns a player's property collection
      */
@@ -120,4 +125,11 @@ public class Player {
         return 2;
     }
 
+    public ArrayList<Utility> getOwnedUtility() {
+        return ownedUtility;
+    }
+
+    public void setOwnedUtility(ArrayList<Utility> ownedUtility) {
+        this.ownedUtility = ownedUtility;
+    }
 }

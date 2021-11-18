@@ -1,10 +1,7 @@
 package View;
 
 import Controller.Controller;
-import Model.Game;
-import Model.ModelUpdateListener;
-import Model.Player;
-import Model.Property;
+import Model.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -123,7 +120,7 @@ public class View extends JFrame implements ModelUpdateListener {
     }
 
 
-    public void promptUserToPurchase(){
+    public void promptPropertyPurchase(){
         rollDieButton.setEnabled(false);
         int propertyPrice = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
@@ -133,17 +130,43 @@ public class View extends JFrame implements ModelUpdateListener {
         rollDieButton.setEnabled(true);
     }
 
+    public void promptUtilityPurchase(){
+        rollDieButton.setEnabled(false);
+        int utilityPrice = ((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
+                "? It costs $" + utilityPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+        checkPlayerBalance(gameModel.getCurrentPlayer());
+        lookingForWinner();
+        rollDieButton.setEnabled(true);
+    }
+
     /**
      * @author John Afolayan
      * This method taxes a player whenver they land on another player's property
      */
-    public void taxPlayer(){
+    public void taxProperty(){
         Player ownedBy = gameModel.whoOwnsProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())); //player who owns property
         if(!ownedBy.equals(gameModel.getCurrentPlayer())){ //If current player who lands on property doesn't own that property, tax them.
             int amount = (int) (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue() * 0.1); //amount to decrement by, 10%
             gameModel.getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed
             ownedBy.incrementBalance(amount); //add $amount to player who owns property
             JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
+            checkPlayerBalance(gameModel.getCurrentPlayer());
+            lookingForWinner();
+        }
+    }
+
+    /**
+     * @author Hamza
+     * This method taxes a player whenever they land of another players utility
+     */
+
+    public void taxUtility(int tax){
+        Player ownedBy = gameModel.whoOwnsUtility((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
+        if(!ownedBy.equals(gameModel.getCurrentPlayer())){
+            gameModel.getCurrentPlayer().decrementBalance(tax);
+            ownedBy.incrementBalance(tax);
+            JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a utility owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
             checkPlayerBalance(gameModel.getCurrentPlayer());
             lookingForWinner();
         }
