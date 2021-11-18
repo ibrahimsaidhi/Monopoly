@@ -3,12 +3,12 @@ package Model;
 import Game.Command;
 import Game.Parser;
 
-import javax.swing.*;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
+
 
 
 /**
@@ -31,11 +31,83 @@ public class Game {
     private InputStream inputStream;
     private Board board = new Board();
     boolean wantToQuit = false;
+    boolean ableToPurchaseRed = false;
+    boolean ableToPurchaseBlue = false;
+    boolean ableToPurchaseGreen = false;
+    boolean ableToPurchaseLightBlue = false;
+    boolean ableToPurchasePurple = false;
+    boolean ableToPurchaseOrange = false;
+    boolean ableToPurchaseBrown = false;
+    boolean ableToPurchaseYellow = false;
+
     public Game() {
         parser = new Parser();
         players = new ArrayList<>();
     }
 
+    public boolean isAbleToPurchaseBlue() {
+        return ableToPurchaseBlue;
+    }
+
+    public boolean isAbleToPurchaseBrown() {
+        return ableToPurchaseBrown;
+    }
+
+    public boolean isAbleToPurchaseGreen() {
+        return ableToPurchaseGreen;
+    }
+
+    public boolean isAbleToPurchaseLightBlue() {
+        return ableToPurchaseLightBlue;
+    }
+
+    public boolean isAbleToPurchaseOrange() {
+        return ableToPurchaseOrange;
+    }
+
+    public boolean isAbleToPurchasePurple() {
+        return ableToPurchasePurple;
+    }
+
+    public boolean isAbleToPurchaseRed() {
+        return ableToPurchaseRed;
+    }
+
+    public boolean isAbleToPurchaseYellow() {
+        return ableToPurchaseYellow;
+    }
+
+    public void setAbleToPurchaseBlue(boolean ableToPurchaseBlue) {
+        this.ableToPurchaseBlue = ableToPurchaseBlue;
+    }
+
+    public void setAbleToPurchaseBrown(boolean ableToPurchaseBrown) {
+        this.ableToPurchaseBrown = ableToPurchaseBrown;
+    }
+
+    public void setAbleToPurchaseGreen(boolean ableToPurchaseGreen) {
+        this.ableToPurchaseGreen = ableToPurchaseGreen;
+    }
+
+    public void setAbleToPurchaseLightBlue(boolean ableToPurchaseLightBlue) {
+        this.ableToPurchaseLightBlue = ableToPurchaseLightBlue;
+    }
+
+    public void setAbleToPurchaseOrange(boolean ableToPurchaseOrange) {
+        this.ableToPurchaseOrange = ableToPurchaseOrange;
+    }
+
+    public void setAbleToPurchasePurple(boolean ableToPurchasePurple) {
+        this.ableToPurchasePurple = ableToPurchasePurple;
+    }
+
+    public void setAbleToPurchaseRed(boolean ableToPurchaseRed) {
+        this.ableToPurchaseRed = ableToPurchaseRed;
+    }
+
+    public void setAbleToPurchaseYellow(boolean ableToPurchaseYellow) {
+        this.ableToPurchaseYellow = ableToPurchaseYellow;
+    }
 
     private void printCurrentPlayer() {
         System.out.println("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
@@ -215,36 +287,6 @@ public class Game {
         update();
     }
 
-    public void checkingForHouseEligibility(){
-        if (getCurrentPlayer().getBrownProperties() == 3) {
-            //TODO
-        }
-
-        else if (getCurrentPlayer().getPurpleProperties() == 1){
-            //TODO
-        }
-        else if (getCurrentPlayer().getGreenProperties() == 1){
-            //TODO
-        }
-        else if (getCurrentPlayer().getBlueProperties() == 1){
-            //TODO
-        }
-        else if (getCurrentPlayer().getLightBlueProperties() == 1){
-            //TODO
-        }
-        else if (getCurrentPlayer().getYellowProperties() == 1){
-            //TODO
-        }
-        else if (getCurrentPlayer().getRedProperties() == 1){
-            //TODO
-        }
-        else if (getCurrentPlayer().getOrangeProperties() == 1){
-            //TODO
-        }
-
-
-    }
-
 
 
     /**
@@ -287,6 +329,8 @@ public class Game {
             }
         }
     }
+
+
 
     /**
      * @author John Afolayan

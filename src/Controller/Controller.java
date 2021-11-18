@@ -43,13 +43,16 @@ public class Controller implements ActionListener {
                         gameView.promptUserToPurchase();
                         goToTheBottomOfTextField();
                         break;
-                    } else if (gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on is owned by someone else
+                    }
+                    else if (gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on is owned by someone else
                         gameView.taxPlayer();
                         gameModel.passTurn();
                         gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                         break;
                     }
                 }
+
+
                 gameModel.passTurn();
                 gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 goToTheBottomOfTextField();
@@ -58,16 +61,59 @@ public class Controller implements ActionListener {
             case "Buy":
                 gameView.lockBuyButton();
                 if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
+                    String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
+                    switch (propertyColor) {
+                        case "green": {
+                            int x = gameModel.getCurrentPlayer().getGreenProperties();
+                            gameModel.getCurrentPlayer().setGreenProperties(x + 1);
+                            break;
+                        }
+                        case "red": {
+                            int x = gameModel.getCurrentPlayer().getRedProperties();
+                            gameModel.getCurrentPlayer().setRedProperties(x + 1);
+                            break;
+                        }
+                        case "blue": {
+                            int x = gameModel.getCurrentPlayer().getBlueProperties();
+                            gameModel.getCurrentPlayer().setBlueProperties(x + 1);
+                            break;
+                        }
+                        case "light blue": {
+                            int x = gameModel.getCurrentPlayer().getLightBlueProperties();
+                            gameModel.getCurrentPlayer().setLightBlueProperties(x + 1);
+                            break;
+                        }
+                        case "yellow": {
+                            int x = gameModel.getCurrentPlayer().getYellowProperties();
+                            gameModel.getCurrentPlayer().setYellowProperties(x + 1);
+                            break;
+                        }
+                        case "purple": {
+                            int x = gameModel.getCurrentPlayer().getPurpleProperties();
+                            gameModel.getCurrentPlayer().setPurpleProperties(x + 1);
+                            break;
+                        }
+                        case "orange": {
+                            int x = gameModel.getCurrentPlayer().getOrangeProperties();
+                            gameModel.getCurrentPlayer().setOrangeProperties(x + 1);
+                            break;
+                        }
+                        case "brown": {
+                            int x = gameModel.getCurrentPlayer().getBrownProperties();
+                            gameModel.getCurrentPlayer().setBrownProperties(x + 1);
+                            break;
+                        }
+                    }
                     gameModel.getCurrentPlayer().addProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
                     gameModel.getCurrentPlayer().decrementBalance(((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue());
                     gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) +
                             "\nYour new balance is: $" + gameModel.getCurrentPlayer().getBalance() + "\nSpend wisely!");
+                    gameView.checkingForHouseEligibility();
                     gameModel.passTurn();
                     gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 }
                 gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
                 gameView.lookingForWinner();
-                gameView.lockBuyButton(false);
                 break;
             case "Pass Turn":
                 gameView.lockBuyButton();

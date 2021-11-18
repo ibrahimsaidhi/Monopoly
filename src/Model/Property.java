@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 /**
  * The Property class: A Model.Square on the board that can be bought by a Player
  * Date: October 17, 2021
@@ -12,6 +14,7 @@ public class Property extends Square {
     private String color;
 
     private int value;
+    private ArrayList<House> houses = new ArrayList<>();
 
     // class constructor
     public Property(String name, String color, int value){
