@@ -52,7 +52,6 @@ public class Controller implements ActionListener {
                     }
 
                 }
-
                 gameModel.passTurn();
                 gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 goToTheBottomOfTextField();
@@ -129,20 +128,55 @@ public class Controller implements ActionListener {
                 gameView.setFeedbackArea(gameModel.printState()+"\n");
                 goToTheBottomOfTextField();
                 break;
-            case "Add House":
-                gameModel.checkingForHouseEligibility();
-                gameView.purchaseAHouse();
+            case "Buy/Sell House":
+                if (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().size() == 4){
+                    JOptionPane.showMessageDialog(gameView, "Sorry, you can only add up to 4 houses to a property.");
+                }
+                else {
+                    gameModel.checkingForHouseEligibility();
+                    String input = JOptionPane.showInputDialog(null, "Are you here to buy or sell?");
+                    if (input.equals("buy")){
+                        gameView.purchaseAHouse();
+                    }
+                    else if (input.equals("sell") && !((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().isEmpty()){
+                        gameView.sellAHouse();
+                    }
+                    else if (input.equals("sell") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().isEmpty()) {
+                        JOptionPane.showMessageDialog(gameView, "There are no houses for you to sell");
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(gameView, "This is not a valid entry. You just lost your turn...");
+                    }
+
+                }
+                gameModel.clear();
                 gameModel.passTurn();
+                gameView.unlockRollDieButton();
                 gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 break;
-            case "Add Hotel":
+            case "Buy/Sell Hotel":
+
                 if (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().size() == 1){
                     JOptionPane.showMessageDialog(gameView, "Sorry, you can only add 1 hotel to a property at a time");
                 }
                 else {
-                    gameView.purchaseAHotel();
-                }
+                    gameModel.checkingForHouseEligibility();
+                    String input = JOptionPane.showInputDialog(null, "Are you here to buy or sell?");
+                    if (input.equals("buy")){
+                        gameView.purchaseAHotel();
+                    }
+                    else if(input.equals("sell") && !((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().isEmpty()){
+                        gameView.sellAHotel();
+                    }
+                    else if(input.equals("sell") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().isEmpty()){
+                        JOptionPane.showMessageDialog(gameView, "There are no hotels for you to sell");
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(gameView, "This is not a valid entry. You just lost your turn...");
+                    }
 
+                }
+                gameModel.clear();
                 gameModel.passTurn();
                 gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 break;

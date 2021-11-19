@@ -324,7 +324,7 @@ public class Game {
         if (getCurrentPlayer().getGreenProperties() == 3){
             setAbleToPurchaseGreen(true);
         }
-        if (getCurrentPlayer().getBlueProperties() == 3){
+        if (getCurrentPlayer().getBlueProperties() == 2){
             setAbleToPurchaseBlue(true);
         }
         if (getCurrentPlayer().getLightBlueProperties() == 3){
@@ -340,6 +340,17 @@ public class Game {
             setAbleToPurchaseOrange(true);
         }
 
+    }
+
+    public void clear(){
+        setAbleToPurchaseOrange(false);
+        setAbleToPurchaseBlue(false);
+        setAbleToPurchaseRed(false);
+        setAbleToPurchaseYellow(false);
+        setAbleToPurchasePurple(false);
+        setAbleToPurchaseBrown(false);
+        setAbleToPurchaseGreen(false);
+        setAbleToPurchaseLightBlue(false);
     }
 
 
