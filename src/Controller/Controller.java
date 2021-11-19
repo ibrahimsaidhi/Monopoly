@@ -31,6 +31,7 @@ public class Controller implements ActionListener {
                 gameView.getNewGameButton().setEnabled(false);
                 break;
             case "Roll Die":
+                gameView.payToLeaveJail(); //Asks player if they'd like to pay to leave jail, if they're in jail.
                 if(!gameModel.playerIsInJail()) { //If player is not in jail, then roll die is allowed.
                     int firstDieRoll = gameModel.rollDie();
                     int secondDieRoll = gameModel.rollDie();
