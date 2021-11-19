@@ -180,7 +180,7 @@ public class Game {
          *
          */
         return("You are player " + (currentPlayerInt + 1) + "\nYou own the following properties:\n"
-                + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is " + getCurrentPlayer().getBalance());
+                + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is " + getCurrentPlayer().getBalance() + "\nYou have the following houses:\n " + getCurrentPlayer().getOwnedHouses().toString() + ((Property) board.getIndex(getCurrentPlayer().getPosition())).getHouses().size());
     }
 
     public void passTurn() {

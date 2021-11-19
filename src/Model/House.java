@@ -11,6 +11,11 @@ public class House {
         this.color = color;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public String getColor() {
         return color;
     }

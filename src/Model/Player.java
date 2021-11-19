@@ -37,6 +37,10 @@ public class Player {
         this.position = 0; //start at the first square
     }
 
+    public ArrayList<House> getOwnedHouses() {
+        return ownedHouses;
+    }
+
     public int getYellowProperties() {
         return yellowProperties;
     }

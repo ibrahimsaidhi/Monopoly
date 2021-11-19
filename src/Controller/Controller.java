@@ -50,17 +50,6 @@ public class Controller implements ActionListener {
                         gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                         break;
                     }
-                    else {
-                        gameView.checkingForHouseEligibility();
-                        gameView.purchaseAHouse();
-                        gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
-                        gameView.lookingForWinner();
-                    }
-
-                    gameView.checkingForHouseEligibility();
-                    gameView.purchaseAHouse();
-                    gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
-                    gameView.lookingForWinner();
 
                 }
 
@@ -119,8 +108,6 @@ public class Controller implements ActionListener {
                     gameModel.getCurrentPlayer().decrementBalance(((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue());
                     gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) +
                             "\nYour new balance is: $" + gameModel.getCurrentPlayer().getBalance() + "\nSpend wisely!");
-                    gameView.checkingForHouseEligibility();
-                    gameView.purchaseAHouse();
                     gameModel.passTurn();
                     gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 }
@@ -141,6 +128,11 @@ public class Controller implements ActionListener {
             case "State":
                 gameView.setFeedbackArea(gameModel.printState()+"\n");
                 goToTheBottomOfTextField();
+                break;
+            case "Add House":
+                gameView.checkingForHouseEligibility();
+                gameView.purchaseAHouse();
+                gameView.checkingForHotelEligibility();
                 break;
             case "Quit Game":
                 gameView.setFeedbackArea("Quitting game...\n");
