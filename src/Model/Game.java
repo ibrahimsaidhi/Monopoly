@@ -23,6 +23,7 @@ public class Game {
     private Parser parser;
     private Property property;
     private Utility utility;
+    private Railroad railroad;
     private Player currentPlayer;
     private int currentPlayerInt = 0;
     private List<Player> players;
@@ -92,6 +93,15 @@ public class Game {
         return false;
     }
 
+    public boolean railroadsOwned(Railroad railroad){
+        for (int i = 0; i < players.size(); i++){
+            if (players.get(i).getOwnedProperties().contains(railroad)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * @author John Afolayan
      * @param property Property a player lands on
@@ -114,6 +124,25 @@ public class Game {
         }
         return null;
     }
+
+    public Player whoOwnsRailroad(Railroad railroad){
+        for (int i = 0; i < players.size(); i++){
+            if (players.get(i).getOwnedUtility().contains(railroad)){
+                return players.get(i);
+            }
+        }
+        return null;
+    }
+
+    public int getUtilityRent(int diceValue){
+        return utility.getValue() * diceValue;
+    }
+
+    public int getRailroadRent(){
+        Player ownedBy = whoOwnsRailroad((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition()));
+        return ownedBy.totalRailroadsOwned() * railroad.getRent();
+    }
+
 
     /**
      * @author John Afolayan

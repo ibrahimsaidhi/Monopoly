@@ -140,6 +140,16 @@ public class View extends JFrame implements ModelUpdateListener {
         rollDieButton.setEnabled(true);
     }
 
+    public void promptRailroadPurchase() {
+        rollDieButton.setEnabled(false);
+        int railroadPrice = ((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
+                "? It costs $" + railroadPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+        checkPlayerBalance(gameModel.getCurrentPlayer());
+        lookingForWinner();
+        rollDieButton.setEnabled(true);
+    }
+
     /**
      * @author John Afolayan
      * This method taxes a player whenver they land on another player's property
@@ -167,6 +177,17 @@ public class View extends JFrame implements ModelUpdateListener {
             gameModel.getCurrentPlayer().decrementBalance(tax);
             ownedBy.incrementBalance(tax);
             JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a utility owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
+            checkPlayerBalance(gameModel.getCurrentPlayer());
+            lookingForWinner();
+        }
+    }
+
+    public void taxRailroad(int tax) {
+        Player ownedBy = gameModel.whoOwnsProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
+        if(!ownedBy.equals(gameModel.getCurrentPlayer())){
+            gameModel.getCurrentPlayer().decrementBalance(tax);
+            ownedBy.incrementBalance(tax);
+            JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a railroad owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
             checkPlayerBalance(gameModel.getCurrentPlayer());
             lookingForWinner();
         }
@@ -250,5 +271,4 @@ public class View extends JFrame implements ModelUpdateListener {
         int choice = askUser(choices);
         return choice;
     }
-
 }
