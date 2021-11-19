@@ -50,8 +50,19 @@ public class Controller implements ActionListener {
                         gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                         break;
                     }
-                }
+                    else {
+                        gameView.checkingForHouseEligibility();
+                        gameView.purchaseAHouse();
+                        gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
+                        gameView.lookingForWinner();
+                    }
 
+                    gameView.checkingForHouseEligibility();
+                    gameView.purchaseAHouse();
+                    gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
+                    gameView.lookingForWinner();
+
+                }
 
                 gameModel.passTurn();
                 gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
@@ -109,6 +120,7 @@ public class Controller implements ActionListener {
                     gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) +
                             "\nYour new balance is: $" + gameModel.getCurrentPlayer().getBalance() + "\nSpend wisely!");
                     gameView.checkingForHouseEligibility();
+                    gameView.purchaseAHouse();
                     gameModel.passTurn();
                     gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 }

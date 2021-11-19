@@ -1,10 +1,7 @@
 package View;
 
 import Controller.Controller;
-import Model.Game;
-import Model.ModelUpdateListener;
-import Model.Player;
-import Model.Property;
+import Model.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -150,67 +147,91 @@ public class View extends JFrame implements ModelUpdateListener {
     }
 
     public void purchaseAHouse(){
-        String currentColor = (String) (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor());
+        String currentColor = (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor());
         if (gameModel.isAbleToPurchaseBlue() && currentColor.equals("blue")){
-            JOptionPane.showMessageDialog(null, "You are now able to purchase blue houses!");
+            JOptionPane.showMessageDialog(this, "You are now able to purchase blue houses!");
             rollDieButton.setEnabled(false);
-            setFeedbackArea("Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S200");
+            int input = JOptionPane.showConfirmDialog(null, "Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            if (input == JOptionPane.YES_OPTION) {
+
+            }
             checkPlayerBalance(gameModel.getCurrentPlayer());
             lookingForWinner();
             rollDieButton.setEnabled(true);
         }
         if (gameModel.isAbleToPurchaseBrown() && currentColor.equals("brown")){
-            JOptionPane.showMessageDialog(null, "You are now able to purchase brown houses!");
+            JOptionPane.showMessageDialog(this, "You are now able to purchase brown houses!");
             rollDieButton.setEnabled(false);
-            setFeedbackArea("Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            int input = (JOptionPane.showConfirmDialog( null, "Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50"));
+            if (input == JOptionPane.YES_OPTION) {
+
+            }
             checkPlayerBalance(gameModel.getCurrentPlayer());
             lookingForWinner();
             rollDieButton.setEnabled(true);
         }
         if (gameModel.isAbleToPurchasePurple() && currentColor.equals("purple")){
-            JOptionPane.showMessageDialog(null, "You are now able to purchase purple houses!");
+            JOptionPane.showMessageDialog(this, "You are now able to purchase purple houses!");
             rollDieButton.setEnabled(false);
-            setFeedbackArea("Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            int input = JOptionPane.showConfirmDialog(null, "Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            if (input == JOptionPane.YES_OPTION) {
+
+            }
             checkPlayerBalance(gameModel.getCurrentPlayer());
             lookingForWinner();
             rollDieButton.setEnabled(true);
         }
         if (gameModel.isAbleToPurchaseOrange() && currentColor.equals("orange")){
-            JOptionPane.showMessageDialog(null, "You are now able to purchase orange houses!");
+            JOptionPane.showMessageDialog(this, "You are now able to purchase orange houses!");
             rollDieButton.setEnabled(false);
-            setFeedbackArea("Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            int input = JOptionPane.showConfirmDialog(null, "Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            if (input == JOptionPane.YES_OPTION) {
+
+            }
             checkPlayerBalance(gameModel.getCurrentPlayer());
             lookingForWinner();
             rollDieButton.setEnabled(true);
         }
         if (gameModel.isAbleToPurchaseRed() && currentColor.equals("red")){
-            JOptionPane.showMessageDialog(null, "You are now able to purchase red houses!");
+            JOptionPane.showMessageDialog(this, "You are now able to purchase red houses!");
             rollDieButton.setEnabled(false);
-            setFeedbackArea("Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            int input = JOptionPane.showConfirmDialog(null, "Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            if (input == JOptionPane.YES_OPTION) {
+
+            }
             checkPlayerBalance(gameModel.getCurrentPlayer());
             lookingForWinner();
             rollDieButton.setEnabled(true);
         }
         if (gameModel.isAbleToPurchaseLightBlue() && currentColor.equals("light blue")){
-            JOptionPane.showMessageDialog(null, "You are now able to purchase light blue houses!");
+            JOptionPane.showMessageDialog(this, "You are now able to purchase light blue houses!");
             rollDieButton.setEnabled(false);
-            setFeedbackArea("Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            int input = JOptionPane.showConfirmDialog(null, "Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            if (input == JOptionPane.YES_OPTION) {
+
+            }
             checkPlayerBalance(gameModel.getCurrentPlayer());
             lookingForWinner();
             rollDieButton.setEnabled(true);
         }
         if (gameModel.isAbleToPurchaseYellow() && currentColor.equals("yellow")){
-            JOptionPane.showMessageDialog(null, "You are now able to purchase yellow houses!");
+            JOptionPane.showMessageDialog(this, "You are now able to purchase yellow houses!");
             rollDieButton.setEnabled(false);
-            setFeedbackArea("Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            int input = JOptionPane.showConfirmDialog(null, "Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            if (input == JOptionPane.YES_OPTION) {
+
+            }
             checkPlayerBalance(gameModel.getCurrentPlayer());
             lookingForWinner();
             rollDieButton.setEnabled(true);
         }
         if (gameModel.isAbleToPurchaseGreen() && currentColor.equals("green")){
-            JOptionPane.showMessageDialog(null, "You are now able to purchase green houses!");
+            JOptionPane.showMessageDialog(this, "You are now able to purchase green houses!");
             rollDieButton.setEnabled(false);
-            setFeedbackArea("Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            int input = JOptionPane.showConfirmDialog(null, "Would you like to add a house to " + gameModel.getBoardName() + "? It will cost you S50");
+            if (input == JOptionPane.YES_OPTION) {
+
+            }
             checkPlayerBalance(gameModel.getCurrentPlayer());
             lookingForWinner();
             rollDieButton.setEnabled(true);
@@ -233,26 +254,25 @@ public class View extends JFrame implements ModelUpdateListener {
         if (gameModel.getCurrentPlayer().getBrownProperties() == 2) {
             gameModel.setAbleToPurchaseBrown(true);
         }
-
-        else if (gameModel.getCurrentPlayer().getPurpleProperties() == 3){
+        if (gameModel.getCurrentPlayer().getPurpleProperties() == 3){
             gameModel.setAbleToPurchasePurple(true);
         }
-        else if (gameModel.getCurrentPlayer().getGreenProperties() == 3){
+        if (gameModel.getCurrentPlayer().getGreenProperties() == 3){
             gameModel.setAbleToPurchaseGreen(true);
         }
-        else if (gameModel.getCurrentPlayer().getBlueProperties() == 3){
+        if (gameModel.getCurrentPlayer().getBlueProperties() == 3){
             gameModel.setAbleToPurchaseBlue(true);
         }
-        else if (gameModel.getCurrentPlayer().getLightBlueProperties() == 3){
+        if (gameModel.getCurrentPlayer().getLightBlueProperties() == 3){
             gameModel.setAbleToPurchaseLightBlue(true);
         }
-        else if (gameModel.getCurrentPlayer().getYellowProperties() == 3){
+        if (gameModel.getCurrentPlayer().getYellowProperties() == 3){
             gameModel.setAbleToPurchaseYellow(true);
         }
-        else if (gameModel.getCurrentPlayer().getRedProperties() == 3){
+        if (gameModel.getCurrentPlayer().getRedProperties() == 3){
             gameModel.setAbleToPurchaseRed(true);
         }
-        else if (gameModel.getCurrentPlayer().getOrangeProperties() == 3){
+        if (gameModel.getCurrentPlayer().getOrangeProperties() == 3){
             gameModel.setAbleToPurchaseOrange(true);
         }
 
@@ -297,6 +317,10 @@ public class View extends JFrame implements ModelUpdateListener {
 
     public void lockBuyButton(){
         buyButton.setEnabled(false);
+    }
+
+    public void lockRollDieButton(){
+        rollDieButton.setEnabled(false);
     }
 
     public void unlockBuyButton(){

@@ -24,6 +24,10 @@ public class Property extends Square {
         this.color = color;
     }
 
+    public ArrayList<House> getHouses() {
+        return houses;
+    }
+
     @Override
     public String toString() {
         return name;
