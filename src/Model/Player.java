@@ -28,6 +28,7 @@ public class Player {
 
     private ArrayList<Property> ownedProperties = new ArrayList<>();
     private ArrayList<House> ownedHouses = new ArrayList<>();
+    private ArrayList<Hotel> ownedHotels = new ArrayList<>();
 
     //constructor
     public Player(int playerNumber){
@@ -40,6 +41,10 @@ public class Player {
 
     public ArrayList<House> getOwnedHouses() {
         return ownedHouses;
+    }
+
+    public ArrayList<Hotel> getOwnedHotels() {
+        return ownedHotels;
     }
 
     public int getYellowProperties() {

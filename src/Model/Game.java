@@ -3,9 +3,12 @@ package Model;
 import Game.Command;
 import Game.Parser;
 
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 
 
 /**
@@ -24,13 +27,87 @@ public class Game {
     private List<Player> players;
     private ModelUpdateListener viewer;
     private int numberOfPlayers;
+    private String newPlayerName;
+    private InputStream inputStream;
     private Board board = new Board();
     boolean wantToQuit = false;
+    boolean ableToPurchaseRed = false;
+    boolean ableToPurchaseBlue = false;
+    boolean ableToPurchaseGreen = false;
+    boolean ableToPurchaseLightBlue = false;
+    boolean ableToPurchasePurple = false;
+    boolean ableToPurchaseOrange = false;
+    boolean ableToPurchaseBrown = false;
+    boolean ableToPurchaseYellow = false;
+
     public Game() {
         parser = new Parser();
         players = new ArrayList<>();
     }
 
+    public boolean isAbleToPurchaseBlue() {
+        return ableToPurchaseBlue;
+    }
+
+    public boolean isAbleToPurchaseBrown() {
+        return ableToPurchaseBrown;
+    }
+
+    public boolean isAbleToPurchaseGreen() {
+        return ableToPurchaseGreen;
+    }
+
+    public boolean isAbleToPurchaseLightBlue() {
+        return ableToPurchaseLightBlue;
+    }
+
+    public boolean isAbleToPurchaseOrange() {
+        return ableToPurchaseOrange;
+    }
+
+    public boolean isAbleToPurchasePurple() {
+        return ableToPurchasePurple;
+    }
+
+    public boolean isAbleToPurchaseRed() {
+        return ableToPurchaseRed;
+    }
+
+    public boolean isAbleToPurchaseYellow() {
+        return ableToPurchaseYellow;
+    }
+
+    public void setAbleToPurchaseBlue(boolean ableToPurchaseBlue) {
+        this.ableToPurchaseBlue = ableToPurchaseBlue;
+    }
+
+    public void setAbleToPurchaseBrown(boolean ableToPurchaseBrown) {
+        this.ableToPurchaseBrown = ableToPurchaseBrown;
+    }
+
+    public void setAbleToPurchaseGreen(boolean ableToPurchaseGreen) {
+        this.ableToPurchaseGreen = ableToPurchaseGreen;
+    }
+
+    public void setAbleToPurchaseLightBlue(boolean ableToPurchaseLightBlue) {
+        this.ableToPurchaseLightBlue = ableToPurchaseLightBlue;
+    }
+
+    public void setAbleToPurchaseOrange(boolean ableToPurchaseOrange) {
+        this.ableToPurchaseOrange = ableToPurchaseOrange;
+    }
+
+    public void setAbleToPurchasePurple(boolean ableToPurchasePurple) {
+        this.ableToPurchasePurple = ableToPurchasePurple;
+    }
+
+    public void setAbleToPurchaseRed(boolean ableToPurchaseRed) {
+        this.ableToPurchaseRed = ableToPurchaseRed;
+    }
+
+    public void setAbleToPurchaseYellow(boolean ableToPurchaseYellow) {
+        this.ableToPurchaseYellow = ableToPurchaseYellow;
+    }
 
     private void printCurrentPlayer() {
         System.out.println("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
@@ -103,7 +180,7 @@ public class Game {
          *
          */
         return("You are player " + (currentPlayerInt + 1) + "\nYou own the following properties:\n"
-                + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is $" + getCurrentPlayer().getBalance());
+                + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is " + getCurrentPlayer().getBalance() + "\nYou have the following houses:\n " + getCurrentPlayer().getOwnedHouses().toString() + ((Property) board.getIndex(getCurrentPlayer().getPosition())).getHouses().size());
     }
 
     public void passTurn() {
@@ -120,6 +197,7 @@ public class Game {
 
     private void newTurn() {
         printCurrentPlayer();
+        //parser.showCommands();
     }
 
     public void initializePlayers(int numberOfPlayers) {
@@ -243,6 +321,8 @@ public class Game {
         }
     }
 
+
+
     /**
      * @author John Afolayan
      * This method returns the current player of the game.
@@ -253,6 +333,7 @@ public class Game {
 
     public void startGame(int numberOfPlayers) {
         initializePlayers(numberOfPlayers);
+        //System.out.println("There will be " + numberOfPlayers + " players this game!");
         newTurn();
     }
 
