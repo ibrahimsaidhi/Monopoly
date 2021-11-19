@@ -86,7 +86,7 @@ public class Game {
 
     public boolean utilityOwned(Utility utility){
         for (int i = 0; i < players.size(); i++){
-            if (players.get(i).getOwnedProperties().contains(property)){
+            if (players.get(i).getOwnedUtility().contains(utility)){
                 return true;
             }
         }
@@ -95,7 +95,7 @@ public class Game {
 
     public boolean railroadsOwned(Railroad railroad){
         for (int i = 0; i < players.size(); i++){
-            if (players.get(i).getOwnedProperties().contains(railroad)){
+            if (players.get(i).getOwnedRailroads().contains(railroad)){
                 return true;
             }
         }
