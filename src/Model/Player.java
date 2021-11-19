@@ -15,7 +15,7 @@ public class Player {
     private String name;
     //private String piece (not implementing for now)
     private int playerNumber; // ie. player1, player2 etc
-    private int position;
+    private int position, previousPosition;
     private int balance;
     private ArrayList<Property> ownedProperties = new ArrayList<>();
 
@@ -25,6 +25,7 @@ public class Player {
         this.playerNumber = playerNumber;
         this.balance = 1500; //default starting balance
         this.position = 0; //start at the first square
+        this.previousPosition = 0;
     }
 
     /**
@@ -70,6 +71,7 @@ public class Player {
      * sets a player's new position
      */
     public void setPosition(int position) {
+        previousPosition = this.position;
         this.position = position;
     }
 
@@ -77,6 +79,11 @@ public class Player {
      * gets a player's new position
      */
     public int getPosition() { return this.position; }
+
+    /**
+     * gets a player's previous position
+     */
+    public int getPreviousPosition() { return this.previousPosition; }
 
     /**
      * adds a new property a player's collected
@@ -100,10 +107,10 @@ public class Player {
     }
 
     /**
-     * Calculates a random die roll based on 2 die
+     * Calculates a random die roll
      */
     public Integer rollDice() {
-        Integer numberOfDiceToRoll = 2; //rolling two dices
+        Integer numberOfDiceToRoll = 1; //rolling one die
         List<Integer> diceRolls = new ArrayList<>();
         int dieRoll = 0;
         Random random = new Random();

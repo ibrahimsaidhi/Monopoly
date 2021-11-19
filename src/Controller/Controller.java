@@ -31,23 +31,29 @@ public class Controller implements ActionListener {
                 gameView.getNewGameButton().setEnabled(false);
                 break;
             case "Roll Die":
-                int diceRoll = gameModel.rollDie();
-                gameModel.setCurrentPlayerPosition(diceRoll);
-                gameView.repaint();
-                JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die that added up to " + diceRoll);
-                int pos = gameModel.getCurrentPlayerPosition();
-                gameView.setFeedbackArea("\nYour new position is now " + pos + ": " + gameModel.getBoardName());
-                if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
-                    if (!gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
-                        gameView.unlockBuyButton(); //Unlock the 'Buy' button.
-                        gameView.promptUserToPurchase();
-                        goToTheBottomOfTextField();
-                        break;
-                    } else if (gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on is owned by someone else
-                        gameView.taxPlayer();
-                        gameModel.passTurn();
-                        gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
-                        break;
+                if(!gameModel.playerIsInJail()) { //If player is not in jail, then roll die is allowed.
+                    int firstDieRoll = gameModel.rollDie();
+                    int secondDieRoll = gameModel.rollDie();
+                    gameModel.setCurrentPlayerPosition(firstDieRoll + secondDieRoll);
+                    gameView.repaint();
+                    int pos = gameModel.getCurrentPlayerPosition();
+                    gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die, " + firstDieRoll + " and " + secondDieRoll + " which add up to " + (firstDieRoll + secondDieRoll));
+                    if(gameModel.hasPlayerPassedGo()){
+                        gameView.setFeedbackArea("\nCongratulations, you've passed GO! Your balance has increased by $200.");
+                    }
+                    gameView.setFeedbackArea("\nYour new position is now " + pos + ": " + gameModel.getBoardName());
+                    if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
+                        if (!gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
+                            gameView.unlockBuyButton(); //Unlock the 'Buy' button.
+                            gameView.promptUserToPurchase();
+                            goToTheBottomOfTextField();
+                            break;
+                        } else if (gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on is owned by someone else
+                            gameView.taxPlayer();
+                            gameModel.passTurn();
+                            gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                            break;
+                        }
                     }
                 }
                 gameModel.passTurn();
@@ -67,6 +73,8 @@ public class Controller implements ActionListener {
                 }
                 gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
                 gameView.lookingForWinner();
+                gameView.unlockRollDieButton(); //Lock the roll die button
+                gameView.payToLeaveJail(); //Asks player if they'd like to pay to leave jail, if they're in jail.
                 break;
             case "Pass Turn":
                 gameView.lockBuyButton();
@@ -77,6 +85,7 @@ public class Controller implements ActionListener {
                 gameModel.passTurn();
                 gameView.setFeedbackArea("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
                 gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + " it is now your turn");
+                gameView.payToLeaveJail(); //Asks player if they'd like to pay to leave jail, if they're in jail.
                 goToTheBottomOfTextField();
                 break;
             case "State":

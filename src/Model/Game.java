@@ -3,12 +3,9 @@ package Model;
 import Game.Command;
 import Game.Parser;
 
-import javax.swing.*;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 
 /**
@@ -27,8 +24,6 @@ public class Game {
     private List<Player> players;
     private ModelUpdateListener viewer;
     private int numberOfPlayers;
-    private String newPlayerName;
-    private InputStream inputStream;
     private Board board = new Board();
     boolean wantToQuit = false;
     public Game() {
@@ -125,7 +120,6 @@ public class Game {
 
     private void newTurn() {
         printCurrentPlayer();
-        //parser.showCommands();
     }
 
     public void initializePlayers(int numberOfPlayers) {
@@ -168,6 +162,25 @@ public class Game {
 
     public int rollDie(){
         return getCurrentPlayer().rollDice();
+    }
+
+    public boolean playerIsInJail(){
+        if(board.getIndex(getCurrentPlayer().getPosition()).getName().equalsIgnoreCase("Jail")){
+            return true;
+        }
+        return false;
+    }
+
+    public void freePlayerFromJail(){
+        getCurrentPlayer().setPosition(10); //Sets player position to just visiting jail.
+    }
+
+    public boolean hasPlayerPassedGo(){
+        if((getCurrentPlayer().getPreviousPosition() != 30) && getCurrentPlayer().getPreviousPosition() > getCurrentPlayer().getPosition()){
+            getCurrentPlayer().incrementBalance(200);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -215,33 +228,6 @@ public class Game {
         update();
     }
 
-
-    /**
-     * @author John Afolayan, Ibrahim Said
-     * A method to prompt a user to purchase a property or not
-     *//*
-    public void promptUserToPurchase(){
-        int propertyPrice = ((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue();
-        int input = JOptionPane.showConfirmDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + getBoardName() + "? It costs $" + propertyPrice + " and you currently have $" + getCurrentPlayer().getBalance() + ". Click yes to purchase or no to move on.", "Purchase " + getBoardName() + "?", JOptionPane.YES_NO_OPTION);
-        if(input == JOptionPane.YES_OPTION){
-            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
-            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
-            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
-                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
-            checkPlayerBalance(players.get(currentPlayerInt));
-            lookingForWinner();
-            passTurn();
-        } else if (input == JOptionPane.NO_OPTION){
-            checkPlayerBalance(players.get(currentPlayerInt));
-            lookingForWinner();
-            passTurn();
-        }
-        checkPlayerBalance(players.get(currentPlayerInt));
-        lookingForWinner();
-    }*/
-
-
-
     /**
      * @author John Afolayan
      * This method removes a banrupt player from the game.
@@ -267,7 +253,6 @@ public class Game {
 
     public void startGame(int numberOfPlayers) {
         initializePlayers(numberOfPlayers);
-        //System.out.println("There will be " + numberOfPlayers + " players this game!");
         newTurn();
     }
 

@@ -6,14 +6,8 @@ import Model.ModelUpdateListener;
 import Model.Player;
 import Model.Property;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class View extends JFrame implements ModelUpdateListener {
@@ -130,7 +124,6 @@ public class View extends JFrame implements ModelUpdateListener {
                 "? It costs $" + propertyPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
         checkPlayerBalance(gameModel.getCurrentPlayer());
         lookingForWinner();
-        rollDieButton.setEnabled(true);
     }
 
     /**
@@ -143,7 +136,7 @@ public class View extends JFrame implements ModelUpdateListener {
             int amount = (int) (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue() * 0.1); //amount to decrement by, 10%
             gameModel.getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed
             ownedBy.incrementBalance(amount); //add $amount to player who owns property
-            JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
+            setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
             checkPlayerBalance(gameModel.getCurrentPlayer());
             lookingForWinner();
         }
@@ -170,6 +163,21 @@ public class View extends JFrame implements ModelUpdateListener {
             JOptionPane.showMessageDialog(null, "Player " + gameModel.getPlayers().get(0).getPlayerNumber() + " has won the game! Congratulations");
             System.exit(0);
         }
+    }
+
+    public void payToLeaveJail(){
+        if(gameModel.playerIsInJail()){
+            int input = JOptionPane.showConfirmDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You are in Jail. Would you like to pay $50 bail to leave?" + "\nClick yes to pay bail or no to stay in jail.", "Pay bail?", JOptionPane.YES_NO_OPTION);
+            if(input == JOptionPane.YES_OPTION){
+                gameModel.getCurrentPlayer().decrementBalance(50);
+                gameModel.freePlayerFromJail();
+            } else if(input == JOptionPane.NO_OPTION){
+                setFeedbackArea("\nYikes :/ another night in jail doesn't sound fun. Good luck.");
+            } else {
+                setFeedbackArea("Seems like there might have been an error. Please report it to the developer.");
+            }
+        }
+        repaint();
     }
 
 
@@ -208,6 +216,9 @@ public class View extends JFrame implements ModelUpdateListener {
 
     public void unlockRollDieButton(){
         rollDieButton.setEnabled(true);
+    }
+    public void lockRollDieButton(){
+        rollDieButton.setEnabled(false);
     }
 
     public JTextArea getFeedbackArea() {
