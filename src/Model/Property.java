@@ -15,6 +15,11 @@ public class Property extends Square {
 
     private int value;
     private ArrayList<House> houses = new ArrayList<>();
+    private ArrayList<Hotel> hotels = new ArrayList<>();
+
+    public ArrayList<Hotel> getHotels() {
+        return hotels;
+    }
 
     // class constructor
     public Property(String name, String color, int value){

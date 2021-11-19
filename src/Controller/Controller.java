@@ -130,9 +130,21 @@ public class Controller implements ActionListener {
                 goToTheBottomOfTextField();
                 break;
             case "Add House":
-                gameView.checkingForHouseEligibility();
+                gameModel.checkingForHouseEligibility();
                 gameView.purchaseAHouse();
-                gameView.checkingForHotelEligibility();
+                gameModel.passTurn();
+                gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                break;
+            case "Add Hotel":
+                if (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().size() == 1){
+                    JOptionPane.showMessageDialog(gameView, "Sorry, you can only add 1 hotel to a property at a time");
+                }
+                else {
+                    gameView.purchaseAHotel();
+                }
+
+                gameModel.passTurn();
+                gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 break;
             case "Quit Game":
                 gameView.setFeedbackArea("Quitting game...\n");
