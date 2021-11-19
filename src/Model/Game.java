@@ -3,12 +3,9 @@ package Model;
 import Game.Command;
 import Game.Parser;
 
-import javax.swing.*;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 
 /**
@@ -27,12 +24,11 @@ public class Game {
     private List<Player> players;
     private ModelUpdateListener viewer;
     private int numberOfPlayers;
-    private String newPlayerName;
-    private InputStream inputStream;
     private Board board = new Board();
     boolean wantToQuit = false;
     public Game() {
         parser = new Parser();
+        players = new ArrayList<>();
     }
 
 
@@ -67,7 +63,12 @@ public class Game {
         return wantToQuit;
     }
 
-    private boolean propertyOwned(Property property){
+    /**
+     * @author John Afolayan
+     * @param property Property a player lands on
+     * This method checks to see if a property is owned.
+     */
+    public boolean propertyOwned(Property property){
         for (int i = 0; i < players.size(); i++){
             if (players.get(i).getOwnedProperties().contains(property)){
                 return true;
@@ -76,7 +77,12 @@ public class Game {
         return false;
     }
 
-    private Player whoOwnsProperty(Property property){
+    /**
+     * @author John Afolayan
+     * @param property Property a player lands on
+     * This method checks who owns the property landed on.
+     */
+    public Player whoOwnsProperty(Property property){
         for (int i = 0; i < players.size(); i++){
             if (players.get(i).getOwnedProperties().contains(property)){
                 return players.get(i);
@@ -85,6 +91,10 @@ public class Game {
         return null;
     }
 
+    /**
+     * @author John Afolayan
+     * This method prints the state of the current player.
+     */
     public String printState() {
         /**
          * @author John Afolayan
@@ -93,7 +103,7 @@ public class Game {
          *
          */
         return("You are player " + (currentPlayerInt + 1) + "\nYou own the following properties:\n"
-                + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is " + getCurrentPlayer().getBalance());
+                + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is $" + getCurrentPlayer().getBalance());
     }
 
     public void passTurn() {
@@ -110,7 +120,6 @@ public class Game {
 
     private void newTurn() {
         printCurrentPlayer();
-        //parser.showCommands();
     }
 
     public void initializePlayers(int numberOfPlayers) {
@@ -125,7 +134,6 @@ public class Game {
         this.numberOfPlayers = numberOfPlayers;
         createPlayers(numberOfPlayers);
         this.currentPlayer = players.get(0);
-        update();
     }
 
     private void update() {
@@ -137,6 +145,10 @@ public class Game {
         this.viewer = viewer;
     }
 
+    /**
+     * @author John Afolayan
+     * This method creates the specified amount players for a new game
+     */
     public void createPlayers(int numberOfPlayers) {
         players = new ArrayList<Player>();
         for (int i = 1; i <= numberOfPlayers; i++) {
@@ -148,25 +160,51 @@ public class Game {
         return players;
     }
 
-    private void printListOfCurrentPlayerStats() {
-        System.out.println("Player " + (currentPlayerInt + 1) + " currently owns the following properties: ");
-        System.out.println(getCurrentPlayer().getOwnedProperties().toString()); //Prints all properties which currentPlayer owns
-    }
-
     public int rollDie(){
         return getCurrentPlayer().rollDice();
     }
 
+    public boolean playerIsInJail(){
+        if(board.getIndex(getCurrentPlayer().getPosition()).getName().equalsIgnoreCase("Jail")){
+            return true;
+        }
+        return false;
+    }
+
+    public void freePlayerFromJail(){
+        getCurrentPlayer().setPosition(10); //Sets player position to just visiting jail.
+    }
+
+    public boolean hasPlayerPassedGo(){
+        if((getCurrentPlayer().getPreviousPosition() != 30) && getCurrentPlayer().getPreviousPosition() > getCurrentPlayer().getPosition()){
+            getCurrentPlayer().incrementBalance(200);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @author John Afolayan
+     * This method sets the new position of a player after a die is rolled
+     */
     public void setCurrentPlayerPosition(int pos) {
         getCurrentPlayer().setPosition((getCurrentPlayerPosition() + pos) % board.size());
     }
 
+    /**
+     * @author John Afolayan
+     * This method gets the position of the current player
+     */
     public int getCurrentPlayerPosition() {
         return getCurrentPlayer().getPosition();
     }
 
     public String getBoardName() {
         return board.getIndex(getCurrentPlayer().getPosition()).getName();
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     public void moveToken() {
@@ -179,77 +217,21 @@ public class Game {
          */
 
         if (board.getIndex(getCurrentPlayer().getPosition()) instanceof Property){
-            if(!propertyOwned((Property) board.getIndex(getCurrentPlayer().getPosition()))){
-                promptUserToPurchase();
-            } else if(propertyOwned((Property) board.getIndex(getCurrentPlayer().getPosition()))){
-                taxPlayer();
+            if(propertyOwned((Property) board.getIndex(getCurrentPlayer().getPosition()))){
+                //taxPlayer();
                 passTurn();
             }
         }
         else if (board.getIndex(getCurrentPlayer().getPosition())instanceof Square) {
             passTurn();
         }
+        update();
     }
 
     /**
      * @author John Afolayan
-     * A method to prompt a user to purchase a property or not
+     * This method removes a banrupt player from the game.
      */
-    public void promptUserToPurchase(){
-        int propertyPrice = ((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue();
-        int input = JOptionPane.showConfirmDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + getBoardName() + "? It costs $" + propertyPrice + " and you currently have $" + getCurrentPlayer().getBalance() + ". Click yes to purchase or no to move on.", "Purchase " + getBoardName() + "?", JOptionPane.YES_NO_OPTION);
-        if(input == JOptionPane.YES_OPTION){
-            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
-            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
-            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
-                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
-            checkPlayerBalance(players.get(currentPlayerInt));
-            lookingForWinner();
-            passTurn();
-        } else if (input == JOptionPane.NO_OPTION){
-            checkPlayerBalance(players.get(currentPlayerInt));
-            lookingForWinner();
-            passTurn();
-        }
-        checkPlayerBalance(players.get(currentPlayerInt));
-        lookingForWinner();
-    }
-
-    /**
-     * @author John Afolayan
-     * This method taxes a player whenver they land on another player's property
-     */
-    public void taxPlayer(){
-        Player ownedBy = whoOwnsProperty((Property) board.getIndex(getCurrentPlayer().getPosition())); //player who owns property
-        if(!ownedBy.equals(players.get(currentPlayerInt))){ //If current player who lands on property doesn't own that property, tax them.
-            int amount = (int) (((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue() * 0.1); //amount to decrement by, 10%
-            getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed
-            ownedBy.incrementBalance(amount); //add $amount to player who owns property
-            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + getCurrentPlayer().getBalance());
-            checkPlayerBalance(getCurrentPlayer());
-            lookingForWinner();
-        }
-    }
-
-    /**
-     * @author Ibrahim Said
-     * This method checks the balance of a player and determines if they are eliminated or not.
-     */
-    public void checkPlayerBalance(Player player){
-        int balance = player.getBalance();
-        if (balance <= 0){
-            removeBankruptPlayer();
-            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": You are now bankrupt! You have been kicked out of the game. Too bad...");
-        }
-    }
-
-    public void lookingForWinner(){
-        if (players.size() == 1){
-            JOptionPane.showMessageDialog(null, "Player " + players.get(0).getPlayerNumber() + " has won the game! Congratulations");
-            System.exit(0);
-        }
-    }
-
     public void removeBankruptPlayer(){
         for (final Iterator<Player> iterator = players.iterator(); iterator.hasNext();) {
             Player temp = iterator.next();
@@ -261,22 +243,20 @@ public class Game {
         }
     }
 
+    /**
+     * @author John Afolayan
+     * This method returns the current player of the game.
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
     public void startGame(int numberOfPlayers) {
         initializePlayers(numberOfPlayers);
-        //System.out.println("There will be " + numberOfPlayers + " players this game!");
         newTurn();
     }
 
     public void quitGame() {
         System.exit(0);
     }
-
-    /*public static void main(String[] args) {
-        Game game = new Game();
-        game.play();
-    }*/
 }
