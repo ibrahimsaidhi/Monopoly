@@ -321,7 +321,32 @@ public class Game {
         }
     }
 
-
+    public void checkingForHouseEligibility(){
+        if (getCurrentPlayer().getBrownProperties() == 2) {
+            setAbleToPurchaseBrown(true);
+        }
+        if (getCurrentPlayer().getPurpleProperties() == 3){
+            setAbleToPurchasePurple(true);
+        }
+        if (getCurrentPlayer().getGreenProperties() == 3){
+            setAbleToPurchaseGreen(true);
+        }
+        if (getCurrentPlayer().getBlueProperties() == 3){
+            setAbleToPurchaseBlue(true);
+        }
+        if (getCurrentPlayer().getLightBlueProperties() == 3){
+            setAbleToPurchaseLightBlue(true);
+        }
+        if (getCurrentPlayer().getYellowProperties() == 3){
+            setAbleToPurchaseYellow(true);
+        }
+        if (getCurrentPlayer().getRedProperties() == 3){
+            setAbleToPurchaseRed(true);
+        }
+        if (getCurrentPlayer().getOrangeProperties() == 3){
+            setAbleToPurchaseOrange(true);
+        }
+    }
 
     /**
      * @author John Afolayan

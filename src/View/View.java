@@ -500,34 +500,6 @@ public class View extends JFrame implements ModelUpdateListener {
         }
     }
 
-    public void checkingForHouseEligibility(){
-        if (gameModel.getCurrentPlayer().getBrownProperties() == 2) {
-            gameModel.setAbleToPurchaseBrown(true);
-        }
-        if (gameModel.getCurrentPlayer().getPurpleProperties() == 3){
-            gameModel.setAbleToPurchasePurple(true);
-        }
-        if (gameModel.getCurrentPlayer().getGreenProperties() == 3){
-            gameModel.setAbleToPurchaseGreen(true);
-        }
-        if (gameModel.getCurrentPlayer().getBlueProperties() == 3){
-            gameModel.setAbleToPurchaseBlue(true);
-        }
-        if (gameModel.getCurrentPlayer().getLightBlueProperties() == 3){
-            gameModel.setAbleToPurchaseLightBlue(true);
-        }
-        if (gameModel.getCurrentPlayer().getYellowProperties() == 3){
-            gameModel.setAbleToPurchaseYellow(true);
-        }
-        if (gameModel.getCurrentPlayer().getRedProperties() == 3){
-            gameModel.setAbleToPurchaseRed(true);
-        }
-        if (gameModel.getCurrentPlayer().getOrangeProperties() == 3){
-            gameModel.setAbleToPurchaseOrange(true);
-        }
-
-    }
-
     /**
      * @author Ibrahim Said
      * This method checks if a player has won the game.
