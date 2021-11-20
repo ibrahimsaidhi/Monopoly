@@ -140,7 +140,10 @@ public class Controller implements ActionListener {
                 goToTheBottomOfTextField();
                 break;
             case "Buy/Sell House":
-                if (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().size() == 4){
+                if (!(gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property)) {
+                    JOptionPane.showMessageDialog(gameView, "Sorry, this position is not a property square. You cannot buy or sell houses here");
+                }
+                else if (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().size() == 4){
                     JOptionPane.showMessageDialog(gameView, "Sorry, you can only add up to 4 houses to a property.");
                 }
                 else {
@@ -165,8 +168,10 @@ public class Controller implements ActionListener {
                 gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 break;
             case "Buy/Sell Hotel":
-
-                if (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().size() == 1){
+                if (!(gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property)) {
+                    JOptionPane.showMessageDialog(gameView, "Sorry, this position is not a property square. You cannot buy or sell hotels here");
+                }
+                else if (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().size() == 1){
                     JOptionPane.showMessageDialog(gameView, "Sorry, you can only add 1 hotel to a property at a time");
                 }
                 else {
