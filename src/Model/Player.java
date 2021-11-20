@@ -29,6 +29,8 @@ public class Player {
     private ArrayList<Property> ownedProperties = new ArrayList<>();
     private ArrayList<House> ownedHouses = new ArrayList<>();
     private ArrayList<Hotel> ownedHotels = new ArrayList<>();
+    private ArrayList<Railroad> ownedRailroads = new ArrayList<>();
+    private ArrayList<Utility> ownedUtility = new ArrayList<>();
 
     //constructor
     public Player(int playerNumber){
@@ -168,6 +170,14 @@ public class Player {
         ownedProperties.add(property);
     }
 
+    public void addUtility(Utility utility){
+        ownedUtility.add(utility);
+    }
+
+    public void addRailroad(Railroad railroad){
+        ownedRailroads.add(railroad);
+    }
+
     /**
      * returns a player's property collection
      */
@@ -175,6 +185,17 @@ public class Player {
         return ownedProperties;
     }
 
+    public ArrayList<Utility> getOwnedUtility() {
+        return ownedUtility;
+    }
+
+    public ArrayList<Railroad> getOwnedRailroads() {
+        return ownedRailroads;
+    }
+
+    public int totalRailroadsOwned(){
+        return ownedRailroads.size();
+    }
     /**
      * returns a player's number
      */

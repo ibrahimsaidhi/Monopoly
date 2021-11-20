@@ -25,6 +25,8 @@ public class Game {
     private Player currentPlayer;
     private int currentPlayerInt = 0;
     private List<Player> players;
+    private Utility utility;
+    private Railroad railroad;
     private ModelUpdateListener viewer;
     private int numberOfPlayers;
     private String newPlayerName;
@@ -154,6 +156,24 @@ public class Game {
         return false;
     }
 
+    public boolean utilityOwned(Utility utility){
+        for (int i = 0; i < players.size(); i++){
+            if (players.get(i).getOwnedUtility().contains(utility)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean railroadsOwned(Railroad railroad){
+        for (int i = 0; i < players.size(); i++){
+            if (players.get(i).getOwnedRailroads().contains(railroad)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * @author John Afolayan
      * @param property Property a player lands on
@@ -168,10 +188,37 @@ public class Game {
         return null;
     }
 
-    /**
-     * @author John Afolayan
-     * This method prints the state of the current player.
-     */
+    public Player whoOwnsUtility(Utility utility){
+        for (int i = 0; i < players.size(); i++){
+            if (players.get(i).getOwnedUtility().contains(utility)){
+                return players.get(i);
+            }
+        }
+        return null;
+    }
+
+    public Player whoOwnsRailroad(Railroad railroad) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getOwnedUtility().contains(railroad)) {
+                return players.get(i);
+            }
+        }
+        return null;
+    }
+
+    public int getUtilityRent(int diceValue){
+        return utility.getValue() * diceValue;
+    }
+
+    public int getRailroadRent(){
+        Player ownedBy = whoOwnsRailroad((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition()));
+        return ownedBy.totalRailroadsOwned() * railroad.getRent();
+    }
+
+        /**
+         * @author John Afolayan
+         * This method prints the state of the current player.
+         */
     public String printState() {
         /**
          * @author John Afolayan
