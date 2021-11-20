@@ -224,7 +224,7 @@ public class Player {
             dieRoll += diceRoll;
         }
         if(dieRoll >=0){
-            return 1;
+            return dieRoll;
         } else {
             rollDice();
         }
