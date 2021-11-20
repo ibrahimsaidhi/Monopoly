@@ -38,14 +38,18 @@ public class Controller implements ActionListener {
                     gameView.repaint();
                     int pos = gameModel.getCurrentPlayerPosition();
                     gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die, " + firstDieRoll + " and " + secondDieRoll + " which add up to " + (firstDieRoll + secondDieRoll));
+                    gameView.setFeedbackArea("\nYour new position is now " + pos + ": " + gameModel.getBoardName());
                     if(gameModel.hasPlayerPassedGo()){
                         gameView.setFeedbackArea("\nCongratulations, you've passed GO! Your balance has increased by $200.");
                     }
-                    gameView.setFeedbackArea("\nYour new position is now " + pos + ": " + gameModel.getBoardName());
-                    if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
+                    if(gameModel.hasPlayerLandedOnSpecialPosition()){
+                        gameView.setFeedbackArea("\nSince you landed on " + gameModel.getBoardName() + ", a fee of $" + gameModel.getSpecialPositionFee() + " has been deducted from your balance.");
+                    }
+                    if(gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
                         if (!gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
                             gameView.unlockBuyButton(); //Unlock the 'Buy' button.
                             gameView.promptUserToPurchase();
+                            gameView.lockRollDieButton();
                             goToTheBottomOfTextField();
                             break;
                         } else if (gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on is owned by someone else
@@ -111,13 +115,13 @@ public class Controller implements ActionListener {
                     gameModel.getCurrentPlayer().decrementBalance(((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue());
                     gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) +
                             "\nYour new balance is: $" + gameModel.getCurrentPlayer().getBalance() + "\nSpend wisely!");
-                    gameModel.passTurn();
-                    gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 }
                 gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
                 gameView.lookingForWinner();
                 gameView.unlockRollDieButton(); //Lock the roll die button
                 gameView.payToLeaveJail(); //Asks player if they'd like to pay to leave jail, if they're in jail.
+                gameModel.passTurn();
+                gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 break;
             case "Pass Turn":
                 gameView.lockBuyButton();
@@ -154,7 +158,6 @@ public class Controller implements ActionListener {
                     else {
                         JOptionPane.showMessageDialog(gameView, "This is not a valid entry. You just lost your turn...");
                     }
-
                 }
                 gameModel.clear();
                 gameModel.passTurn();

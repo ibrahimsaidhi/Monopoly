@@ -2,7 +2,7 @@ package Model;
 
 import Game.Command;
 import Game.Parser;
-
+import View.BoardOverlay; //Only used to get player's colour as a string
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -179,8 +179,8 @@ public class Game {
          * Print a representation of the game's state
          *
          */
-        return("You are player " + (currentPlayerInt + 1) + "\nYou own the following properties:\n"
-                + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is " + getCurrentPlayer().getBalance());
+        return("\nThere are " + players.size() + " active players in the game currently and you are player " + (currentPlayerInt + 1) + ".\nYou own the following properties: "
+                + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is $" + getCurrentPlayer().getBalance() + " and your color on the board is " + BoardOverlay.getPlayerColor(currentPlayerInt + 1));
     }
 
     public void passTurn() {
@@ -261,6 +261,27 @@ public class Game {
         return false;
     }
 
+    public boolean hasPlayerLandedOnSpecialPosition(){
+        if(getCurrentPlayer().getPosition() == 4){
+            getCurrentPlayer().decrementBalance(200);
+            return true;
+        } else if(getCurrentPlayer().getPosition() == 38){
+            getCurrentPlayer().decrementBalance(100);
+            return true;
+        }
+        return false;
+    }
+
+    public int getSpecialPositionFee(){
+        if(getCurrentPlayer().getPosition() == 4){
+            return 200;
+        } else if(getCurrentPlayer().getPosition() == 38){
+            getCurrentPlayer().decrementBalance(100);
+            return 200;
+        }
+        return -1;
+    }
+
     /**
      * @author John Afolayan
      * This method sets the new position of a player after a die is rolled
@@ -304,6 +325,44 @@ public class Game {
             passTurn();
         }
         update();
+    }
+
+    public void checkingForHouseEligibility(){
+        if (getCurrentPlayer().getBrownProperties() == 2) {
+            setAbleToPurchaseBrown(true);
+        }
+        if (getCurrentPlayer().getPurpleProperties() == 3){
+            setAbleToPurchasePurple(true);
+        }
+        if (getCurrentPlayer().getGreenProperties() == 3){
+            setAbleToPurchaseGreen(true);
+        }
+        if (getCurrentPlayer().getBlueProperties() == 2){
+            setAbleToPurchaseBlue(true);
+        }
+        if (getCurrentPlayer().getLightBlueProperties() == 3){
+            setAbleToPurchaseLightBlue(true);
+        }
+        if (getCurrentPlayer().getYellowProperties() == 3){
+            setAbleToPurchaseYellow(true);
+        }
+        if (getCurrentPlayer().getRedProperties() == 3){
+            setAbleToPurchaseRed(true);
+        }
+        if (getCurrentPlayer().getOrangeProperties() == 3){
+            setAbleToPurchaseOrange(true);
+        }
+    }
+
+    public void clear(){
+        setAbleToPurchaseOrange(false);
+        setAbleToPurchaseBlue(false);
+        setAbleToPurchaseRed(false);
+        setAbleToPurchaseYellow(false);
+        setAbleToPurchasePurple(false);
+        setAbleToPurchaseBrown(false);
+        setAbleToPurchaseGreen(false);
+        setAbleToPurchaseLightBlue(false);
     }
 
     /**

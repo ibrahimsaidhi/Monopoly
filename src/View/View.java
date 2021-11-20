@@ -129,7 +129,7 @@ public class View extends JFrame implements ModelUpdateListener {
 
 
     public void promptUserToPurchase(){
-        rollDieButton.setEnabled(false);
+        lockRollDieButton(); //This doesn't work for some reason but I called it in Controller class and it worked
         int propertyPrice = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
                 "? It costs $" + propertyPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
@@ -162,7 +162,7 @@ public class View extends JFrame implements ModelUpdateListener {
             gameModel.getCurrentPlayer().decrementBalance(totalAmount ); //remove $amount from player being taxed
             ownedBy.incrementBalance(amount); //add $amount to player who owns property
             setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
-            JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + totalAmount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
+            //JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + totalAmount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
             checkPlayerBalance(gameModel.getCurrentPlayer());
             lookingForWinner();
         }
