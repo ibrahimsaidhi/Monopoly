@@ -60,6 +60,7 @@ public class Controller implements ActionListener {
                         }
                     }
                 }
+
                 gameModel.passTurn();
                 gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 goToTheBottomOfTextField();
