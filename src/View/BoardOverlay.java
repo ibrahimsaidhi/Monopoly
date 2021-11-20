@@ -174,6 +174,27 @@ public class BoardOverlay extends JPanel {
         return Color.WHITE;
     }
 
+    public static String getPlayerColor(int num){
+        if(num == 1){
+            return "WHITE";
+        } else if(num == 2){
+            return "CYAN";
+        } else if(num == 3){
+            return "YELLOW";
+        } else if(num == 4){
+            return "MAGENTA";
+        } else if(num == 5){
+            return "GREEN";
+        } else if(num == 6){
+            return "ORANGE";
+        } else if(num == 7){
+            return "RED";
+        } else if(num == 8){
+            return "BLUE";
+        }
+        return "WHITE";
+    }
+
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);

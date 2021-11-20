@@ -2,7 +2,7 @@ package Model;
 
 import Game.Command;
 import Game.Parser;
-
+import View.BoardOverlay; //Only used to get player's colour as a string
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -226,8 +226,8 @@ public class Game {
          * Print a representation of the game's state
          *
          */
-        return("You are player " + (currentPlayerInt + 1) + "\nYou own the following properties:\n"
-                + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is " + getCurrentPlayer().getBalance() + "\nYou have the following houses:\n " + getCurrentPlayer().getOwnedHouses().toString() + ((Property) board.getIndex(getCurrentPlayer().getPosition())).getHouses().size());
+        return("\nThere are " + players.size() + " active players in the game currently and you are player " + (currentPlayerInt + 1) + ".\nYou own the following properties: "
+                + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is $" + getCurrentPlayer().getBalance() + " and your color on the board is " + BoardOverlay.getPlayerColor(currentPlayerInt + 1));
     }
 
     public void passTurn() {
@@ -289,6 +289,46 @@ public class Game {
         return getCurrentPlayer().rollDice();
     }
 
+    public boolean playerIsInJail(){
+        if(board.getIndex(getCurrentPlayer().getPosition()).getName().equalsIgnoreCase("Jail")){
+            return true;
+        }
+        return false;
+    }
+
+    public void freePlayerFromJail(){
+        getCurrentPlayer().setPosition(10); //Sets player position to just visiting jail.
+    }
+
+    public boolean hasPlayerPassedGo(){
+        if((getCurrentPlayer().getPreviousPosition() != 30) && getCurrentPlayer().getPreviousPosition() > getCurrentPlayer().getPosition()){
+            getCurrentPlayer().incrementBalance(200);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasPlayerLandedOnSpecialPosition(){
+        if(getCurrentPlayer().getPosition() == 4){
+            getCurrentPlayer().decrementBalance(200);
+            return true;
+        } else if(getCurrentPlayer().getPosition() == 38){
+            getCurrentPlayer().decrementBalance(100);
+            return true;
+        }
+        return false;
+    }
+
+    public int getSpecialPositionFee(){
+        if(getCurrentPlayer().getPosition() == 4){
+            return 200;
+        } else if(getCurrentPlayer().getPosition() == 38){
+            getCurrentPlayer().decrementBalance(100);
+            return 200;
+        }
+        return -1;
+    }
+
     /**
      * @author John Afolayan
      * This method sets the new position of a player after a die is rolled
@@ -334,33 +374,6 @@ public class Game {
         update();
     }
 
-
-
-    /**
-     * @author John Afolayan, Ibrahim Said
-     * A method to prompt a user to purchase a property or not
-     *//*
-    public void promptUserToPurchase(){
-        int propertyPrice = ((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue();
-        int input = JOptionPane.showConfirmDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + getBoardName() + "? It costs $" + propertyPrice + " and you currently have $" + getCurrentPlayer().getBalance() + ". Click yes to purchase or no to move on.", "Purchase " + getBoardName() + "?", JOptionPane.YES_NO_OPTION);
-        if(input == JOptionPane.YES_OPTION){
-            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
-            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
-            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
-                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
-            checkPlayerBalance(players.get(currentPlayerInt));
-            lookingForWinner();
-            passTurn();
-        } else if (input == JOptionPane.NO_OPTION){
-            checkPlayerBalance(players.get(currentPlayerInt));
-            lookingForWinner();
-            passTurn();
-        }
-        checkPlayerBalance(players.get(currentPlayerInt));
-        lookingForWinner();
-    }*/
-
-
     public void checkingForHouseEligibility(){
         if (getCurrentPlayer().getBrownProperties() == 2) {
             setAbleToPurchaseBrown(true);
@@ -386,7 +399,6 @@ public class Game {
         if (getCurrentPlayer().getOrangeProperties() == 3){
             setAbleToPurchaseOrange(true);
         }
-
     }
 
     public void clear(){
@@ -399,8 +411,6 @@ public class Game {
         setAbleToPurchaseGreen(false);
         setAbleToPurchaseLightBlue(false);
     }
-
-
 
     /**
      * @author John Afolayan
@@ -417,8 +427,6 @@ public class Game {
         }
     }
 
-
-
     /**
      * @author John Afolayan
      * This method returns the current player of the game.
@@ -429,7 +437,6 @@ public class Game {
 
     public void startGame(int numberOfPlayers) {
         initializePlayers(numberOfPlayers);
-        //System.out.println("There will be " + numberOfPlayers + " players this game!");
         newTurn();
     }
 

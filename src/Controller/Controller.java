@@ -34,24 +34,33 @@ public class Controller implements ActionListener {
                 break;
             case "Roll Die":
                 int diceRoll = gameModel.rollDie();
-                gameModel.setCurrentPlayerPosition(diceRoll);
-                gameView.repaint();
-                JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die that added up to " + diceRoll);
-                int pos = gameModel.getCurrentPlayerPosition();
-                gameView.setFeedbackArea("\nYour new position is now " + pos + ": " + gameModel.getBoardName());
-                if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
-                    if (!gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
-                        gameView.unlockBuyButton(); //Unlock the 'Buy' button.
-                        gameView.promptUserToPurchase();
-                        goToTheBottomOfTextField();
-                        break;
+                if(!gameModel.playerIsInJail()) { //If player is not in jail, then roll die is allowed.
+                    gameModel.setCurrentPlayerPosition(diceRoll);
+                    gameView.repaint();
+                    int pos = gameModel.getCurrentPlayerPosition();
+                    gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die, " + firstDieRoll + " and " + secondDieRoll + " which add up to " + (firstDieRoll + secondDieRoll));
+                    gameView.setFeedbackArea("\nYour new position is now " + pos + ": " + gameModel.getBoardName());
+                    if(gameModel.hasPlayerPassedGo()){
+                        gameView.setFeedbackArea("\nCongratulations, you've passed GO! Your balance has increased by $200.");
                     }
-                    else if (gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on is owned by someone else
-                        gameView.taxPlayer();
-                        gameModel.passTurn();
-                        gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
-                        break;
+                    if(gameModel.hasPlayerLandedOnSpecialPosition()){
+                        gameView.setFeedbackArea("\nSince you landed on " + gameModel.getBoardName() + ", a fee of $" + gameModel.getSpecialPositionFee() + " has been deducted from your balance.");
                     }
+                    if(gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
+                        if (!gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
+                            gameView.unlockBuyButton(); //Unlock the 'Buy' button.
+                            gameView.promptUserToPurchase();
+                            gameView.lockRollDieButton();
+                            goToTheBottomOfTextField();
+                            break;
+                        } else if (gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on is owned by someone else
+                            gameView.taxPlayer();
+                            gameModel.passTurn();
+                            gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                            break;
+                        }
+                    }
+
 
                 }
                 else if(gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Utility){
