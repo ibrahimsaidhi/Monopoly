@@ -75,5 +75,9 @@ public class Property extends Square {
         this.value = value;
     }
 
+    public int getTax(){
+        return (int) (this.getValue() * 0.1);
+    }
+
 
 }

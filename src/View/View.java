@@ -3,14 +3,8 @@ package View;
 import Controller.Controller;
 import Model.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class View extends JFrame implements ModelUpdateListener {
@@ -183,7 +177,7 @@ public class View extends JFrame implements ModelUpdateListener {
     }
 
     public void taxRailroad(int tax) {
-        Player ownedBy = gameModel.whoOwnsProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
+        Player ownedBy = gameModel.whoOwnsRailroad((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
         if(!ownedBy.equals(gameModel.getCurrentPlayer())){
             gameModel.getCurrentPlayer().decrementBalance(tax);
             ownedBy.incrementBalance(tax);
@@ -223,13 +217,6 @@ public class View extends JFrame implements ModelUpdateListener {
         }
     }
 
-    /*
-     * This method updates the model
-     */
-    @Override
-    public void modelUpdated() {
-        repaint();
-    }
 
     /**
      * @author John Afolayan
@@ -266,9 +253,67 @@ public class View extends JFrame implements ModelUpdateListener {
         return newGameButton;
     }
 
+    private void goToTheBottomOfTextField() {
+        getFeedbackArea().getCaret().setDot(Integer.MAX_VALUE);
+    }
+
     public int numberOfPlayersRequest() {
         Integer[] choices = new Integer[]{2, 3, 4, 5, 6, 7, 8};
         int choice = askUser(choices);
         return choice;
+    }
+
+    /*
+     * This method updates the model
+     */
+    @Override
+    public void modelUpdated() {
+        repaint();
+    }
+
+    @Override
+    public void dieCount(int value, int position) {
+        JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die that added up to " + value);
+        setFeedbackArea("\nYour new position is now " + position + ": " + gameModel.getBoardName());
+    }
+
+    @Override
+    public void unlockPropertyBuy() {
+        unlockBuyButton();
+        promptPropertyPurchase();
+        goToTheBottomOfTextField();
+    }
+
+    @Override
+    public void unlockUtilityBuy() {
+        unlockBuyButton();
+        promptUtilityPurchase();
+        goToTheBottomOfTextField();
+    }
+
+    @Override
+    public void unlockRailroadBuy() {
+        unlockBuyButton();
+        promptUtilityPurchase();
+        goToTheBottomOfTextField();
+    }
+
+    @Override
+    public void passTurn(int playerNumber) {
+        setFeedbackArea("\nCurrently turn of: Player " + playerNumber + "\n");
+    }
+
+    @Override
+    public void taxProperty(int tax, Player ownedBy, int playerNumber, int balance) {
+        JOptionPane.showMessageDialog(null, "Player " + playerNumber + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + balance);
+        //checkPlayerBalance(playerNumber);
+        lookingForWinner();
+    }
+
+    @Override
+    public void confirmPurchase(int playerNumber, String name, int balance) {
+        lockBuyButton();
+        setFeedbackArea("\nPlayer " + playerNumber + ": Congratulations, you now own: " + name +
+        "\nYour new balance is: $" + balance + "\nSpend wisely!");
     }
 }

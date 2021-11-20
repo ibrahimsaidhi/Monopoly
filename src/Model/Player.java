@@ -21,12 +21,16 @@ public class Player {
     private ArrayList<Utility> ownedUtility = new ArrayList<>();
     private ArrayList<Railroad> ownedRailroads  = new ArrayList<>();
 
+    public enum PlayerType {Human, AI};
+    private PlayerType type;
+
     //constructor
     public Player(int playerNumber){
         //this.name = name;
         this.playerNumber = playerNumber;
         this.balance = 1500; //default starting balance
         this.position = 0; //start at the first square
+        this.type = PlayerType.Human;
     }
 
     /**
@@ -112,6 +116,14 @@ public class Player {
 
     public int totalRailroadsOwned(){
         return ownedRailroads.size();
+    }
+
+    public PlayerType getType() {
+        return type;
+    }
+
+    public void setAI(){
+        this.type = PlayerType.AI;
     }
 
     /**

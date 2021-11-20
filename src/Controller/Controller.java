@@ -32,64 +32,58 @@ public class Controller implements ActionListener {
             case "Roll Die":
                 int diceRoll = gameModel.rollDie();
                 gameModel.setCurrentPlayerPosition(diceRoll);
-                gameView.repaint();
-                JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die that added up to " + diceRoll);
-                int pos = gameModel.getCurrentPlayerPosition();
-                gameView.setFeedbackArea("\nYour new position is now " + pos + ": " + gameModel.getBoardName());
-                if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
-                    if (!gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
-                        gameView.unlockBuyButton(); //Unlock the 'Buy' button.
-                        gameView.promptPropertyPurchase();
-                        goToTheBottomOfTextField();
-                        break;
-                    } else if (gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on is owned by someone else
-                        gameView.taxProperty();
-                        gameModel.passTurn();
-                        gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                    gameModel.checkSquare(diceRoll);
+                    /*if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
+                        if (!gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
+                            gameView.unlockBuyButton(); //Unlock the 'Buy' button.
+                            gameView.promptPropertyPurchase();
+                            goToTheBottomOfTextField();
+                            break;
+                        } else if (gameModel.propertyOwned((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If property landed on is owned by someone else
+                            //gameView.taxProperty();
+                            gameModel.passTurn();
+                            gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
 
-                        break;
-                    }
-                }
-                else if(gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Utility){
-                    if (!gameModel.utilityOwned((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If utility landed on isn't owned
-                        gameView.unlockBuyButton(); //Unlock the 'Buy' button.
-                        gameView.promptUtilityPurchase();
-                        goToTheBottomOfTextField();
-                        break;
-                    }
-                    else if (gameModel.utilityOwned((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If utility landed on is owned by someone else
-                        int tax = gameModel.getUtilityRent(diceRoll);
-                        gameView.taxUtility(tax);
-                        gameModel.passTurn();
-                        gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                            break;
+                        }
+                    } else if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Utility) {
+                        if (!gameModel.utilityOwned((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If utility landed on isn't owned
+                            gameView.unlockBuyButton(); //Unlock the 'Buy' button.
+                            gameView.promptUtilityPurchase();
+                            goToTheBottomOfTextField();
+                            break;
+                        } else if (gameModel.utilityOwned((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If utility landed on is owned by someone else
+                            int tax = gameModel.getUtilityRent(diceRoll);
+                            //gameView.taxUtility(tax);
+                            gameModel.passTurn();
+                            gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
 
-                        break;
-                    }
-                }
-                else if(gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Railroad) {
-                    if (!gameModel.railroadsOwned((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If RailRoad landed on isn't owned
-                        gameView.unlockBuyButton(); //Unlock the 'Buy' button.
-                        gameView.promptRailroadPurchase();
-                        goToTheBottomOfTextField();
-                        break;
-                    }
-                    else if (gameModel.railroadsOwned((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If Railroad landed on is owned by someone else
-                        int tax = gameModel.getRailroadRent();
-                        gameView.taxRailroad(tax);
-                        gameModel.passTurn();
-                        gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                            break;
+                        }
+                    } else if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Railroad) {
+                        if (!gameModel.railroadsOwned((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If RailRoad landed on isn't owned
+                            gameView.unlockBuyButton(); //Unlock the 'Buy' button.
+                            gameView.promptRailroadPurchase();
+                            goToTheBottomOfTextField();
+                            break;
+                        } else if (gameModel.railroadsOwned((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()))) { //If Railroad landed on is owned by someone else
+                            int tax = gameModel.getRailroadRent();
+                            gameView.taxRailroad(tax);
+                            gameModel.passTurn();
+                            gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
 
-                        break;
-                    }
-                }
+                            break;
+                        }
+                    } */
+                    gameModel.passTurn();
+                    //gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                    //goToTheBottomOfTextField();
+                    //gameModel.moveToken();
+                    break;
 
-
-                gameModel.passTurn();
-                gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
-                goToTheBottomOfTextField();
-                //gameModel.moveToken();
-                break;
             case "Buy":
+                gameModel.makePurchase();
+                /*
                 gameView.lockBuyButton();
                 if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
                     gameModel.getCurrentPlayer().addProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
@@ -115,12 +109,12 @@ public class Controller implements ActionListener {
                     gameModel.passTurn();
                     gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 }
-
-                gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
-                gameView.lookingForWinner();
+                */
+                //gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
+                //gameView.lookingForWinner();
                 break;
             case "Pass Turn":
-                gameView.lockBuyButton();
+                /*gameView.lockBuyButton();
                 gameView.unlockRollDieButton();
                 gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
                 gameView.lookingForWinner();
@@ -129,6 +123,7 @@ public class Controller implements ActionListener {
                 gameView.setFeedbackArea("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
                 gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + " it is now your turn");
                 goToTheBottomOfTextField();
+                */
                 break;
             case "State":
                 gameView.setFeedbackArea(gameModel.printState()+"\n");
