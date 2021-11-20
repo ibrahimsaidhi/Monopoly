@@ -60,6 +60,8 @@ public class View extends JFrame implements ModelUpdateListener {
         monopolyBoard = new MonopolyBoard();
         jLayeredPane.add(monopolyBoard, JLayeredPane.DEFAULT_LAYER);
 
+        gameModel.addView(this);
+
         boardOverlay = new BoardOverlay(gameModel);
         jLayeredPane.add(boardOverlay, JLayeredPane.POPUP_LAYER);
         root.add(jLayeredPane, BorderLayout.CENTER);

@@ -41,7 +41,7 @@ public class Game {
 
     }
 
-    private void addView(ModelUpdateListener view){
+    public void addView(ModelUpdateListener view){
         views.add(view);
     }
 
@@ -175,6 +175,7 @@ public class Game {
 
     public int rollDie(){
         int value = getCurrentPlayer().rollDice();
+        setCurrentPlayerPosition(value);
         for(ModelUpdateListener v: this.views) {
             v.dieCount(value, getCurrentPlayerPosition());
         }
