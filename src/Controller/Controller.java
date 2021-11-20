@@ -64,6 +64,49 @@ public class Controller implements ActionListener {
             case "Buy":
                 gameView.lockBuyButton();
                 if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
+                    String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
+                    switch (propertyColor) {
+                        case "green": {
+                            int x = gameModel.getCurrentPlayer().getGreenProperties();
+                            gameModel.getCurrentPlayer().setGreenProperties(x + 1);
+                            break;
+                        }
+                        case "red": {
+                            int x = gameModel.getCurrentPlayer().getRedProperties();
+                            gameModel.getCurrentPlayer().setRedProperties(x + 1);
+                            break;
+                        }
+                        case "blue": {
+                            int x = gameModel.getCurrentPlayer().getBlueProperties();
+                            gameModel.getCurrentPlayer().setBlueProperties(x + 1);
+                            break;
+                        }
+                        case "light blue": {
+                            int x = gameModel.getCurrentPlayer().getLightBlueProperties();
+                            gameModel.getCurrentPlayer().setLightBlueProperties(x + 1);
+                            break;
+                        }
+                        case "yellow": {
+                            int x = gameModel.getCurrentPlayer().getYellowProperties();
+                            gameModel.getCurrentPlayer().setYellowProperties(x + 1);
+                            break;
+                        }
+                        case "purple": {
+                            int x = gameModel.getCurrentPlayer().getPurpleProperties();
+                            gameModel.getCurrentPlayer().setPurpleProperties(x + 1);
+                            break;
+                        }
+                        case "orange": {
+                            int x = gameModel.getCurrentPlayer().getOrangeProperties();
+                            gameModel.getCurrentPlayer().setOrangeProperties(x + 1);
+                            break;
+                        }
+                        case "brown": {
+                            int x = gameModel.getCurrentPlayer().getBrownProperties();
+                            gameModel.getCurrentPlayer().setBrownProperties(x + 1);
+                            break;
+                        }
+                    }
                     gameModel.getCurrentPlayer().addProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
                     gameModel.getCurrentPlayer().decrementBalance(((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue());
                     gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) +
@@ -91,6 +134,58 @@ public class Controller implements ActionListener {
             case "State":
                 gameView.setFeedbackArea(gameModel.printState()+"\n");
                 goToTheBottomOfTextField();
+                break;
+            case "Buy/Sell House":
+                if (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().size() == 4){
+                    JOptionPane.showMessageDialog(gameView, "Sorry, you can only add up to 4 houses to a property.");
+                }
+                else {
+                    gameModel.checkingForHouseEligibility();
+                    String input = JOptionPane.showInputDialog(null, "Are you here to buy or sell?");
+                    if (input.equals("buy")){
+                        gameView.purchaseAHouse();
+                    }
+                    else if (input.equals("sell") && !((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().isEmpty()){
+                        gameView.sellAHouse();
+                    }
+                    else if (input.equals("sell") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().isEmpty()) {
+                        JOptionPane.showMessageDialog(gameView, "There are no houses for you to sell");
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(gameView, "This is not a valid entry. You just lost your turn...");
+                    }
+
+                }
+                gameModel.clear();
+                gameModel.passTurn();
+                gameView.unlockRollDieButton();
+                gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                break;
+            case "Buy/Sell Hotel":
+
+                if (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().size() == 1){
+                    JOptionPane.showMessageDialog(gameView, "Sorry, you can only add 1 hotel to a property at a time");
+                }
+                else {
+                    gameModel.checkingForHouseEligibility();
+                    String input = JOptionPane.showInputDialog(null, "Are you here to buy or sell?");
+                    if (input.equals("buy")){
+                        gameView.purchaseAHotel();
+                    }
+                    else if(input.equals("sell") && !((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().isEmpty()){
+                        gameView.sellAHotel();
+                    }
+                    else if(input.equals("sell") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().isEmpty()){
+                        JOptionPane.showMessageDialog(gameView, "There are no hotels for you to sell");
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(gameView, "This is not a valid entry. You just lost your turn...");
+                    }
+
+                }
+                gameModel.clear();
+                gameModel.passTurn();
+                gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                 break;
             case "Quit Game":
                 gameView.setFeedbackArea("Quitting game...\n");
