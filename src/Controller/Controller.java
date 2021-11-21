@@ -31,10 +31,8 @@ public class Controller implements ActionListener {
                 break;
             case "Roll Die":
                 int diceRoll = gameModel.rollDie();
-                gameModel.setCurrentPlayerPosition(diceRoll);
-                    gameModel.checkSquare(diceRoll);
-                    gameModel.passTurn();
-                    break;
+                gameModel.checkSquare(diceRoll);
+                break;
 
             case "Buy":
                 gameModel.makePurchase();

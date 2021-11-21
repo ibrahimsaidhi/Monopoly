@@ -296,7 +296,7 @@ public class View extends JFrame implements ModelUpdateListener {
     @Override
     public void unlockRailroadBuy() {
         unlockBuyButton();
-        promptUtilityPurchase();
+        promptRailroadPurchase();
         goToTheBottomOfTextField();
     }
 

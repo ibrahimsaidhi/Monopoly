@@ -52,10 +52,10 @@ public class Board {
         board.add(28, new Property("North Carolina Ave", "green", 300));
         board.add(29, new Square("empty 5"));
         board.add(30, new Property("Pennsylvania Ave", "green", 320));
-        board.add(4, new Railroad("Short Line", 200));
-        board.add(31, new Square("empty 6"));
-        board.add(32, new Property("Luxury Tax", "blue", 350));
-        board.add(33, new Property("Boardwalk", "blue", 400));
+        board.add(31, new Railroad("Short Line", 200));
+        board.add(32, new Square("empty 6"));
+        board.add(33, new Property("Luxury Tax", "blue", 350));
+        board.add(34, new Property("Boardwalk", "blue", 400));
 
     }
 

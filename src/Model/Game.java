@@ -251,7 +251,7 @@ public class Game {
 
     public Player whoOwnsRailroad(Railroad railroad){
         for (int i = 0; i < players.size(); i++){
-            if (players.get(i).getOwnedUtility().contains(railroad)){
+            if (players.get(i).getOwnedRailroads().contains(railroad)){
                 return players.get(i);
             }
         }
@@ -259,12 +259,13 @@ public class Game {
     }
 
     public int getUtilityRent(int diceValue){
-        return utility.getValue() * diceValue;
+        int amount = (int) (((Utility) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue()) * diceValue;
+        return amount;
     }
 
     public int getRailroadRent(){
         Player ownedBy = whoOwnsRailroad((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition()));
-        return ownedBy.totalRailroadsOwned() * railroad.getRent();
+        return ownedBy.totalRailroadsOwned() * 25;
     }
 
 
@@ -423,13 +424,16 @@ public class Game {
      */
     public void taxRailroad(int tax) {
         Player ownedBy = whoOwnsRailroad((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition()));
+        if(!ownedBy.equals(getCurrentPlayer())){
             getCurrentPlayer().decrementBalance(tax);
             ownedBy.incrementBalance(tax);
             //JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": You've landed on a railroad owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + getCurrentPlayer().getBalance());
+
+            for(ModelUpdateListener v: this.views) {
+                v.taxProperty(tax, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance());
+            }
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
-        for(ModelUpdateListener v: this.views) {
-            v.taxProperty(tax, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance());
         }
     }
 
@@ -481,7 +485,6 @@ public class Game {
                     v.unlockRailroadBuy();
                 }
             } else if (railroadsOwned((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition()))) { //If Railroad landed on is owned by someone else
-                int tax = getRailroadRent();
                 //gameView.taxRailroad(tax);
                 //gameModel.passTurn();
                 //gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");

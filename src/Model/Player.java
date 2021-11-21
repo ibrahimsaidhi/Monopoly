@@ -111,6 +111,9 @@ public class Player {
     }
 
     public ArrayList<Railroad> getOwnedRailroads() {
+        for (int i =0; i < ownedRailroads.size();i++){
+            System.out.println(ownedRailroads.get(i));
+        }
         return ownedRailroads;
     }
 
@@ -137,6 +140,8 @@ public class Player {
      * Calculates a random die roll based on 2 die
      */
     public Integer rollDice() {
+        /**
+
         Integer numberOfDiceToRoll = 2; //rolling two dices
         List<Integer> diceRolls = new ArrayList<>();
         int dieRoll = 0;
@@ -152,6 +157,8 @@ public class Player {
             rollDice();
         }
         return 2;
+         */
+        return 5;
     }
 
 }
