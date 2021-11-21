@@ -1,10 +1,8 @@
 package Model;
 
-import Game.Command;
 import Game.Parser;
 import View.BoardOverlay; //Only used to get player's colour as a string
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,16 +21,18 @@ public class Game {
     private Parser parser;
     private Property property;
     private Player currentPlayer;
+    private Player currentAIPlayer;
     private int currentPlayerInt = 0;
-    private List<Player> players;
+    private List<Player> humanPlayers;
+    private List<Player> aiPlayers;
+    private List<Player> combinedPlayers;
     private Utility utility;
     private Railroad railroad;
     private ModelUpdateListener viewer;
-    private int numberOfPlayers;
-    private String newPlayerName;
-    private InputStream inputStream;
+    private int numberOfHumanPlayers;
+    private int numberOfAIPlayers;
+    private int totalNumberOfPlayers;
     private Board board = new Board();
-    boolean wantToQuit = false;
     boolean ableToPurchaseRed = false;
     boolean ableToPurchaseBlue = false;
     boolean ableToPurchaseGreen = false;
@@ -44,7 +44,9 @@ public class Game {
 
     public Game() {
         parser = new Parser();
-        players = new ArrayList<>();
+        humanPlayers = new ArrayList<>();
+        aiPlayers = new ArrayList<>();
+        combinedPlayers = new ArrayList<>();
     }
 
     public boolean isAbleToPurchaseBlue() {
@@ -111,45 +113,19 @@ public class Game {
         this.ableToPurchaseYellow = ableToPurchaseYellow;
     }
 
-    private void printCurrentPlayer() {
-        System.out.println("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
-        System.out.println("The current player is " + getCurrentPlayer().getName() + "\n");
-    }
-
-    public boolean processCommand(Command command) {
-
-        if (command.isUnknown()) {
-            System.out.println("Unknown command");
-            return false;
-        }
-
-        String commandWord = command.getCommandWord();
-        switch (commandWord) {
-            case "move":
-                moveToken();
-                break;
-            case "pass":
-                passTurn();
-                break;
-            case "state":
-                printState();
-                break;
-            case "quit":
-                wantToQuit = true;
-                break;
-        }
-
-        return wantToQuit;
-    }
-
     /**
      * @author John Afolayan
      * @param property Property a player lands on
      * This method checks to see if a property is owned.
      */
     public boolean propertyOwned(Property property){
-        for (int i = 0; i < players.size(); i++){
-            if (players.get(i).getOwnedProperties().contains(property)){
+        for (int i = 0; i < humanPlayers.size(); i++){ //Check for humans
+            if (humanPlayers.get(i).getOwnedProperties().contains(property)){
+                return true;
+            }
+        }
+        for (int i = 0; i < aiPlayers.size(); i++){ //Check for ai list
+            if (aiPlayers.get(i).getOwnedProperties().contains(property)){
                 return true;
             }
         }
@@ -157,8 +133,13 @@ public class Game {
     }
 
     public boolean utilityOwned(Utility utility){
-        for (int i = 0; i < players.size(); i++){
-            if (players.get(i).getOwnedUtility().contains(utility)){
+        for (int i = 0; i < humanPlayers.size(); i++){
+            if (humanPlayers.get(i).getOwnedUtility().contains(utility)){
+                return true;
+            }
+        }
+        for (int i = 0; i < aiPlayers.size(); i++){
+            if (aiPlayers.get(i).getOwnedUtility().contains(utility)){
                 return true;
             }
         }
@@ -166,8 +147,13 @@ public class Game {
     }
 
     public boolean railroadsOwned(Railroad railroad){
-        for (int i = 0; i < players.size(); i++){
-            if (players.get(i).getOwnedRailroads().contains(railroad)){
+        for (int i = 0; i < humanPlayers.size(); i++){
+            if (humanPlayers.get(i).getOwnedRailroads().contains(railroad)){
+                return true;
+            }
+        }
+        for (int i = 0; i < aiPlayers.size(); i++){
+            if (aiPlayers.get(i).getOwnedRailroads().contains(railroad)){
                 return true;
             }
         }
@@ -180,27 +166,27 @@ public class Game {
      * This method checks who owns the property landed on.
      */
     public Player whoOwnsProperty(Property property){
-        for (int i = 0; i < players.size(); i++){
-            if (players.get(i).getOwnedProperties().contains(property)){
-                return players.get(i);
+        for (int i = 0; i < humanPlayers.size(); i++){
+            if (humanPlayers.get(i).getOwnedProperties().contains(property)){
+                return humanPlayers.get(i);
             }
         }
         return null;
     }
 
     public Player whoOwnsUtility(Utility utility){
-        for (int i = 0; i < players.size(); i++){
-            if (players.get(i).getOwnedUtility().contains(utility)){
-                return players.get(i);
+        for (int i = 0; i < humanPlayers.size(); i++){
+            if (humanPlayers.get(i).getOwnedUtility().contains(utility)){
+                return humanPlayers.get(i);
             }
         }
         return null;
     }
 
     public Player whoOwnsRailroad(Railroad railroad) {
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getOwnedUtility().contains(railroad)) {
-                return players.get(i);
+        for (int i = 0; i < humanPlayers.size(); i++) {
+            if (humanPlayers.get(i).getOwnedUtility().contains(railroad)) {
+                return humanPlayers.get(i);
             }
         }
         return null;
@@ -226,7 +212,7 @@ public class Game {
          * Print a representation of the game's state
          *
          */
-        return("\nThere are " + players.size() + " active players in the game currently and you are player " + (currentPlayerInt + 1) + ".\nYou own the following properties: "
+        return("\nThere are " + humanPlayers.size() + " active players in the game currently and you are player " + (currentPlayerInt + 1) + ".\nYou own the following properties: "
                 + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is $" + getCurrentPlayer().getBalance() + " and your color on the board is " + BoardOverlay.getPlayerColor(currentPlayerInt + 1));
     }
 
@@ -237,17 +223,12 @@ public class Game {
          * Passes turn to the next player
          *
          */
-        this.currentPlayerInt = (this.currentPlayerInt == (this.numberOfPlayers - 1)) ? 0 : this.currentPlayerInt + 1;
-        this.currentPlayer = this.players.get(this.currentPlayerInt);
+        this.currentPlayerInt = (this.currentPlayerInt == (this.totalNumberOfPlayers - 1)) ? 0 : this.currentPlayerInt + 1;
+        this.currentPlayer = this.combinedPlayers.get(this.currentPlayerInt);
         //newTurn();
     }
 
-    private void newTurn() {
-        printCurrentPlayer();
-        //parser.showCommands();
-    }
-
-    public void initializePlayers(int numberOfPlayers) {
+    public void initializePlayers(int humanPlayers, int aiPlayers) {
         /**
          * @author John Afolayan
          *
@@ -255,10 +236,14 @@ public class Game {
          * initializes them accordingly.
          *
          */
-
-        this.numberOfPlayers = numberOfPlayers;
-        createPlayers(numberOfPlayers);
-        this.currentPlayer = players.get(0);
+        this.numberOfHumanPlayers = humanPlayers;
+        this.numberOfAIPlayers = aiPlayers;
+        this.totalNumberOfPlayers = (humanPlayers + aiPlayers);
+        createHumanPlayers(numberOfHumanPlayers);
+        createAIPlayers(numberOfAIPlayers);
+        combinedPlayers.addAll(getHumanPlayers());
+        combinedPlayers.addAll(getAIPlayers());
+        this.currentPlayer = combinedPlayers.get(0);
     }
 
     private void update() {
@@ -274,15 +259,30 @@ public class Game {
      * @author John Afolayan
      * This method creates the specified amount players for a new game
      */
-    public void createPlayers(int numberOfPlayers) {
-        players = new ArrayList<Player>();
+    public void createHumanPlayers(int numberOfPlayers) {
+        humanPlayers = new ArrayList<Player>();
         for (int i = 1; i <= numberOfPlayers; i++) {
-            players.add(new Player(i));
+            humanPlayers.add(new Player(i));
         }
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    /**
+     * @author John Afolayan
+     * This method creates the specified amount players for a new game
+     */
+    public void createAIPlayers(int numberOfPlayers) {
+        aiPlayers = new ArrayList<Player>();
+        for (int i = 1; i <= numberOfPlayers; i++) {
+            aiPlayers.add(new Player(numberOfHumanPlayers+i));
+        }
+    }
+
+    public List<Player> getHumanPlayers() {
+        return humanPlayers;
+    }
+
+    public List<Player> getAIPlayers() {
+        return aiPlayers;
     }
 
     public int rollDie(){
@@ -309,10 +309,10 @@ public class Game {
     }
 
     public boolean hasPlayerLandedOnSpecialPosition(){
-        if(getCurrentPlayer().getPosition() == 4){
+        if(getCurrentPlayer().getPosition() == 4){ //If player lands on Income Tax, they must pay $200
             getCurrentPlayer().decrementBalance(200);
             return true;
-        } else if(getCurrentPlayer().getPosition() == 38){
+        } else if(getCurrentPlayer().getPosition() == 38){ //If player lands on Luxury Tax, they must pay $200
             getCurrentPlayer().decrementBalance(100);
             return true;
         }
@@ -417,11 +417,11 @@ public class Game {
      * This method removes a banrupt player from the game.
      */
     public void removeBankruptPlayer(){
-        for (final Iterator<Player> iterator = players.iterator(); iterator.hasNext();) {
+        for (final Iterator<Player> iterator = humanPlayers.iterator(); iterator.hasNext();) {
             Player temp = iterator.next();
             if (temp.getBalance() <= 0) {
                 iterator.remove();
-                this.numberOfPlayers -= 1;
+                this.numberOfHumanPlayers -= 1;
                 this.currentPlayerInt -= 1;
             }
         }
@@ -431,13 +431,8 @@ public class Game {
      * @author John Afolayan
      * This method returns the current player of the game.
      */
-    public Player getCurrentPlayer() {
+    public Player getCurrentPlayer(){
         return currentPlayer;
-    }
-
-    public void startGame(int numberOfPlayers) {
-        initializePlayers(numberOfPlayers);
-        newTurn();
     }
 
     public void quitGame() {
