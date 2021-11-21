@@ -1,0 +1,184 @@
+Index: src/Model/Game.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Model;\r\n\r\nimport Game.Command;\r\nimport Game.Parser;\r\n\r\nimport javax.swing.*;\r\nimport java.io.InputStream;\r\nimport java.util.ArrayList;\r\nimport java.util.Iterator;\r\nimport java.util.List;\r\nimport java.util.Scanner;\r\n\r\n\r\n/**\r\n * @author John Afolayan, Hamza Zafar, Ibrahim Said\r\n * @version 1.1\r\n * This class acts as the Model of the game. Contains the contents of the user interface.\r\n * It also evaluates and executes the commands that the parser returns.\r\n */\r\n\r\npublic class Game {\r\n    private Parser parser;\r\n    private Property property;\r\n    private Player currentPlayer;\r\n    private int currentPlayerInt = 0;\r\n    private List<Player> players;\r\n    private ModelUpdateListener viewer;\r\n    private int numberOfPlayers;\r\n    private String newPlayerName;\r\n    private InputStream inputStream;\r\n    private Board board = new Board();\r\n    boolean wantToQuit = false;\r\n    public Game() {\r\n        parser = new Parser();\r\n    }\r\n\r\n\r\n    private void printCurrentPlayer() {\r\n        System.out.println(\"\\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!\");\r\n        System.out.println(\"The current player is \" + getCurrentPlayer().getName() + \"\\n\");\r\n    }\r\n\r\n    public boolean processCommand(Command command) {\r\n\r\n        if (command.isUnknown()) {\r\n            System.out.println(\"Unknown command\");\r\n            return false;\r\n        }\r\n\r\n        String commandWord = command.getCommandWord();\r\n        switch (commandWord) {\r\n            case \"move\":\r\n                moveToken();\r\n                break;\r\n            case \"pass\":\r\n                passTurn();\r\n                break;\r\n            case \"state\":\r\n                printState();\r\n                break;\r\n            case \"quit\":\r\n                wantToQuit = true;\r\n                break;\r\n        }\r\n\r\n        return wantToQuit;\r\n    }\r\n\r\n    private boolean propertyOwned(Property property){\r\n        for (int i = 0; i < players.size(); i++){\r\n            if (players.get(i).getOwnedProperties().contains(property)){\r\n                return true;\r\n            }\r\n        }\r\n        return false;\r\n    }\r\n\r\n    private Player whoOwnsProperty(Property property){\r\n        for (int i = 0; i < players.size(); i++){\r\n            if (players.get(i).getOwnedProperties().contains(property)){\r\n                return players.get(i);\r\n            }\r\n        }\r\n        return null;\r\n    }\r\n\r\n    public String printState() {\r\n        /**\r\n         * @author John Afolayan\r\n         *\r\n         * Print a representation of the game's state\r\n         *\r\n         */\r\n        return(\"You are player \" + (currentPlayerInt + 1) + \"\\nYou own the following properties:\\n\"\r\n                + getCurrentPlayer().getOwnedProperties().toString() + \"\\nYour current balance is \" + getCurrentPlayer().getBalance());\r\n    }\r\n\r\n    public void passTurn() {\r\n        /**\r\n         * @author John Afolayan\r\n         *\r\n         * Passes turn to the next player\r\n         *\r\n         */\r\n        this.currentPlayerInt = (this.currentPlayerInt == (this.numberOfPlayers - 1)) ? 0 : this.currentPlayerInt + 1;\r\n        this.currentPlayer = this.players.get(this.currentPlayerInt);\r\n        //newTurn();\r\n    }\r\n\r\n    private void newTurn() {\r\n        printCurrentPlayer();\r\n        //parser.showCommands();\r\n    }\r\n\r\n    public void initializePlayers(int numberOfPlayers) {\r\n        /**\r\n         * @author John Afolayan\r\n         *\r\n         * Ask the user for the number of players that will be playing, and then\r\n         * initializes them accordingly.\r\n         *\r\n         */\r\n\r\n        this.numberOfPlayers = numberOfPlayers;\r\n        createPlayers(numberOfPlayers);\r\n        this.currentPlayer = players.get(0);\r\n        update();\r\n    }\r\n\r\n    private void update() {\r\n        if (this.viewer != null)\r\n            this.viewer.modelUpdated();\r\n    }\r\n\r\n    public void setViewer(ModelUpdateListener viewer) {\r\n        this.viewer = viewer;\r\n    }\r\n\r\n    public void createPlayers(int numberOfPlayers) {\r\n        players = new ArrayList<Player>();\r\n        for (int i = 1; i <= numberOfPlayers; i++) {\r\n            players.add(new Player(i));\r\n        }\r\n    }\r\n\r\n    public List<Player> getPlayers() {\r\n        return players;\r\n    }\r\n\r\n    private void printListOfCurrentPlayerStats() {\r\n        System.out.println(\"Player \" + (currentPlayerInt + 1) + \" currently owns the following properties: \");\r\n        System.out.println(getCurrentPlayer().getOwnedProperties().toString()); //Prints all properties which currentPlayer owns\r\n    }\r\n\r\n    public int rollDie(){\r\n        return getCurrentPlayer().rollDice();\r\n    }\r\n\r\n    public void setCurrentPlayerPosition(int pos) {\r\n        getCurrentPlayer().setPosition((getCurrentPlayerPosition() + pos) % board.size());\r\n    }\r\n\r\n    public int getCurrentPlayerPosition() {\r\n        return getCurrentPlayer().getPosition();\r\n    }\r\n\r\n    public String getBoardName() {\r\n        return board.getIndex(getCurrentPlayer().getPosition()).getName();\r\n    }\r\n\r\n    public void moveToken() {\r\n        /**\r\n         * @author John Afolayan and Ibrahim Said\r\n         *\r\n         * Checks the syntax of the command passed and moves token n amount of times\r\n         * where n is the value which is rolled on a dice.\r\n         *\r\n         */\r\n\r\n        if (board.getIndex(getCurrentPlayer().getPosition()) instanceof Property){\r\n            if(!propertyOwned((Property) board.getIndex(getCurrentPlayer().getPosition()))){\r\n                promptUserToPurchase();\r\n            } else if(propertyOwned((Property) board.getIndex(getCurrentPlayer().getPosition()))){\r\n                taxPlayer();\r\n                passTurn();\r\n            }\r\n        }\r\n        else if (board.getIndex(getCurrentPlayer().getPosition())instanceof Square) {\r\n            passTurn();\r\n        }\r\n    }\r\n\r\n    /**\r\n     * @author John Afolayan\r\n     * A method to prompt a user to purchase a property or not\r\n     */\r\n    public void promptUserToPurchase(){\r\n        int propertyPrice = ((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue();\r\n        int input = JOptionPane.showConfirmDialog(null, \"Player \" + getCurrentPlayer().getPlayerNumber() + \": Would you like to purchase \" + getBoardName() + \"? It costs $\" + propertyPrice + \" and you currently have $\" + getCurrentPlayer().getBalance() + \". Click yes to purchase or no to move on.\", \"Purchase \" + getBoardName() + \"?\", JOptionPane.YES_NO_OPTION);\r\n        if(input == JOptionPane.YES_OPTION){\r\n            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));\r\n            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());\r\n            JOptionPane.showMessageDialog(null, \"Player \" + getCurrentPlayer().getPlayerNumber() + \": Congratulations, you now own property: \" + (Property) board.getIndex(getCurrentPlayer().getPosition())\r\n                    + \". Your new balance is: $\" + getCurrentPlayer().getBalance() + \"\\nSpend wisely!\");\r\n            checkPlayerBalance(players.get(currentPlayerInt));\r\n            lookingForWinner();\r\n            passTurn();\r\n        } else if (input == JOptionPane.NO_OPTION){\r\n            checkPlayerBalance(players.get(currentPlayerInt));\r\n            lookingForWinner();\r\n            passTurn();\r\n        }\r\n        checkPlayerBalance(players.get(currentPlayerInt));\r\n        lookingForWinner();\r\n    }\r\n\r\n    /**\r\n     * @author John Afolayan\r\n     * This method taxes a player whenver they land on another player's property\r\n     */\r\n    public void taxPlayer(){\r\n        Player ownedBy = whoOwnsProperty((Property) board.getIndex(getCurrentPlayer().getPosition())); //player who owns property\r\n        if(!ownedBy.equals(players.get(currentPlayerInt))){ //If current player who lands on property doesn't own that property, tax them.\r\n            int amount = (int) (((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue() * 0.1); //amount to decrement by, 10%\r\n            getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed\r\n            ownedBy.incrementBalance(amount); //add $amount to player who owns property\r\n            JOptionPane.showMessageDialog(null, \"Player \" + getCurrentPlayer().getPlayerNumber() + \": You've landed on a property owned by player \"+  ownedBy.getPlayerNumber() + \". You've been taxed $\" + amount + \", your new balance is $\" + getCurrentPlayer().getBalance());\r\n            checkPlayerBalance(getCurrentPlayer());\r\n            lookingForWinner();\r\n        }\r\n    }\r\n\r\n    /**\r\n     * @author Ibrahim Said\r\n     * This method checks the balance of a player and determines if they are eliminated or not.\r\n     */\r\n    public void checkPlayerBalance(Player player){\r\n        int balance = player.getBalance();\r\n        if (balance <= 0){\r\n            removeBankruptPlayer();\r\n            JOptionPane.showMessageDialog(null, \"Player \" + getCurrentPlayer().getPlayerNumber() + \": You are now bankrupt! You have been kicked out of the game. Too bad...\");\r\n        }\r\n    }\r\n\r\n    public void lookingForWinner(){\r\n        if (players.size() == 1){\r\n            JOptionPane.showMessageDialog(null, \"Player \" + players.get(0).getPlayerNumber() + \" has won the game! Congratulations\");\r\n            System.exit(0);\r\n        }\r\n    }\r\n\r\n    public void removeBankruptPlayer(){\r\n        for (final Iterator<Player> iterator = players.iterator(); iterator.hasNext();) {\r\n            Player temp = iterator.next();\r\n            if (temp.getBalance() <= 0) {\r\n                iterator.remove();\r\n                this.numberOfPlayers -= 1;\r\n                this.currentPlayerInt -= 1;\r\n            }\r\n        }\r\n    }\r\n\r\n    public Player getCurrentPlayer() {\r\n        return currentPlayer;\r\n    }\r\n\r\n    public void startGame(int numberOfPlayers) {\r\n        initializePlayers(numberOfPlayers);\r\n        //System.out.println(\"There will be \" + numberOfPlayers + \" players this game!\");\r\n        newTurn();\r\n    }\r\n\r\n    public void quitGame() {\r\n        System.exit(0);\r\n    }\r\n\r\n    /*public static void main(String[] args) {\r\n        Game game = new Game();\r\n        game.play();\r\n    }*/\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Model/Game.java b/src/Model/Game.java
+--- a/src/Model/Game.java	
++++ b/src/Model/Game.java	
+@@ -30,6 +30,14 @@
+     private InputStream inputStream;
+     private Board board = new Board();
+     boolean wantToQuit = false;
++    int greenProperties = 0;
++    int yellowProperties = 0;
++    int blueProperties = 0;
++    int brownProperties = 0;
++    int purpleProperties = 0;
++    int lightBlueProperties = 0;
++    int orangeProperties = 0;
++    int redProperties = 0;
+     public Game() {
+         parser = new Parser();
+     }
+@@ -180,6 +188,7 @@
+         if (board.getIndex(getCurrentPlayer().getPosition()) instanceof Property){
+             if(!propertyOwned((Property) board.getIndex(getCurrentPlayer().getPosition()))){
+                 promptUserToPurchase();
++                promptPurchaseOfAHouse();
+             } else if(propertyOwned((Property) board.getIndex(getCurrentPlayer().getPosition()))){
+                 taxPlayer();
+                 passTurn();
+@@ -196,22 +205,148 @@
+      */
+     public void promptUserToPurchase(){
+         int propertyPrice = ((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue();
++        String propertyColor = ((Property) board.getIndex(getCurrentPlayer().getPosition())).getColor();
++
+         int input = JOptionPane.showConfirmDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + getBoardName() + "? It costs $" + propertyPrice + " and you currently have $" + getCurrentPlayer().getBalance() + ". Click yes to purchase or no to move on.", "Purchase " + getBoardName() + "?", JOptionPane.YES_NO_OPTION);
+-        if(input == JOptionPane.YES_OPTION){
++        if(input == JOptionPane.YES_OPTION && propertyColor.equals("purple")){
+             getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
+             getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
+             JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
+                     + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
++            currentPlayer.setPurpleProperties(currentPlayer.getPurpleProperties() + 1);
+             checkPlayerBalance(players.get(currentPlayerInt));
+             lookingForWinner();
+             passTurn();
+-        } else if (input == JOptionPane.NO_OPTION){
++        }
++        else if(input == JOptionPane.YES_OPTION && propertyColor.equals("green")){
++            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
++            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
++            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
++                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
++            currentPlayer.setGreenProperties(currentPlayer.getGreenProperties() + 1);
+             checkPlayerBalance(players.get(currentPlayerInt));
+             lookingForWinner();
+             passTurn();
+         }
++        else if(input == JOptionPane.YES_OPTION && propertyColor.equals("blue")){
++            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
++            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
++            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
++                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
++            currentPlayer.setBlueProperties(currentPlayer.getBlueProperties() + 1);
++            checkPlayerBalance(players.get(currentPlayerInt));
++            lookingForWinner();
++            passTurn();
++        }
++        else if(input == JOptionPane.YES_OPTION && propertyColor.equals("orange")){
++            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
++            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
++            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
++                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
++            currentPlayer.setOrangeProperties(currentPlayer.getOrangeProperties() + 1);
++            checkPlayerBalance(players.get(currentPlayerInt));
++            lookingForWinner();
++            passTurn();
++        }
++        else if(input == JOptionPane.YES_OPTION && propertyColor.equals("light blue")){
++            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
++            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
++            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
++                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
++            currentPlayer.setLightBlueProperties(currentPlayer.getLightBlueProperties() + 1);
++            checkPlayerBalance(players.get(currentPlayerInt));
++            lookingForWinner();
++            passTurn();
++        }
++        else if(input == JOptionPane.YES_OPTION && propertyColor.equals("red")){
++            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
++            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
++            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
++                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
++            currentPlayer.setRedProperties(currentPlayer.getRedProperties() + 1);
++            checkPlayerBalance(players.get(currentPlayerInt));
++            lookingForWinner();
++            passTurn();
++        }
++        else if(input == JOptionPane.YES_OPTION && propertyColor.equals("yellow")){
++            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
++            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
++            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
++                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
++            currentPlayer.setBrownProperties(currentPlayer.getYellowProperties() + 1);
++            checkPlayerBalance(players.get(currentPlayerInt));
++            lookingForWinner();
++            passTurn();
++        }
++        else if(input == JOptionPane.YES_OPTION && propertyColor.equals("brown")){
++            getCurrentPlayer().addProperty((Property) board.getIndex(getCurrentPlayer().getPosition()));
++            getCurrentPlayer().decrementBalance(((Property) board.getIndex(getCurrentPlayer().getPosition())).getValue());
++            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + (Property) board.getIndex(getCurrentPlayer().getPosition())
++                    + ". Your new balance is: $" + getCurrentPlayer().getBalance() + "\nSpend wisely!");
++            getCurrentPlayer().setBrownProperties(getCurrentPlayer().getBrownProperties() + 1);
++            checkPlayerBalance(players.get(currentPlayerInt));
++            lookingForWinner();
++            passTurn();
++        }
++        else if (input == JOptionPane.NO_OPTION){
++            checkPlayerBalance(players.get(currentPlayerInt));
++            lookingForWinner();
++            passTurn();
++        }
+         checkPlayerBalance(players.get(currentPlayerInt));
+         lookingForWinner();
++    }
++
++    public void promptPurchaseOfAHouse(){
++        if (currentPlayer.getGreenProperties() == 3) {
++            int price = 200;
++            String name = "Green House";
++            String color = "green";
++            //players.get(currentPlayerInt).addHouse(new House(name, color, price));
++        }
++        else if (currentPlayer.getRedProperties() == 3) {
++            int price = 150;
++            String name = "Red House";
++            String color = "red";
++            //players.get(currentPlayerInt).addHouse(new House(name, color, price));
++        }
++        else if (currentPlayer.getBlueProperties() == 3) {
++            int price = 200;
++            String name = "Blue House";
++            String color = "blue";
++            //players.get(currentPlayerInt).addHouse(new House(name, color, price));
++        }
++        else if (currentPlayer.getBrownProperties() == 2) {
++            int price = 50;
++            String name = "Brown House";
++            String color = "Brown";
++            System.out.println("You have now unlocked the ability to purchase brown houses. Would you like to buy one right now? It would cost "+ price);
++            //players.get(currentPlayerInt).addHouse(new House(name, color, price));
++        }
++        else if (currentPlayer.getLightBlueProperties() == 3) {
++            int price = 50;
++            String name = "Light Blue House";
++            String color = "light blue";
++            //players.get(currentPlayerInt).addHouse(new House(name, color, price));
++        }
++        else if (currentPlayer.getOrangeProperties() == 3) {
++            int price = 100;
++            String name = "Orange House";
++            String color = "Orange";
++            //players.get(currentPlayerInt).addHouse(new House(name, color, price));
++        }
++        else if (currentPlayer.getYellowProperties() == 3) {
++            int price = 150;
++            String name = "Yellow House";
++            String color = "Yellow";
++            //players.get(currentPlayerInt).addHouse(new House(name, color, price));
++        }
++        else if (currentPlayer.getPurpleProperties() == 3) {
++            int price = 100;
++            String name = "Purple House";
++            String color = "Purple";
++            //players.get(currentPlayerInt).addHouse(new House(name, color, price));
++        }
+     }
+ 
+     /**

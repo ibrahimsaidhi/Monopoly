@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="066efbef-99a7-41cd-a1de-6b89a3bb7d4e" name="Default Changelist" comment="minor controller changes" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="origin/John's_Milestone_3" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="ibrahim_milestone3" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="20YfBuGbf406d2O8hW0Yfsz8In3" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="jdk.selected.JAVA_MODULE" value="adopt-openjdk-11" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RunManager" selected="Application.View">
+    <configuration name="View" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="View.View" />
+      <module name="Monopoly2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="View.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameTest.testNumOfInitializedPlayers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Monopoly2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="GameModelTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="GameModelTest" />
+      <option name="MAIN_CLASS_NAME" value="GameModelTest.GameTest" />
+      <option name="METHOD_NAME" value="testNumOfInitializedPlayers" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameTest.testRemovalOfBankruptPlayer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Monopoly2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="GameModelTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="GameModelTest" />
+      <option name="MAIN_CLASS_NAME" value="GameModelTest.GameTest" />
+      <option name="METHOD_NAME" value="testRemovalOfBankruptPlayer" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameTest.testSearchForAWinner" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Monopoly2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="GameModelTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="GameModelTest" />
+      <option name="MAIN_CLASS_NAME" value="GameModelTest.GameTest" />
+      <option name="METHOD_NAME" value="testSearchForAWinner" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameTest.testSettingAPlayerPosition" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Monopoly2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="GameModelTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="GameModelTest" />
+      <option name="MAIN_CLASS_NAME" value="GameModelTest.GameTest" />
+      <option name="METHOD_NAME" value="testSettingAPlayerPosition" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.View" />
+        <item itemvalue="JUnit.GameTest.testSettingAPlayerPosition" />
+        <item itemvalue="JUnit.GameTest.testSearchForAWinner" />
+        <item itemvalue="JUnit.GameTest.testRemovalOfBankruptPlayer" />
+        <item itemvalue="JUnit.GameTest.testNumOfInitializedPlayers" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="066efbef-99a7-41cd-a1de-6b89a3bb7d4e" name="Default Changelist" comment="" />
+      <created>1636226309540</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1636226309540</updated>
+    </task>
+    <task id="LOCAL-00001" summary="implemented the roll of a dice in the Controller class">
+      <created>1636228431071</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1636228431071</updated>
+    </task>
+    <task id="LOCAL-00002" summary="small changes to the functionality of view, game and controller">
+      <created>1636232203350</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1636232203350</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Functioning game with bugs to correct.">
+      <created>1636237105088</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1636237105088</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Functioning game with bugs to correct.">
+      <created>1636238921336</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1636238921336</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Functioning game with bugs to correct.">
+      <created>1636245275032</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1636245275032</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Functioning game with bugs to correct.">
+      <created>1636246439429</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1636246439429</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Functioning game with bugs to correct.">
+      <created>1636247883474</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1636247883474</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Fixed Controller such that it now implements the game loop with no bugs">
+      <created>1636295925406</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1636295925406</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Implemented test cases 7 methods of class Game (the model)">
+      <created>1636302044653</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1636302044653</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Game is now functional (edited text errors that were popping up)">
+      <created>1636314955480</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1636314955480</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Added more board properties to Board so that it now has the same amount as the official Monopoly board">
+      <created>1636316675700</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1636316675700</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Added more board properties to Board so that it now has the same amount as the official Monopoly board">
+      <created>1636317659874</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1636317659874</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Added JavaDoc to necessary classes and methods">
+      <created>1636419708514</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1636419708515</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Added JavaDoc to necessary classes and methods and corrected name error">
+      <created>1636419886771</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1636419886771</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Created class House and started implementing logic behind house functionality">
+      <created>1637268068745</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1637268068745</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Created class House and started implementing logic behind house functionality">
+      <created>1637275522164</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1637275522164</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Bugs in loop: Allows for houses to be added inside once eligibility is valid, but only does so for the first cycle around the board.">
+      <created>1637283058882</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1637283058882</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Fixed bugs with House. It is now functional. Currently operating on Hotel functionality">
+      <created>1637339717273</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1637339717273</updated>
+    </task>
+    <task id="LOCAL-00019" summary="House and Hotel are functional. The implementation of selling houses and hotels are the only thing left.">
+      <created>1637355338354</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1637355338354</updated>
+    </task>
+    <task id="LOCAL-00020" summary="House and Hotel are completely functional with both the selling and buying of each object">
+      <created>1637364558426</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1637364558426</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Added statements that make it so that you cannot attempt to buy a hotel or house at a square that isn't a property">
+      <created>1637435827415</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1637435827415</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Added statements that make it so that you cannot attempt to buy a hotel or house at a square that isn't a property">
+      <created>1637437095570</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1637437095570</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Full operating game including the components of Milestone 3">
+      <created>1637440118786</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1637440118786</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Full operating game including the components of Milestone 3">
+      <created>1637442787934</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1637442787934</updated>
+    </task>
+    <task id="LOCAL-00025" summary="small changes to accommodate for beginning of AI implementation">
+      <created>1637457169515</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1637457169515</updated>
+    </task>
+    <task id="LOCAL-00026" summary="small changes to accommodate for beginning of AI implementation">
+      <created>1637520568566</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1637520568566</updated>
+    </task>
+    <task id="LOCAL-00027" summary="new branch for refactoring MVC pattern">
+      <created>1637520718289</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1637520718289</updated>
+    </task>
+    <task id="LOCAL-00028" summary="minor controller changes">
+      <created>1637522550506</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1637522550507</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="implemented the roll of a dice in the Controller class" />
+    <MESSAGE value="small changes to the functionality of view, game and controller" />
+    <MESSAGE value="Functioning game with bugs to correct." />
+    <MESSAGE value="Fixed Controller such that it now implements the game loop with no bugs" />
+    <MESSAGE value="Implemented test cases 7 methods of class Game (the model)" />
+    <MESSAGE value="Game is now functional (edited text errors that were popping up)" />
+    <MESSAGE value="Added more board properties to Board so that it now has the same amount as the official Monopoly board" />
+    <MESSAGE value="Added JavaDoc to necessary classes and methods" />
+    <MESSAGE value="Added JavaDoc to necessary classes and methods and corrected name error" />
+    <MESSAGE value="Created class House and started implementing logic behind house functionality" />
+    <MESSAGE value="Bugs in loop: Allows for houses to be added inside once eligibility is valid, but only does so for the first cycle around the board." />
+    <MESSAGE value="Fixed bugs with House. It is now functional. Currently operating on Hotel functionality" />
+    <MESSAGE value="House and Hotel are functional. The implementation of selling houses and hotels are the only thing left." />
+    <MESSAGE value="House and Hotel are completely functional with both the selling and buying of each object" />
+    <MESSAGE value="Added statements that make it so that you cannot attempt to buy a hotel or house at a square that isn't a property" />
+    <MESSAGE value="Full operating game including the components of Milestone 3" />
+    <MESSAGE value="small changes to accommodate for beginning of AI implementation" />
+    <MESSAGE value="new branch for refactoring MVC pattern" />
+    <MESSAGE value="minor controller changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor controller changes" />
+  </component>
+</project>
