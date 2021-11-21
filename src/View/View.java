@@ -338,4 +338,15 @@ public class View extends JFrame implements ModelUpdateListener {
         setFeedbackArea("\nPlayer # " + playerNumber + " has passed their turn\n");
         goToTheBottomOfTextField();
     }
+
+    @Override
+    public void returnWinner(int playerNumber) {
+        JOptionPane.showMessageDialog(null, "Player " + playerNumber + " has won the game! Congratulations");
+    }
+
+    @Override
+    public void displayBankruptPlayer(int playerNumber) {
+        JOptionPane.showMessageDialog(null, "Player " + playerNumber + ": You are now bankrupt! You have been kicked out of the game. Too bad...");
+    }
+
 }

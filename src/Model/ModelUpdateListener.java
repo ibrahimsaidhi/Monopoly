@@ -22,4 +22,8 @@ public interface ModelUpdateListener {
     void initializeGame(int numberOfPlayers, int playerNumber);
 
     void manualPassUpdate(int playerNumber);
+
+    void returnWinner(int playerNumber);
+
+    void displayBankruptPlayer(int playerNumber);
 }

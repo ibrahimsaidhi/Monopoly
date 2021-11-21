@@ -25,9 +25,6 @@ public class Controller implements ActionListener {
             case "New Game":
                 int numberOfPlayers = gameView.numberOfPlayersRequest();
                 gameModel.initializePlayers(numberOfPlayers);
-                //gameView.unlockButtons();
-                //gameView.setFeedbackArea("A new game has begun with " + numberOfPlayers + " players\n" + "\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
-                //gameView.getNewGameButton().setEnabled(false);
                 break;
             case "Roll Die":
                 int diceRoll = gameModel.rollDie();
@@ -39,20 +36,13 @@ public class Controller implements ActionListener {
                 gameModel.makePurchase();
                 break;
             case "Pass Turn":
-                //gameView.lockBuyButton();
-                //gameView.unlockRollDieButton();
-                //gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
-                //gameView.lookingForWinner();
-                //gameView.setFeedbackArea("\nPlayer # " + gameModel.getCurrentPlayer().getPlayerNumber() + " has passed their turn\n");
+
                 gameModel.manualPass();
-                //gameView.setFeedbackArea("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
-                //gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + " it is now your turn");
-                //goToTheBottomOfTextField();
+
 
                 break;
             case "State":
-                //gameView.setFeedbackArea(gameModel.printState()+"\n");
-                //goToTheBottomOfTextField();
+
                 break;
             case "Quit Game":
                 gameModel.quitGame();
@@ -60,7 +50,5 @@ public class Controller implements ActionListener {
         }
     }
 
-    private void goToTheBottomOfTextField() {
-        gameView.getFeedbackArea().getCaret().setDot(Integer.MAX_VALUE);
-    }
+
 }

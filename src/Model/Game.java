@@ -382,7 +382,9 @@ public class Game {
         int balance = player.getBalance();
         if (balance <= 0){
             removeBankruptPlayer();
-            JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": You are now bankrupt! You have been kicked out of the game. Too bad...");
+            for(ModelUpdateListener v: this.views) {
+                v.displayBankruptPlayer(getCurrentPlayer().getPlayerNumber());
+            }
         }
     }
 
@@ -392,7 +394,9 @@ public class Game {
      */
     public void lookingForWinner(){
         if (getPlayers().size() == 1){
-            JOptionPane.showMessageDialog(null, "Player " + getPlayers().get(0).getPlayerNumber() + " has won the game! Congratulations");
+            for(ModelUpdateListener v: this.views) {
+                v.returnWinner(getPlayers().get(0).getPlayerNumber());
+            }
             System.exit(0);
         }
     }
