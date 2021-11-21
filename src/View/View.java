@@ -332,4 +332,10 @@ public class View extends JFrame implements ModelUpdateListener {
         setFeedbackArea("A new game has begun with " + numberOfPlayers + " players\n" + "\nCurrently turn of: Player " + playerNumber + "\n");
         getNewGameButton().setEnabled(false);
     }
+
+    @Override
+    public void manualPassUpdate(int playerNumber) {
+        setFeedbackArea("\nPlayer # " + playerNumber + " has passed their turn\n");
+        goToTheBottomOfTextField();
+    }
 }

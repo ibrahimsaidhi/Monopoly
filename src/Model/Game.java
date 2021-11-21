@@ -116,6 +116,15 @@ public class Game {
         //newTurn();
     }
 
+    public void manualPass(){
+        checkPlayerBalance(getCurrentPlayer());
+        lookingForWinner();
+        for(ModelUpdateListener v: this.views) {
+            v.manualPassUpdate(getCurrentPlayer().getPlayerNumber());
+        }
+        passTurn();
+    }
+
     private void aiAlgorithm() {
 
 
@@ -540,5 +549,6 @@ public class Game {
             passTurn();
         }
     }
+
 
 }

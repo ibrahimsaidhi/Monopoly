@@ -39,15 +39,15 @@ public class Controller implements ActionListener {
                 gameModel.makePurchase();
                 break;
             case "Pass Turn":
-                gameView.lockBuyButton();
-                gameView.unlockRollDieButton();
-                gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
-                gameView.lookingForWinner();
-                gameView.setFeedbackArea("\nPlayer # " + gameModel.getCurrentPlayer().getPlayerNumber() + " has passed their turn\n");
-                gameModel.passTurn();
-                gameView.setFeedbackArea("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
-                gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + " it is now your turn");
-                goToTheBottomOfTextField();
+                //gameView.lockBuyButton();
+                //gameView.unlockRollDieButton();
+                //gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
+                //gameView.lookingForWinner();
+                //gameView.setFeedbackArea("\nPlayer # " + gameModel.getCurrentPlayer().getPlayerNumber() + " has passed their turn\n");
+                gameModel.manualPass();
+                //gameView.setFeedbackArea("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
+                //gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + " it is now your turn");
+                //goToTheBottomOfTextField();
 
                 break;
             case "State":

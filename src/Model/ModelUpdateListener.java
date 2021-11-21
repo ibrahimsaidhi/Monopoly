@@ -20,4 +20,6 @@ public interface ModelUpdateListener {
     void printState(int i, int balance, String toString, int balance1);
 
     void initializeGame(int numberOfPlayers, int playerNumber);
+
+    void manualPassUpdate(int playerNumber);
 }
