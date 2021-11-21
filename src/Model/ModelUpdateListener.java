@@ -16,4 +16,8 @@ public interface ModelUpdateListener {
     void taxProperty(int tax, Player ownedBy, int playerNumber, int balance);
 
     void confirmPurchase(int playerNumber, String name, int balance);
+
+    void printState(int i, int balance, String toString, int balance1);
+
+    void initializeGame(int numberOfPlayers, int playerNumber);
 }

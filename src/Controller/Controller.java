@@ -25,46 +25,18 @@ public class Controller implements ActionListener {
             case "New Game":
                 int numberOfPlayers = gameView.numberOfPlayersRequest();
                 gameModel.initializePlayers(numberOfPlayers);
-                gameView.unlockButtons();
-                gameView.setFeedbackArea("A new game has begun with " + numberOfPlayers + " players\n" + "\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
-                gameView.getNewGameButton().setEnabled(false);
+                //gameView.unlockButtons();
+                //gameView.setFeedbackArea("A new game has begun with " + numberOfPlayers + " players\n" + "\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
+                //gameView.getNewGameButton().setEnabled(false);
                 break;
             case "Roll Die":
                 int diceRoll = gameModel.rollDie();
+                gameView.repaint();
                 gameModel.checkSquare(diceRoll);
                 break;
 
             case "Buy":
                 gameModel.makePurchase();
-                /*
-                gameView.lockBuyButton();
-                if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Property) {
-                    gameModel.getCurrentPlayer().addProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
-                    gameModel.getCurrentPlayer().decrementBalance(((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue());
-                    gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + gameModel.getBoardName() +
-                            "\nYour new balance is: $" + gameModel.getCurrentPlayer().getBalance() + "\nSpend wisely!");
-                    gameModel.passTurn();
-                    gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
-                }
-                else if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Utility) {
-                    gameModel.getCurrentPlayer().addUtility((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
-                    gameModel.getCurrentPlayer().decrementBalance(((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue());
-                    gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own Utility: " + gameModel.getBoardName() +
-                            "\nYour new balance is: $" + gameModel.getCurrentPlayer().getBalance() + "\nSpend wisely!");
-                    gameModel.passTurn();
-                    gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
-                }
-                else if (gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()) instanceof Railroad) {
-                    gameModel.getCurrentPlayer().addRailroad((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
-                    gameModel.getCurrentPlayer().decrementBalance(((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue());
-                    gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own RailRoad: " + gameModel.getBoardName() +
-                            "\nYour new balance is: $" + gameModel.getCurrentPlayer().getBalance() + "\nSpend wisely!");
-                    gameModel.passTurn();
-                    gameView.setFeedbackArea("\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
-                }
-                */
-                //gameView.checkPlayerBalance(gameModel.getCurrentPlayer());
-                //gameView.lookingForWinner();
                 break;
             case "Pass Turn":
                 gameView.lockBuyButton();
@@ -79,12 +51,10 @@ public class Controller implements ActionListener {
 
                 break;
             case "State":
-                gameView.setFeedbackArea(gameModel.printState()+"\n");
-                goToTheBottomOfTextField();
+                //gameView.setFeedbackArea(gameModel.printState()+"\n");
+                //goToTheBottomOfTextField();
                 break;
             case "Quit Game":
-                gameView.setFeedbackArea("Quitting game...\n");
-                goToTheBottomOfTextField();
                 gameModel.quitGame();
                 break;
         }

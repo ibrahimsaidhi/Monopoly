@@ -318,4 +318,18 @@ public class View extends JFrame implements ModelUpdateListener {
         setFeedbackArea("\nPlayer " + playerNumber + ": Congratulations, you now own: " + name +
         "\nYour new balance is: $" + balance + "\nSpend wisely!");
     }
+
+    @Override
+    public void printState(int i, int balance, String toString, int balance1) {
+        setFeedbackArea("You are player " + (i) + "\nYou own the following properties:\n"
+                + toString + "\nYour current balance is " + balance);
+        goToTheBottomOfTextField();
+    }
+
+    @Override
+    public void initializeGame(int numberOfPlayers, int playerNumber) {
+        unlockButtons();
+        setFeedbackArea("A new game has begun with " + numberOfPlayers + " players\n" + "\nCurrently turn of: Player " + playerNumber + "\n");
+        getNewGameButton().setEnabled(false);
+    }
 }

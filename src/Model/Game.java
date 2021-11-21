@@ -86,15 +86,16 @@ public class Game {
      * @author John Afolayan
      * This method prints the state of the current player.
      */
-    public String printState() {
+    public void printState() {
         /**
          * @author John Afolayan
          *
          * Print a representation of the game's state
          *
          */
-        return("You are player " + (currentPlayerInt + 1) + "\nYou own the following properties:\n"
-                + getCurrentPlayer().getOwnedProperties().toString() + "\nYour current balance is " + getCurrentPlayer().getBalance());
+        for(ModelUpdateListener v: this.views) {
+            v.printState(currentPlayerInt+1, getCurrentPlayer().getBalance(), getCurrentPlayer().getOwnedProperties().toString(), getCurrentPlayer().getBalance());
+        }
     }
 
     public void passTurn() {
@@ -147,6 +148,11 @@ public class Game {
         this.numberOfPlayers = numberOfPlayers;
         createPlayers(numberOfPlayers);
         this.currentPlayer = players.get(0);
+
+        for(ModelUpdateListener v: this.views) {
+            v.initializeGame(numberOfPlayers, getCurrentPlayer().getPlayerNumber());
+        }
+
     }
 
     private void update() {
