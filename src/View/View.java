@@ -14,11 +14,14 @@ public class View extends JFrame implements ModelUpdateListener {
     JButton passTurnButton;
     JButton buyButton;
     JButton quitButton;
+    JButton addHouseButton;
     ArrayList<JButton> listOfCommandButtons;
     JTextArea feedbackArea;
     JButton stateButton;
+    JButton addHotelButton;
     BoardOverlay boardOverlay;
     MonopolyBoard monopolyBoard;
+
     //MyPanel panel;
 
     public View(Game gameModel) {
@@ -73,15 +76,19 @@ public class View extends JFrame implements ModelUpdateListener {
         newGameButton = new JButton("New Game");
         rollDieButton = new JButton("Roll Die");
         buyButton = new JButton("Buy");
+        addHouseButton = new JButton("Buy/Sell House");
+        addHotelButton = new JButton("Buy/Sell Hotel");
         passTurnButton = new JButton("Pass Turn");
         quitButton = new JButton("Quit Game");
         stateButton = new JButton("State");
+        addHotelButton.setEnabled(false);
         rollDieButton.setEnabled(false);
         passTurnButton.setEnabled(false);
         buyButton.setEnabled(false);
         stateButton.setEnabled(false);
         passTurnButton.setEnabled(false);
         quitButton.setEnabled(false);
+        addHouseButton.setEnabled(false);
         listOfCommandButtons = new ArrayList<JButton>();
         listOfCommandButtons.add(rollDieButton);
         listOfCommandButtons.add(buyButton);
@@ -89,6 +96,8 @@ public class View extends JFrame implements ModelUpdateListener {
         listOfCommandButtons.add(stateButton);
         listOfCommandButtons.add(quitButton);
         listOfCommandButtons.add(newGameButton);
+        listOfCommandButtons.add(addHotelButton);
+        listOfCommandButtons.add(addHouseButton);
 
 
         feedbackArea = new JTextArea("Welcome to Monopoly! Please press New Game in order to start!\n");
@@ -99,13 +108,19 @@ public class View extends JFrame implements ModelUpdateListener {
         menuPanel.add(newGameButton, BorderLayout.WEST);
 
         JPanel centerPanel = new JPanel();
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BorderLayout());
         centerPanel.setLayout(new BorderLayout());
         menuPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(rollDieButton, BorderLayout.CENTER);
         centerPanel.add(buyButton, BorderLayout.WEST);
         centerPanel.add(stateButton, BorderLayout.EAST);
+        bottomPanel.add(addHouseButton, BorderLayout.EAST);
+        bottomPanel.add(addHotelButton, BorderLayout.CENTER);
         menuPanel.add(passTurnButton, BorderLayout.EAST);
-        menuPanel.add(quitButton, BorderLayout.SOUTH);
+
+        bottomPanel.add(quitButton, BorderLayout.WEST);
+        menuPanel.add(bottomPanel, BorderLayout.SOUTH);
         root.add(menuPanel, BorderLayout.SOUTH);
 
         //Initialization of the frame
@@ -123,7 +138,7 @@ public class View extends JFrame implements ModelUpdateListener {
                 "? It costs $" + propertyPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
         checkPlayerBalance(gameModel.getCurrentPlayer());
         lookingForWinner();
-        rollDieButton.setEnabled(true);
+
     }
 
     public void promptUtilityPurchase(){
@@ -133,7 +148,7 @@ public class View extends JFrame implements ModelUpdateListener {
                 "? It costs $" + utilityPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
         checkPlayerBalance(gameModel.getCurrentPlayer());
         lookingForWinner();
-        rollDieButton.setEnabled(true);
+
     }
 
     public void promptRailroadPurchase() {
@@ -143,7 +158,7 @@ public class View extends JFrame implements ModelUpdateListener {
                 "? It costs $" + railroadPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
         checkPlayerBalance(gameModel.getCurrentPlayer());
         lookingForWinner();
-        rollDieButton.setEnabled(true);
+
     }
 
     /**
@@ -231,6 +246,10 @@ public class View extends JFrame implements ModelUpdateListener {
         }
     }
 
+
+    public void lockRollButton(){
+        rollDieButton.setEnabled(false);
+    }
     public void lockBuyButton(){
         buyButton.setEnabled(false);
     }
@@ -283,21 +302,24 @@ public class View extends JFrame implements ModelUpdateListener {
     public void unlockPropertyBuy() {
         unlockBuyButton();
         promptPropertyPurchase();
-        goToTheBottomOfTextField();
+        lockRollButton();
+
     }
 
     @Override
     public void unlockUtilityBuy() {
         unlockBuyButton();
         promptUtilityPurchase();
-        goToTheBottomOfTextField();
+        lockRollButton();
+
     }
 
     @Override
     public void unlockRailroadBuy() {
         unlockBuyButton();
         promptRailroadPurchase();
-        goToTheBottomOfTextField();
+        lockRollButton();
+
     }
 
     @Override
@@ -347,6 +369,100 @@ public class View extends JFrame implements ModelUpdateListener {
     @Override
     public void displayBankruptPlayer(int playerNumber) {
         JOptionPane.showMessageDialog(null, "Player " + playerNumber + ": You are now bankrupt! You have been kicked out of the game. Too bad...");
+    }
+
+    @Override
+    public void purchasingHouse() {
+        JOptionPane.showMessageDialog(this, "You are able to purchase houses!" );
+        rollDieButton.setEnabled(false);
+        String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase a " + propertyColor + " house for " + gameModel.getBoardName() +
+                "? You currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+        checkPlayerBalance(gameModel.getCurrentPlayer());
+        lookingForWinner();
+    }
+
+    @Override
+    public void notPurchasingAHouse() {
+        JOptionPane.showMessageDialog(this, "You cannot buy a house for " + gameModel.getBoardName() + " as it is not a property");
+    }
+
+    @Override
+    public void cannotPurchase() {
+        setFeedbackArea("Sorry, you cannot buy a house at the moment. Please try again later...");
+    }
+
+    @Override
+    public void confirmHouseTransaction() {
+        String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
+
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have bought a new " + propertyColor + " house for " + gameModel.getBoardName() +
+                ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+        gameModel.passTurn();
+        checkPlayerBalance(gameModel.getCurrentPlayer());
+        lookingForWinner();
+    }
+
+    @Override
+    public void confirmHouseSold() {
+        String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
+
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have sold a  " + propertyColor + " house from " + gameModel.getBoardName() +
+                ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+        gameModel.passTurn();
+        checkPlayerBalance(gameModel.getCurrentPlayer());
+        lookingForWinner();
+    }
+
+    @Override
+    public void cannotSell() {
+        setFeedbackArea("Sorry, you cannot sell a house at the moment. Please try again later...");
+    }
+
+    @Override
+    public void notPurchasingAHotel() {
+        JOptionPane.showMessageDialog(this, "You cannot buy a hotel for " + gameModel.getBoardName() + " as it is not a property");
+    }
+
+    @Override
+    public void confirmHotelTransaction() {
+        String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
+
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have bought a new " + propertyColor + " hotel for " + gameModel.getBoardName() +
+                ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+        gameModel.passTurn();
+        checkPlayerBalance(gameModel.getCurrentPlayer());
+        lookingForWinner();
+    }
+
+    @Override
+    public void confirmHotelSold() {
+        String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
+
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have sold a  " + propertyColor + " hotel from " + gameModel.getBoardName() +
+                ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+        gameModel.passTurn();
+        checkPlayerBalance(gameModel.getCurrentPlayer());
+        lookingForWinner();
+    }
+
+    @Override
+    public void cannotSellHotel() {
+        setFeedbackArea("Sorry, you cannot sell a house at the moment. Please try again later...");
+    }
+
+    @Override
+    public void sellingHouse() {
+
+    }
+
+
+
+
+
+    public String requestingHouseStatus(){
+        String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a house?");
+        return input;
     }
 
 }

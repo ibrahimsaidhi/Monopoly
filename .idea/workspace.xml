@@ -1,7 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="066efbef-99a7-41cd-a1de-6b89a3bb7d4e" name="Default Changelist" comment="minor controller changes" />
+    <list default="true" id="90a0b1b4-e1b3-4816-a2c8-c7323432a091" name="Default Changelist" comment="minor controller changes">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021-11-18_3_13_p_m___Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021-11-18_3_13_p_m___Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021-11-21_2_02_p_m___Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021-11-21_2_02_p_m___Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-18_3_09_p_m___Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-18_3_09_p_m___Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-18_3_09_p_m___Default_Changelist_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-18_3_09_p_m___Default_Changelist_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Controller/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Controller/Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Game/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Game/Command.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Game/CommandWords.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Game/CommandWords.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Game/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Game/Parser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/GameModelTest/GameTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Board.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/ModelUpdateListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/ModelUpdateListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Player$PlayerType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Player$PlayerType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Property.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Property.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Railroad.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Railroad.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Square.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Square.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Utility.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Utility.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/View/BoardOverlay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/View/BoardOverlay.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/View/MonopolyBoard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/View/MonopolyBoard.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/View/View.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/View/View.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Controller/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Game/Command.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Game/CommandWords.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Game/Parser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Board.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Game.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Hotel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/House.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/ModelUpdateListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Player$Status.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Property.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Railroad.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Square.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Utility.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/View/BoardOverlay.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/View/MonopolyBoard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/View/View.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/ModelUpdateListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/ModelUpdateListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/BoardOverlay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/BoardOverlay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/View.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -61,8 +108,10 @@
   </component>
   <component name="RunManager" selected="Application.View">
     <configuration name="View" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="View.View" />
-      <module name="Monopoly2" />
+      <module name="Monopoly" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="View.*" />
@@ -137,13 +186,60 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Monopoly" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Monopoly" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.View" />
-        <item itemvalue="JUnit.GameTest.testSettingAPlayerPosition" />
-        <item itemvalue="JUnit.GameTest.testSearchForAWinner" />
-        <item itemvalue="JUnit.GameTest.testRemovalOfBankruptPlayer" />
-        <item itemvalue="JUnit.GameTest.testNumOfInitializedPlayers" />
+        <item itemvalue="Application.View" />
+        <item itemvalue="Application.View" />
+        <item itemvalue="Application.View" />
+        <item itemvalue="Application.View" />
       </list>
     </recent_temporary>
   </component>

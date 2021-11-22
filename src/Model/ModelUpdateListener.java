@@ -26,4 +26,27 @@ public interface ModelUpdateListener {
     void returnWinner(int playerNumber);
 
     void displayBankruptPlayer(int playerNumber);
+
+    void purchasingHouse();
+
+    void notPurchasingAHouse();
+
+    void cannotPurchase();
+
+    void confirmHouseTransaction();
+
+    void confirmHouseSold();
+
+    void cannotSell();
+
+    void notPurchasingAHotel();
+
+    void confirmHotelTransaction();
+
+    void confirmHotelSold();
+
+    void cannotSellHotel();
+
+
+    void sellingHouse();
 }

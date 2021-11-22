@@ -3,12 +3,10 @@ package Model;
 import Game.Command;
 import Game.Parser;
 
-import javax.swing.*;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 
 /**
@@ -34,11 +32,111 @@ public class Game {
     private Board board = new Board();
     boolean wantToQuit = false;
     private List<ModelUpdateListener> views;
+
+    boolean ableToPurchaseRed = false;
+    boolean ableToPurchaseBlue = false;
+    boolean ableToPurchaseGreen = false;
+    boolean ableToPurchaseLightBlue = false;
+    boolean ableToPurchasePurple = false;
+    boolean ableToPurchaseOrange = false;
+    boolean ableToPurchaseBrown = false;
+    boolean ableToPurchaseYellow = false;
+
     public Game() {
         parser = new Parser();
         players = new ArrayList<>();
         this.views = new ArrayList<>();
 
+    }
+    public boolean isAbleToPurchaseBlue() {
+        return ableToPurchaseBlue;
+    }
+
+    public boolean isAbleToPurchaseBrown() {
+        return ableToPurchaseBrown;
+    }
+
+    public boolean isAbleToPurchaseGreen() {
+        return ableToPurchaseGreen;
+    }
+
+    public boolean isAbleToPurchaseLightBlue() {
+        return ableToPurchaseLightBlue;
+    }
+
+    public boolean isAbleToPurchaseOrange() {
+        return ableToPurchaseOrange;
+    }
+
+    public boolean isAbleToPurchasePurple() {
+        return ableToPurchasePurple;
+    }
+
+    public boolean isAbleToPurchaseRed() {
+        return ableToPurchaseRed;
+    }
+
+    public boolean isAbleToPurchaseYellow() {
+        return ableToPurchaseYellow;
+    }
+
+    public void setAbleToPurchaseBlue(boolean ableToPurchaseBlue) {
+        this.ableToPurchaseBlue = ableToPurchaseBlue;
+    }
+
+    public void setAbleToPurchaseBrown(boolean ableToPurchaseBrown) {
+        this.ableToPurchaseBrown = ableToPurchaseBrown;
+    }
+
+    public void setAbleToPurchaseGreen(boolean ableToPurchaseGreen) {
+        this.ableToPurchaseGreen = ableToPurchaseGreen;
+    }
+
+    public void setAbleToPurchaseLightBlue(boolean ableToPurchaseLightBlue) {
+        this.ableToPurchaseLightBlue = ableToPurchaseLightBlue;
+    }
+
+    public void setAbleToPurchaseOrange(boolean ableToPurchaseOrange) {
+        this.ableToPurchaseOrange = ableToPurchaseOrange;
+    }
+
+    public void setAbleToPurchasePurple(boolean ableToPurchasePurple) {
+        this.ableToPurchasePurple = ableToPurchasePurple;
+    }
+
+    public void setAbleToPurchaseRed(boolean ableToPurchaseRed) {
+        this.ableToPurchaseRed = ableToPurchaseRed;
+    }
+
+    public void setAbleToPurchaseYellow(boolean ableToPurchaseYellow) {
+        this.ableToPurchaseYellow = ableToPurchaseYellow;
+    }
+
+    public void checkingForHouseEligibility(){
+        if (getCurrentPlayer().getBrownProperties() == 2) {
+            setAbleToPurchaseBrown(true);
+        }
+        if (getCurrentPlayer().getPurpleProperties() == 3){
+            setAbleToPurchasePurple(true);
+        }
+        if (getCurrentPlayer().getGreenProperties() == 3){
+            setAbleToPurchaseGreen(true);
+        }
+        if (getCurrentPlayer().getBlueProperties() == 2){
+            setAbleToPurchaseBlue(true);
+        }
+        if (getCurrentPlayer().getLightBlueProperties() == 3){
+            setAbleToPurchaseLightBlue(true);
+        }
+        if (getCurrentPlayer().getYellowProperties() == 3){
+            setAbleToPurchaseYellow(true);
+        }
+        if (getCurrentPlayer().getRedProperties() == 3){
+            setAbleToPurchaseRed(true);
+        }
+        if (getCurrentPlayer().getOrangeProperties() == 3){
+            setAbleToPurchaseOrange(true);
+        }
     }
 
     public void addView(ModelUpdateListener view){
@@ -283,6 +381,284 @@ public class Game {
         return ownedBy.totalRailroadsOwned() * 25;
     }
 
+    public void buyingHouseEligibility() {
+        if (!(board.getIndex(getCurrentPlayer().getPosition()) instanceof Property)) {
+            for (ModelUpdateListener v: views){
+                v.notPurchasingAHouse();
+            }
+        }
+    }
+
+
+    public void purchaseAHouse(){
+        checkingForHouseEligibility();
+
+        String currentColor = (((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getColor());
+        if (isAbleToPurchaseBlue() && currentColor.equals("blue")){
+            getCurrentPlayer().getOwnedHouses().add(new House("blue house", 200, "blue"));
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().add(new House("blue house", 200, "blue"));
+            getCurrentPlayer().decrementBalance(200);
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
+            for (ModelUpdateListener v: views){
+                v.confirmHouseTransaction();
+            }
+        }
+        else if (isAbleToPurchaseBrown() && currentColor.equals("brown")){
+            getCurrentPlayer().getOwnedHouses().add(new House("brown house", 50, "brown"));
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().add(new House("brown house", 50, "brown"));
+            getCurrentPlayer().decrementBalance(50);
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
+            for (ModelUpdateListener v: views){
+                v.confirmHouseTransaction();
+            }
+        }
+        else if (isAbleToPurchasePurple() && currentColor.equals("purple")){
+            getCurrentPlayer().getOwnedHouses().add(new House("purple house", 50, "purple"));
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().add(new House("purple house", 50, "purple"));
+            getCurrentPlayer().decrementBalance(50);
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
+            for (ModelUpdateListener v: views){
+                v.confirmHouseTransaction();
+            }
+        }
+        else if (isAbleToPurchaseOrange() && currentColor.equals("orange")){
+            getCurrentPlayer().getOwnedHouses().add(new House("orange house", 100, "orange"));
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().add(new House("orange house", 100, "orange"));
+            getCurrentPlayer().decrementBalance(100);
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
+            for (ModelUpdateListener v: views){
+                v.confirmHouseTransaction();
+            }
+        }
+        else if (isAbleToPurchaseRed() && currentColor.equals("red")){
+            getCurrentPlayer().getOwnedHouses().add(new House("red house", 150, "red"));
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().add(new House("red house", 150, "red"));
+            getCurrentPlayer().decrementBalance(150);
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
+            for (ModelUpdateListener v: views){
+                v.confirmHouseTransaction();
+            }
+
+        }
+        else if (isAbleToPurchaseLightBlue() && currentColor.equals("light blue")){
+            getCurrentPlayer().getOwnedHouses().add(new House("light blue house", 50, "light blue"));
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().add(new House("light blue house", 50, "light blue"));
+            getCurrentPlayer().decrementBalance(50);
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
+            for (ModelUpdateListener v: views){
+                v.confirmHouseTransaction();
+            }
+        }
+        else if (isAbleToPurchaseYellow() && currentColor.equals("yellow")){
+            getCurrentPlayer().getOwnedHouses().add(new House("yellow house", 150, "yellow"));
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().add(new House("yellow house", 150, "yellow"));
+            getCurrentPlayer().decrementBalance(150);
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
+            for (ModelUpdateListener v: views){
+                v.confirmHouseTransaction();
+            }
+        }
+        else if (isAbleToPurchaseGreen() && currentColor.equals("green")){
+            getCurrentPlayer().getOwnedHouses().add(new House("green house", 200, "green"));
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().add(new House("green house", 200, "green"));
+            getCurrentPlayer().decrementBalance(200);
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
+            for (ModelUpdateListener v: views){
+                v.confirmHouseTransaction();
+            }
+        }
+        else {
+            for (ModelUpdateListener v: views){
+                v.cannotPurchase();
+            }
+        }
+        clear();
+
+    }
+
+    public void purchaseAHotel(){
+        if (((Property) board.getIndex(getCurrentPlayer().getPosition())).getHouses().size() == 4) {
+            ((Property) board.getIndex(getCurrentPlayer().getPosition())).getHouses().clear();
+            String currentColor = (((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getColor());
+            if (isAbleToPurchaseBlue() && currentColor.equals("blue")){
+                getCurrentPlayer().getOwnedHotels().add(new Hotel("blue hotel", 200, "blue"));
+                ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHotels().add(new Hotel("blue hotel", 200, "blue"));
+                getCurrentPlayer().decrementBalance(200);
+
+                checkPlayerBalance(getCurrentPlayer());
+                lookingForWinner();
+            }
+            else if (isAbleToPurchaseBrown() && currentColor.equals("brown")){
+                getCurrentPlayer().getOwnedHotels().add(new Hotel("brown hotel", 50, "brown"));
+                ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHotels().add(new Hotel("brown hotel", 200, "brown"));
+                getCurrentPlayer().decrementBalance(50);
+                checkPlayerBalance(getCurrentPlayer());
+                lookingForWinner();
+            }
+            else if (isAbleToPurchasePurple() && currentColor.equals("purple")){
+                getCurrentPlayer().getOwnedHotels().add(new Hotel("purple hotel", 50, "purple"));
+                ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHotels().add(new Hotel("purple hotel", 50, "purple"));
+                getCurrentPlayer().decrementBalance(50);
+
+                checkPlayerBalance(getCurrentPlayer());
+                lookingForWinner();
+            }
+            else if (isAbleToPurchaseOrange() && currentColor.equals("orange")){
+                getCurrentPlayer().getOwnedHotels().add(new Hotel("orange hotel", 100, "orange"));
+                ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHotels().add(new Hotel("orange hotel", 100, "orange"));
+                getCurrentPlayer().decrementBalance(100);
+
+                checkPlayerBalance(getCurrentPlayer());
+                lookingForWinner();
+            }
+            else if (isAbleToPurchaseRed() && currentColor.equals("red")){
+                getCurrentPlayer().getOwnedHotels().add(new Hotel("red hotel", 200, "red"));
+                ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHotels().add(new Hotel("red hotel", 200, "red"));
+                getCurrentPlayer().decrementBalance(150);
+                checkPlayerBalance(getCurrentPlayer());
+                lookingForWinner();
+            }
+            else if (isAbleToPurchaseBlue() && currentColor.equals("blue")){
+                getCurrentPlayer().getOwnedHotels().add(new Hotel("blue hotel", 200, "blue"));
+                ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHotels().add(new Hotel("blue house", 200, "blue"));
+                getCurrentPlayer().decrementBalance(200);
+
+                checkPlayerBalance(getCurrentPlayer());
+                lookingForWinner();
+            }
+            else if (gameModel.isAbleToPurchaseYellow() && currentColor.equals("yellow")){
+                JOptionPane.showMessageDialog(this, "You are now able to purchase yellow hotel!");
+                rollDieButton.setEnabled(false);
+                int input = JOptionPane.showConfirmDialog(null, "Would you like to add a hotel to " + gameModel.getBoardName() + "? It will cost you $150");
+                if (input == JOptionPane.YES_OPTION) {
+                    gameModel.getCurrentPlayer().getOwnedHotels().add(new Hotel("yellow hotel", 150, "yellow"));
+                    ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().add(new Hotel("yellow house", 150, "yellow"));
+                    gameModel.getCurrentPlayer().decrementBalance(150);
+                    JOptionPane.showMessageDialog(this,"You have purchased a hotel for this yellow property. Your new balance is: $" + gameModel.getCurrentPlayer().getBalance());
+                }
+                if (input == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(this, "You will not be buying a hotel for " + gameModel.getBoardName());
+                }
+                checkPlayerBalance(gameModel.getCurrentPlayer());
+                lookingForWinner();
+                rollDieButton.setEnabled(true);
+            }
+            else if (gameModel.isAbleToPurchaseGreen() && currentColor.equals("green")){
+                JOptionPane.showMessageDialog(this, "You are now able to purchase green hotels!");
+                rollDieButton.setEnabled(false);
+                int input = JOptionPane.showConfirmDialog(null, "Would you like to add a hotel to " + gameModel.getBoardName() + "? It will cost you S200");
+                if (input == JOptionPane.YES_OPTION) {
+                    gameModel.getCurrentPlayer().getOwnedHotels().add(new Hotel("green hotel", 50, "green"));
+                    ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().add(new Hotel("green hotel", 50, "green"));
+                    gameModel.getCurrentPlayer().decrementBalance(200);
+                    JOptionPane.showMessageDialog(this,"You have purchased a hotel for this green property. Your new balance is: $" + gameModel.getCurrentPlayer().getBalance());
+                }
+                if (input == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(this, "You will not be buying a hotel for " + gameModel.getBoardName());
+                }
+                checkPlayerBalance(gameModel.getCurrentPlayer());
+                lookingForWinner();
+                rollDieButton.setEnabled(true);
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "You cannot purchase a hotel at the moment. Please try again later.");
+        }
+
+    }
+
+    public void clear(){
+        setAbleToPurchaseOrange(false);
+        setAbleToPurchaseBlue(false);
+        setAbleToPurchaseRed(false);
+        setAbleToPurchaseYellow(false);
+        setAbleToPurchasePurple(false);
+        setAbleToPurchaseBrown(false);
+        setAbleToPurchaseGreen(false);
+        setAbleToPurchaseLightBlue(false);
+    }
+
+    public void sellAHouse(){
+        checkingForHouseEligibility();
+        String currentColor = (((Property) board.getIndex(getCurrentPlayer().getPosition())).getColor());
+        if (isAbleToPurchaseBlue() && currentColor.equals("blue")) {
+            getCurrentPlayer().getOwnedHouses().remove(0);
+            ((Property) board.getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
+            getCurrentPlayer().incrementBalance(100);
+            for (ModelUpdateListener v: views){
+                v.confirmHouseSold();
+            }
+        }
+        else if (isAbleToPurchaseBrown() && currentColor.equals("brown")) {
+            getCurrentPlayer().getOwnedHouses().remove(0);
+            ((Property) board.getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
+            getCurrentPlayer().incrementBalance(25);
+            for (ModelUpdateListener v: views){
+                v.confirmHouseSold();
+            }
+        }
+        else if (isAbleToPurchaseGreen() && currentColor.equals("green")) {
+            getCurrentPlayer().getOwnedHouses().remove(0);
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
+            getCurrentPlayer().incrementBalance(100);
+            for (ModelUpdateListener v: views){
+                v.confirmHouseSold();
+            }
+        }
+        else if (isAbleToPurchaseLightBlue() && currentColor.equals("light blue")) {
+            getCurrentPlayer().getOwnedHouses().remove(0);
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
+            getCurrentPlayer().incrementBalance(25);
+            for (ModelUpdateListener v: views){
+                v.confirmHouseSold();
+            }
+        }
+        else if (isAbleToPurchaseYellow() && currentColor.equals("yellow")) {
+            getCurrentPlayer().getOwnedHouses().remove(0);
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
+            getCurrentPlayer().incrementBalance(75);
+            for (ModelUpdateListener v: views){
+                v.confirmHouseSold();
+            }
+        }
+        else if (isAbleToPurchaseOrange() && currentColor.equals("orange")) {
+            getCurrentPlayer().getOwnedHouses().remove(0);
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
+            getCurrentPlayer().incrementBalance(50);
+            for (ModelUpdateListener v: views){
+                v.confirmHouseSold();
+            }
+        }
+        else if (isAbleToPurchaseRed() && currentColor.equals("red")) {
+            getCurrentPlayer().getOwnedHouses().remove(0);
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
+            getCurrentPlayer().incrementBalance(75);
+            for (ModelUpdateListener v: views){
+                v.confirmHouseSold();
+            }
+        }
+        else if (isAbleToPurchasePurple() && currentColor.equals("purple")) {
+            getCurrentPlayer().getOwnedHouses().remove(0);
+            ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
+            getCurrentPlayer().incrementBalance(25);
+            for (ModelUpdateListener v: views){
+                v.confirmHouseSold();
+            }
+        }
+        else {
+            for (ModelUpdateListener v: views){
+                v.cannotSell();
+            }
+        }
+    }
 
 
     public String getBoardName() {
@@ -292,6 +668,7 @@ public class Game {
     public Board getBoard() {
         return board;
     }
+
 
     public void moveToken() {
         /**
@@ -514,11 +891,55 @@ public class Game {
                 passTurn();
             }
         }
+
     }
 
     public void makePurchase(){
         //gameView.lockBuyButton();
-        if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Property) {
+        if (board.getIndex(getCurrentPlayer().getPosition()) instanceof Property) {
+            String propertyColor = ((Property) board.getIndex(getCurrentPlayer().getPosition())).getColor();
+            switch (propertyColor) {
+                case "green": {
+                    int x = getCurrentPlayer().getGreenProperties();
+                    getCurrentPlayer().setGreenProperties(x + 1);
+                    break;
+                }
+                case "red": {
+                    int x = getCurrentPlayer().getRedProperties();
+                    getCurrentPlayer().setRedProperties(x + 1);
+                    break;
+                }
+                case "blue": {
+                    int x = getCurrentPlayer().getBlueProperties();
+                    getCurrentPlayer().setBlueProperties(x + 1);
+                    break;
+                }
+                case "light blue": {
+                    int x = getCurrentPlayer().getLightBlueProperties();
+                    getCurrentPlayer().setLightBlueProperties(x + 1);
+                    break;
+                }
+                case "yellow": {
+                    int x = getCurrentPlayer().getYellowProperties();
+                    getCurrentPlayer().setYellowProperties(x + 1);
+                    break;
+                }
+                case "purple": {
+                    int x = getCurrentPlayer().getPurpleProperties();
+                    getCurrentPlayer().setPurpleProperties(x + 1);
+                    break;
+                }
+                case "orange": {
+                    int x = getCurrentPlayer().getOrangeProperties();
+                    getCurrentPlayer().setOrangeProperties(x + 1);
+                    break;
+                }
+                case "brown": {
+                    int x = getCurrentPlayer().getBrownProperties();
+                    getCurrentPlayer().setBrownProperties(x + 1);
+                    break;
+                }
+            }
             getCurrentPlayer().addProperty((Property) getBoard().getIndex(getCurrentPlayer().getPosition()));
             getCurrentPlayer().decrementBalance(((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
             //gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + gameModel.getBoardName() +

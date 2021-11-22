@@ -17,10 +17,20 @@ public class Player {
     private int playerNumber; // ie. player1, player2 etc
     private int position;
     private int balance;
+    private ArrayList<House> ownedHouses = new ArrayList<>();
+    private ArrayList<Hotel> ownedHotels = new ArrayList<>();
     private ArrayList<Property> ownedProperties = new ArrayList<>();
     private ArrayList<Utility> ownedUtility = new ArrayList<>();
     private ArrayList<Railroad> ownedRailroads  = new ArrayList<>();
 
+    int greenProperties = 0;
+    int yellowProperties = 0;
+    int blueProperties = 0;
+    int brownProperties = 0;
+    int purpleProperties = 0;
+    int lightBlueProperties = 0;
+    int orangeProperties = 0;
+    int redProperties = 0;
     public enum PlayerType {Human, AI};
     private PlayerType type;
 
@@ -31,6 +41,80 @@ public class Player {
         this.balance = 1500; //default starting balance
         this.position = 0; //start at the first square
         this.type = PlayerType.Human;
+    }
+
+    public ArrayList<House> getOwnedHouses() {
+        return ownedHouses;
+    }
+
+
+    public ArrayList<Hotel> getOwnedHotels() {
+        return ownedHotels;
+    }
+
+
+    public int getYellowProperties() {
+        return yellowProperties;
+    }
+
+    public int getRedProperties() {
+        return redProperties;
+    }
+
+    public int getOrangeProperties() {
+        return orangeProperties;
+    }
+
+    public int getPurpleProperties() {
+        return purpleProperties;
+    }
+
+    public int getLightBlueProperties() {
+        return lightBlueProperties;
+    }
+
+    public int getGreenProperties() {
+        return greenProperties;
+    }
+
+    public int getBrownProperties() {
+        return brownProperties;
+    }
+
+    public int getBlueProperties() {
+        return blueProperties;
+    }
+
+    public void setYellowProperties(int yellowProperties) {
+        this.yellowProperties = yellowProperties;
+    }
+
+    public void setRedProperties(int redProperties) {
+        this.redProperties = redProperties;
+    }
+
+    public void setPurpleProperties(int purpleProperties) {
+        this.purpleProperties = purpleProperties;
+    }
+
+    public void setOrangeProperties(int orangeProperties) {
+        this.orangeProperties = orangeProperties;
+    }
+
+    public void setLightBlueProperties(int lightBlueProperties) {
+        this.lightBlueProperties = lightBlueProperties;
+    }
+
+    public void setGreenProperties(int greenProperties) {
+        this.greenProperties = greenProperties;
+    }
+
+    public void setBrownProperties(int brownProperties) {
+        this.brownProperties = brownProperties;
+    }
+
+    public void setBlueProperties(int blueProperties) {
+        this.blueProperties = blueProperties;
     }
 
     /**
@@ -151,7 +235,7 @@ public class Player {
             dieRoll += diceRoll;
         }
         if(dieRoll >=0){
-            return dieRoll;
+            return 1;
         } else {
             rollDice();
         }
