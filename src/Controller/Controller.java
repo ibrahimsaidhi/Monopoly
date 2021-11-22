@@ -48,28 +48,58 @@ public class Controller implements ActionListener {
 
                 break;
             case "State":
-
+                gameView.setFeedbackArea(gameModel.printState()+"\n");
+                goToTheBottomOfTextField();
                 break;
             case "Buy/Sell House":
                 gameModel.checkingForHouseEligibility();
                 String input = gameView.requestingHouseStatus();
                 gameModel.buyingHouseEligibility();
-                if (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().size() == 4){
-                    JOptionPane.showMessageDialog(gameView, "Sorry, you can only add up to 4 houses to a property.");
-                }
 
-                else if (input.equals("buy")){
+                if (input.equals("buy") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().size() < 4){
                     gameModel.purchaseAHouse();
                 }
-                else if (input.equals("sell") && !((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().isEmpty()){
+                else if (input.equals("buy") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().size() == 4){
+                    JOptionPane.showMessageDialog(gameView, "Sorry, you can only add 4 houses to a property at a time");
+                }
+                else if (input.equals("sell") && !((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().isEmpty()) {
                     gameModel.sellAHouse();
                 }
-                else if (input.equals("sell") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().isEmpty()) {
+                else if(input.equals("sell") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().isEmpty()){
                     JOptionPane.showMessageDialog(gameView, "There are no houses for you to sell");
                 }
+                else {
+                    gameView.setFeedbackArea("\nNot a valid entry. Please try again.");
+                }
+
+                gameModel.clear();
                 break;
             case "Buy/Sell Hotel":
+                gameModel.checkingForHouseEligibility();
+                String hotelInput = gameView.requestingHotelStatus();
+                gameModel.buyingHotelEligibility();
 
+                if (hotelInput.equals("buy") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().size() == 0){
+                    gameModel.purchaseAHotel();
+                }
+
+                else if (hotelInput.equals("buy") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().size() == 1){
+                    JOptionPane.showMessageDialog(gameView, "Sorry, you can only add 1 hotel to a property at a time");
+                }
+
+                else if(hotelInput.equals("sell") && !((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().isEmpty()){
+                    gameModel.sellAHotel();
+                }
+
+                else if(hotelInput.equals("sell") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().isEmpty()){
+                    JOptionPane.showMessageDialog(gameView, "There are no hotels for you to sell");
+                }
+
+                else {
+                    gameView.setFeedbackArea("\nNot a valid entry. Please try again.");
+                }
+
+                gameModel.clear();
                 break;
             case "Quit Game":
                 gameModel.quitGame();

@@ -27,6 +27,12 @@ public interface ModelUpdateListener {
 
     void displayBankruptPlayer(int playerNumber);
 
+    void displayPlayerHasPassedGo();
+
+    void displaySpecialPosition();
+
+    void AIRepaint();
+
     void purchasingHouse();
 
     void notPurchasingAHouse();
@@ -39,11 +45,15 @@ public interface ModelUpdateListener {
 
     void cannotSell();
 
+    void purchasingHotel();
+
     void notPurchasingAHotel();
 
     void confirmHotelTransaction();
 
     void confirmHotelSold();
+
+    void cannotPurchaseHotel();
 
     void cannotSellHotel();
 

@@ -284,6 +284,33 @@ public class View extends JFrame implements ModelUpdateListener {
         return choice;
     }
 
+    static int askUserAboutAI(Integer[] choices) {
+        Integer s = (Integer) JOptionPane.showInputDialog(
+                null,
+                "How many AI controlled players would you like to set?",
+                "Select the number of AI players!",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                choices,
+                choices[0]);
+        return s;
+    }
+
+    public int numberOfAIPlayersRequest(int numberOfPlayers) {
+        if(numberOfPlayers != 8) {
+            Integer[] choices = new Integer[9 - numberOfPlayers];
+            choices[0] = 0;
+            int index = 7 - numberOfPlayers;
+            for (int i = numberOfPlayers; i < 8; i++) {
+                choices[index+1] = 8 - i;
+                index--;
+            }
+            int choice = askUserAboutAI(choices);
+            return choice;
+        }
+        return 0;
+    }
+
     /*
      * This method updates the model
      */
@@ -372,14 +399,24 @@ public class View extends JFrame implements ModelUpdateListener {
     }
 
     @Override
+    public void displayPlayerHasPassedGo() {
+        setFeedbackArea("\nCongratulations, you've passed GO! Your balance has increased by $200.");
+    }
+
+    @Override
+    public void displaySpecialPosition() {
+        setFeedbackArea("\nSince you landed on " + gameModel.getBoardName() + ", a fee of $" + gameModel.getSpecialPositionFee() + " has been deducted from your balance.");
+    }
+
+    @Override
+    public void AIRepaint() {
+        setFeedbackArea(gameModel.aiAlgorithm());
+        repaint();
+    }
+
+    @Override
     public void purchasingHouse() {
         JOptionPane.showMessageDialog(this, "You are able to purchase houses!" );
-        rollDieButton.setEnabled(false);
-        String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
-        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase a " + propertyColor + " house for " + gameModel.getBoardName() +
-                "? You currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
-        checkPlayerBalance(gameModel.getCurrentPlayer());
-        lookingForWinner();
     }
 
     @Override
@@ -416,12 +453,22 @@ public class View extends JFrame implements ModelUpdateListener {
 
     @Override
     public void cannotSell() {
-        setFeedbackArea("Sorry, you cannot sell a house at the moment. Please try again later...");
+        setFeedbackArea("Sorry, you cannot sell a house at the moment. Please try again later...\n");
+    }
+
+    @Override
+    public void purchasingHotel() {
+        JOptionPane.showMessageDialog(this, "You are able to purchase hotels!" );
+    }
+
+    @Override
+    public void cannotPurchaseHotel(){
+        setFeedbackArea("Sorry, you cannot buy a hotel at the moment. Please try again later...\n");
     }
 
     @Override
     public void notPurchasingAHotel() {
-        JOptionPane.showMessageDialog(this, "You cannot buy a hotel for " + gameModel.getBoardName() + " as it is not a property");
+        JOptionPane.showMessageDialog(this, "You cannot buy a hotel for " + gameModel.getBoardName() + " as it is not a property\n");
     }
 
     @Override
@@ -448,7 +495,7 @@ public class View extends JFrame implements ModelUpdateListener {
 
     @Override
     public void cannotSellHotel() {
-        setFeedbackArea("Sorry, you cannot sell a house at the moment. Please try again later...");
+        setFeedbackArea("Sorry, you cannot sell a hotel at the moment. Please try again later...\n");
     }
 
     @Override
@@ -462,6 +509,11 @@ public class View extends JFrame implements ModelUpdateListener {
 
     public String requestingHouseStatus(){
         String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a house?");
+        return input;
+    }
+
+    public String requestingHotelStatus(){
+        String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a hotel?");
         return input;
     }
 

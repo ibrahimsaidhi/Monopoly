@@ -15,7 +15,7 @@ public class Player {
     private String name;
     //private String piece (not implementing for now)
     private int playerNumber; // ie. player1, player2 etc
-    private int position;
+    private int position, previousPosition;
     private int balance;
     private ArrayList<House> ownedHouses = new ArrayList<>();
     private ArrayList<Hotel> ownedHotels = new ArrayList<>();
@@ -52,6 +52,14 @@ public class Player {
         return ownedHotels;
     }
 
+
+    public int getPreviousPosition() {
+        return previousPosition;
+    }
+
+    public void setPreviousPosition(int previousPosition) {
+        this.previousPosition = previousPosition;
+    }
 
     public int getYellowProperties() {
         return yellowProperties;

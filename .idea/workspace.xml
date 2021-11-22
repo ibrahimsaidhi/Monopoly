@@ -8,45 +8,16 @@
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-18_3_09_p_m___Default_Changelist_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-18_3_09_p_m___Default_Changelist_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Controller/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Controller/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Game/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Game/Command.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Game/CommandWords.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Game/CommandWords.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Game/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Game/Parser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/GameModelTest/GameTest.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Board.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Game.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/ModelUpdateListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/ModelUpdateListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Player$PlayerType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Player$PlayerType.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Property.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Property.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Railroad.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Railroad.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Square.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Square.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Utility.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Utility.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/View/BoardOverlay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/View/BoardOverlay.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/View/MonopolyBoard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/View/MonopolyBoard.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Monopoly/View/View.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/View/View.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Controller/Controller.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Game/Command.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Game/CommandWords.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Game/Parser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Board.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Game.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Hotel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/House.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/ModelUpdateListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Player$Status.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Player.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Property.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Railroad.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Square.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/Model/Utility.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/View/BoardOverlay.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/View/MonopolyBoard.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly2/View/View.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/ModelUpdateListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/ModelUpdateListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/BoardOverlay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/BoardOverlay.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/View/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/View.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -73,6 +44,7 @@
         <entry key="$PROJECT_DIR$" value="ibrahim_milestone3" />
       </map>
     </option>
+    <option name="RECENT_COMMON_BRANCH" value="ibrahim_milestone3" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
