@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90a0b1b4-e1b3-4816-a2c8-c7323432a091" name="Default Changelist" comment="minor controller changes">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021-11-18_3_13_p_m___Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021-11-18_3_13_p_m___Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021-11-21_2_02_p_m___Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2021-11-21_2_02_p_m___Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-18_3_09_p_m___Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-18_3_09_p_m___Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-18_3_09_p_m___Default_Changelist_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-18_3_09_p_m___Default_Changelist_1.xml" afterDir="false" />
+    <list default="true" id="90a0b1b4-e1b3-4816-a2c8-c7323432a091" name="Default Changelist" comment="finished refactoring to decouple model from view">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Controller/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Controller/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Board.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/ModelUpdateListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/ModelUpdateListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/View/View.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/View/View.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/ModelUpdateListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/ModelUpdateListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/View.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -420,7 +406,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637522550507</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="finished refactoring to decouple model from view">
+      <created>1637600614630</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1637600614630</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -455,6 +448,7 @@
     <MESSAGE value="small changes to accommodate for beginning of AI implementation" />
     <MESSAGE value="new branch for refactoring MVC pattern" />
     <MESSAGE value="minor controller changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor controller changes" />
+    <MESSAGE value="finished refactoring to decouple model from view" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished refactoring to decouple model from view" />
   </component>
 </project>

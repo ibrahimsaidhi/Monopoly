@@ -1137,14 +1137,28 @@ public class Game {
     public void taxProperty(){
         Player ownedBy = whoOwnsProperty((Property) getBoard().getIndex(getCurrentPlayer().getPosition())); //player who owns property
         int amount = (int) (((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getTax()); //amount to decrement by, 10%
-        getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed
-        ownedBy.incrementBalance(amount); //add $amount to player who owns property
-        //JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + getCurrentPlayer().getBalance());
-        checkPlayerBalance(getCurrentPlayer());
-        lookingForWinner();
+        int houseAmount = 0, hotelAmount= 0;
+        if (!((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().isEmpty()){
+            for (House h: ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses()){
+                houseAmount += h.getPrice();
+            }
+        }
+        else if (!((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHotels().isEmpty()){
+            for (Hotel h: ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHotels()){
+                hotelAmount += (h.getPrice() * 4);
+            }
+        }
+        int total = houseAmount + amount + hotelAmount;
+        if (!ownedBy.equals(getCurrentPlayer())){
+            getCurrentPlayer().decrementBalance(total); //remove $amount from player being taxed
+            ownedBy.incrementBalance(total); //add $amount to player who owns property
+            //JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + getCurrentPlayer().getBalance());
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
+        }
 
         for(ModelUpdateListener v: this.views) {
-            v.taxProperty(amount, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance());
+            v.taxProperty(total, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance());
         }
     }
 
@@ -1155,11 +1169,14 @@ public class Game {
 
     public void taxUtility(int tax){
         Player ownedBy = whoOwnsUtility((Utility) getBoard().getIndex(getCurrentPlayer().getPosition()));
-        getCurrentPlayer().decrementBalance(tax);
-        ownedBy.incrementBalance(tax);
-        //JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": You've landed on a utility owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + getCurrentPlayer().getBalance());
-        checkPlayerBalance(getCurrentPlayer());
-        lookingForWinner();
+        if (!ownedBy.equals(getCurrentPlayer())){
+            getCurrentPlayer().decrementBalance(tax);
+            ownedBy.incrementBalance(tax);
+            //JOptionPane.showMessageDialog(null, "Player " + getCurrentPlayer().getPlayerNumber() + ": You've landed on a utility owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + getCurrentPlayer().getBalance());
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
+        }
+
         for(ModelUpdateListener v: this.views) {
             v.taxProperty(tax, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance());
         }
