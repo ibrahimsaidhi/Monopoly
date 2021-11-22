@@ -34,6 +34,7 @@ public class Controller implements ActionListener {
             case "Roll Die":
                 int diceRoll = gameModel.rollDie();
                 gameView.repaint();
+                gameView.lookingForWinner();
                 gameModel.checkSquare(diceRoll);
 
                 goToTheBottomOfTextField();
