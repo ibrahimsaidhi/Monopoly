@@ -136,8 +136,8 @@ public class View extends JFrame implements ModelUpdateListener {
         int propertyPrice = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
                 "? It costs $" + propertyPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
-        checkPlayerBalance(gameModel.getCurrentPlayer());
-        lookingForWinner();
+        gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+        gameModel.lookingForWinner();
 
     }
 
@@ -146,8 +146,8 @@ public class View extends JFrame implements ModelUpdateListener {
         int utilityPrice = ((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
                 "? It costs $" + utilityPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
-        checkPlayerBalance(gameModel.getCurrentPlayer());
-        lookingForWinner();
+        gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+        gameModel.lookingForWinner();
 
     }
 
@@ -156,8 +156,8 @@ public class View extends JFrame implements ModelUpdateListener {
         int railroadPrice = ((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
                 "? It costs $" + railroadPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
-        checkPlayerBalance(gameModel.getCurrentPlayer());
-        lookingForWinner();
+        gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+        gameModel.lookingForWinner();
 
     }
 
@@ -172,8 +172,8 @@ public class View extends JFrame implements ModelUpdateListener {
             gameModel.getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed
             ownedBy.incrementBalance(amount); //add $amount to player who owns property
             JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
-            checkPlayerBalance(gameModel.getCurrentPlayer());
-            lookingForWinner();
+            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+            gameModel.lookingForWinner();
         }
     }
 
@@ -188,8 +188,8 @@ public class View extends JFrame implements ModelUpdateListener {
             gameModel.getCurrentPlayer().decrementBalance(tax);
             ownedBy.incrementBalance(tax);
             JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a utility owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
-            checkPlayerBalance(gameModel.getCurrentPlayer());
-            lookingForWinner();
+            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+            gameModel.lookingForWinner();
         }
     }
 
@@ -199,8 +199,8 @@ public class View extends JFrame implements ModelUpdateListener {
             gameModel.getCurrentPlayer().decrementBalance(tax);
             ownedBy.incrementBalance(tax);
             JOptionPane.showMessageDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a railroad owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
-            checkPlayerBalance(gameModel.getCurrentPlayer());
-            lookingForWinner();
+            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+            gameModel.lookingForWinner();
         }
     }
 
@@ -358,7 +358,8 @@ public class View extends JFrame implements ModelUpdateListener {
     public void taxProperty(int tax, Player ownedBy, int playerNumber, int balance) {
         JOptionPane.showMessageDialog(null, "Player " + playerNumber + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + balance);
         //checkPlayerBalance(playerNumber);
-        lookingForWinner();
+        gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+        gameModel.lookingForWinner();
     }
 
     @Override
@@ -478,8 +479,8 @@ public class View extends JFrame implements ModelUpdateListener {
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have bought a new " + propertyColor + " hotel for " + gameModel.getBoardName() +
                 ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
         gameModel.passTurn();
-        checkPlayerBalance(gameModel.getCurrentPlayer());
-        lookingForWinner();
+        gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+        gameModel.lookingForWinner();
     }
 
     @Override
@@ -489,8 +490,8 @@ public class View extends JFrame implements ModelUpdateListener {
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have sold a  " + propertyColor + " hotel from " + gameModel.getBoardName() +
                 ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
         gameModel.passTurn();
-        checkPlayerBalance(gameModel.getCurrentPlayer());
-        lookingForWinner();
+        gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+        gameModel.lookingForWinner();
     }
 
     @Override

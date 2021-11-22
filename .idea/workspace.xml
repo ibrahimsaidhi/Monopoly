@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90a0b1b4-e1b3-4816-a2c8-c7323432a091" name="Default Changelist" comment="finished refactoring to decouple model from view">
+    <list default="true" id="90a0b1b4-e1b3-4816-a2c8-c7323432a091" name="Default Changelist" comment="fixed taxing bug that would tax the player that paid for the property/railroad/utility they themselves bought">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Monopoly/Model/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Monopoly/Model/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/View.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -413,7 +412,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637600614630</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="fixed taxing bug that would tax the player that paid for the property/railroad/utility they themselves bought">
+      <created>1637603132219</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1637603132219</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -449,6 +455,7 @@
     <MESSAGE value="new branch for refactoring MVC pattern" />
     <MESSAGE value="minor controller changes" />
     <MESSAGE value="finished refactoring to decouple model from view" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished refactoring to decouple model from view" />
+    <MESSAGE value="fixed taxing bug that would tax the player that paid for the property/railroad/utility they themselves bought" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed taxing bug that would tax the player that paid for the property/railroad/utility they themselves bought" />
   </component>
 </project>
