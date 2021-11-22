@@ -211,12 +211,7 @@ public class Game {
         for(ModelUpdateListener v: this.views) {
             v.passTurn(getCurrentPlayer().getPlayerNumber());
         }
-        /*
-        if(this.currentPlayer.getType() == Player.PlayerType.AI){
-            this.aiAlgorithm();
-        }
-         */
-        //newTurn();
+
     }
 
     public void manualPass(){
@@ -244,7 +239,7 @@ public class Game {
         }
     }
 
-    public void initializePlayers(int numberOfPlayers) {
+    public void initializePlayers(int humanPlayers, int aiPlayers) {
         /**
          * @author John Afolayan
          *
@@ -253,15 +248,17 @@ public class Game {
          *
          */
 
-        this.numberOfPlayers = numberOfPlayers;
-        //this.numberOfAIPlayers = numberOfAIPlayers;
-        //this.totalNumberOfPlayers = numberOfPlayers + numberOfAIPlayers;
-        createPlayers(numberOfPlayers);
+        this.numberOfPlayers = humanPlayers;
+        this.numberOfAIPlayers = aiPlayers;
+        this.totalNumberOfPlayers = humanPlayers + aiPlayers;
+        createPlayers((numberOfPlayers + numberOfAIPlayers));
         this.currentPlayer = players.get(0);
 
         for(ModelUpdateListener v: this.views) {
-            v.initializeGame(numberOfPlayers, getCurrentPlayer().getPlayerNumber());
+            v.initializeGame(numberOfPlayers + numberOfAIPlayers, getCurrentPlayer().getPlayerNumber());
         }
+
+
 
     }
 
@@ -1134,7 +1131,7 @@ public class Game {
      * @author John Afolayan
      * This method taxes a player whenver they land on another player's property
      */
-    public void taxProperty(){
+    public void taxProperty() {
         Player ownedBy = whoOwnsProperty((Property) getBoard().getIndex(getCurrentPlayer().getPosition())); //player who owns property
         int amount = (int) (((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getTax()); //amount to decrement by, 10%
         int houseAmount = 0, hotelAmount= 0;
@@ -1203,6 +1200,8 @@ public class Game {
     }
 
     public void checkSquare(int diceRoll) {
+        checkPlayerBalance(getCurrentPlayer());
+        lookingForWinner();
         if(!playerIsInJail() && !isPlayerAnAI()) {
             if (hasPlayerPassedGo()) {
                 for (ModelUpdateListener v : views) {
@@ -1215,7 +1214,8 @@ public class Game {
                     v.displaySpecialPosition();
                 }
                 passTurn();
-            } else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Property) {
+            }
+            else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Property) {
                 if (!propertyOwned((Property) getBoard().getIndex(getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
                     //gameView.unlockBuyButton(); //Unlock the 'Buy' button.
                     //gameView.promptPropertyPurchase();
@@ -1273,21 +1273,36 @@ public class Game {
                 }
 
             }else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Square){
+                checkPlayerBalance(getCurrentPlayer());
+                lookingForWinner();
                 passTurn();
             }
         }
         else if (playerIsInJail() && !isPlayerAnAI()){
             //TODO
         }
-
-
-
-
+        while (isPlayerAnAI()){
+            try {
+                while (isPlayerAnAI()){
+                    for (ModelUpdateListener v: views){
+                        v.AIRepaint();
+                    }
+                    passTurn();
+                    Thread.sleep(1);
+                }
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        checkPlayerBalance(getCurrentPlayer());
+        lookingForWinner();
 
     }
 
     public void makePurchase(){
         //gameView.lockBuyButton();
+        checkPlayerBalance(getCurrentPlayer());
+        lookingForWinner();
         if (board.getIndex(getCurrentPlayer().getPosition()) instanceof Property) {
             String propertyColor = ((Property) board.getIndex(getCurrentPlayer().getPosition())).getColor();
             switch (propertyColor) {
@@ -1334,6 +1349,8 @@ public class Game {
             }
             getCurrentPlayer().addProperty((Property) getBoard().getIndex(getCurrentPlayer().getPosition()));
             getCurrentPlayer().decrementBalance(((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
             //gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own property: " + gameModel.getBoardName() +
             //"\nYour new balance is: $" + gameModel.getCurrentPlayer().getBalance() + "\nSpend wisely!");
             for(ModelUpdateListener v: this.views) {
@@ -1345,6 +1362,8 @@ public class Game {
         else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Utility) {
             getCurrentPlayer().addUtility((Utility) getBoard().getIndex(getCurrentPlayer().getPosition()));
             getCurrentPlayer().decrementBalance(((Utility) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
             //gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own Utility: " + gameModel.getBoardName() +
             //"\nYour new balance is: $" + gameModel.getCurrentPlayer().getBalance() + "\nSpend wisely!");
 
@@ -1357,6 +1376,8 @@ public class Game {
         else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Railroad) {
             getCurrentPlayer().addRailroad((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition()));
             getCurrentPlayer().decrementBalance(((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+            checkPlayerBalance(getCurrentPlayer());
+            lookingForWinner();
             //gameView.setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Congratulations, you now own RailRoad: " + gameModel.getBoardName() +
             //"\nYour new balance is: $" + gameModel.getCurrentPlayer().getBalance() + "\nSpend wisely!");
 
@@ -1365,6 +1386,7 @@ public class Game {
             }
             passTurn();
         }
+
     }
 
 

@@ -13,6 +13,7 @@ import java.util.List;
 public class Controller implements ActionListener {
     View gameView;
     Game gameModel;
+    int numberOfHumanPlayers, numberOfAIPlayers, initialNumberOfHumanPlayers, totalPlayerAmount;
 
     public Controller(Game gameModel, View gameView) {
         this.gameModel = gameModel;
@@ -23,14 +24,18 @@ public class Controller implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "New Game":
-                int numberOfPlayers = gameView.numberOfPlayersRequest();
-                gameModel.initializePlayers(numberOfPlayers);
+                initialNumberOfHumanPlayers = gameView.numberOfPlayersRequest();
+                numberOfHumanPlayers = initialNumberOfHumanPlayers;
+                numberOfAIPlayers= gameView.numberOfAIPlayersRequest(numberOfHumanPlayers);
+                totalPlayerAmount = numberOfHumanPlayers + numberOfAIPlayers;
+                gameModel.initializePlayers(numberOfHumanPlayers, numberOfAIPlayers);
 
                 break;
             case "Roll Die":
                 int diceRoll = gameModel.rollDie();
                 gameView.repaint();
                 gameModel.checkSquare(diceRoll);
+
                 goToTheBottomOfTextField();
 
                 break;
