@@ -154,8 +154,10 @@ public class BoardOverlay extends JPanel {
     }
 
     public Color setPlayerColor(int num){
-        if(num == 1){
+        if(num == 0){
             return Color.WHITE;
+        } else if(num == 1){
+            return Color.PINK;
         } else if(num == 2){
             return Color.CYAN;
         } else if(num == 3){
@@ -175,8 +177,10 @@ public class BoardOverlay extends JPanel {
     }
 
     public static String getPlayerColor(int num){
-        if(num == 1){
+        if(num == 0){
             return "WHITE";
+        } else if(num == 1){
+            return "PINK";
         } else if(num == 2){
             return "CYAN";
         } else if(num == 3){

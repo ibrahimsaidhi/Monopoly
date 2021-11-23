@@ -38,7 +38,7 @@ public class Player {
     public Player(int playerNumber){
         //this.name = name;
         this.playerNumber = playerNumber;
-        this.balance = 50; //default starting balance
+        this.balance = 1500; //default starting balance
         this.position = 0; //start at the first square
         this.type = PlayerType.Human;
     }
@@ -55,10 +55,6 @@ public class Player {
 
     public int getPreviousPosition() {
         return previousPosition;
-    }
-
-    public void setPreviousPosition(int previousPosition) {
-        this.previousPosition = previousPosition;
     }
 
     public int getYellowProperties() {
@@ -168,6 +164,7 @@ public class Player {
      * sets a player's new position
      */
     public void setPosition(int position) {
+        previousPosition = this.position;
         this.position = position;
     }
 
@@ -243,7 +240,7 @@ public class Player {
             dieRoll += diceRoll;
         }
         if(dieRoll >=0){
-            return 10;
+            return dieRoll;
         } else {
             rollDice();
         }

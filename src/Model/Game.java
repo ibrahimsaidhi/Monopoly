@@ -168,7 +168,8 @@ public class Game {
          *
          */
         return("\nThere are " + players.size() + " active players in the game currently and you are player " + getCurrentPlayer().getPlayerNumber() + ".\nYou own the following properties: "
-                + getCurrentPlayer().getOwnedProperties().toString() +  "You own the following houses: " + getCurrentPlayer().getOwnedHouses().toString() + "\nYour current balance is $" + getCurrentPlayer().getBalance() + " and your color on the board is " + BoardOverlay.getPlayerColor(currentPlayerInt + 1));
+                + getCurrentPlayer().getOwnedProperties().toString() +  "You own the following houses: " + getCurrentPlayer().getOwnedHouses().toString() +
+                "\nYou are on position: " + board.getIndex(getCurrentPlayer().getPosition()).getName() + ", your current balance is $" + getCurrentPlayer().getBalance() + " and your color on the board is " + BoardOverlay.getPlayerColor(currentPlayerInt));
     }
 
     public void passTurn() {
@@ -288,10 +289,11 @@ public class Game {
     }
 
     public int getSpecialPositionFee(){
-        if(getCurrentPlayer().getPosition() == 4){
+        if(getCurrentPlayer().getPosition() == 4){ //If player lands on Income Tax deduct $200
+            getCurrentPlayer().decrementBalance(200);
             return 200;
         } else if(getCurrentPlayer().getPosition() == 38){
-            getCurrentPlayer().decrementBalance(100);
+            getCurrentPlayer().decrementBalance(100); //If player lands on Luxury Tax deduct 100
             return 200;
         }
         return 0;
@@ -373,8 +375,13 @@ public class Game {
     }
 
     public int getUtilityRent(int diceValue){
-        int amount = (int) (((Utility) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue()) * diceValue;
-        return amount;
+        if(getCurrentPlayer().getOwnedUtility().size() == 2){
+            int amount = diceValue * 10;
+            return amount;
+        } else {
+            int amount = diceValue * 4;
+            return amount;
+        }
     }
 
     public int getRailroadRent(){
@@ -1203,7 +1210,9 @@ public class Game {
             }
         }
         else if (playerIsInJail() && !isPlayerAnAI()){
-            //TODO
+            for (ModelUpdateListener v: views){
+                v.payToLeaveJail();
+            }
         }
         while (isPlayerAnAI()){
             try {

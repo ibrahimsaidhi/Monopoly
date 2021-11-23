@@ -171,7 +171,7 @@ public class View extends JFrame implements ModelUpdateListener {
             int amount = (int) (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue() * 0.1); //amount to decrement by, 10%
             gameModel.getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed
             ownedBy.incrementBalance(amount); //add $amount to player who owns property
-            setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
+            setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
             gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
             gameModel.lookingForWinner();
         }
@@ -356,10 +356,11 @@ public class View extends JFrame implements ModelUpdateListener {
 
     @Override
     public void taxProperty(int tax, Player ownedBy, int playerNumber, int balance) {
-        setFeedbackArea("Player " + playerNumber + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + balance);
-        //checkPlayerBalance(playerNumber);
-        gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
-        gameModel.lookingForWinner();
+        if(!ownedBy.equals(gameModel.getCurrentPlayer())) { //If current player who lands on property doesn't own that property, tax them.
+            setFeedbackArea("\nPlayer " + playerNumber + ": You've landed on a property owned by player " + ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + balance);
+            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+            gameModel.lookingForWinner();
+        }
     }
 
     @Override
@@ -504,9 +505,21 @@ public class View extends JFrame implements ModelUpdateListener {
 
     }
 
-
-
-
+    @Override
+    public void payToLeaveJail(){
+            if (gameModel.playerIsInJail()) {
+                int input = JOptionPane.showConfirmDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You are in Jail. Would you like to pay $50 bail to leave?" + "\nClick yes to pay bail or no to stay in jail.", "Pay bail?", JOptionPane.YES_NO_OPTION);
+                if (input == JOptionPane.YES_OPTION) {
+                    gameModel.getCurrentPlayer().decrementBalance(50);
+                    gameModel.freePlayerFromJail();
+                } else if (input == JOptionPane.NO_OPTION) {
+                    setFeedbackArea("\nYikes :/ another night in jail doesn't sound fun. Good luck.");
+                } else {
+                    setFeedbackArea("Seems like there might have been an error. Please report it to the developer.");
+                }
+            }
+            repaint();
+    }
 
     public String requestingHouseStatus(){
         String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a house?");
