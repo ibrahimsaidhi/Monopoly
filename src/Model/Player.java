@@ -240,7 +240,7 @@ public class Player {
             dieRoll += diceRoll;
         }
         if(dieRoll >=0){
-            return 10;
+            return dieRoll;
         } else {
             rollDice();
         }
