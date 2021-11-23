@@ -20,19 +20,13 @@ import java.util.Random;
 
 public class Game {
     private Parser parser;
-    private Property property;
-    private Utility utility;
-    private Railroad railroad;
     private Player currentPlayer;
     private int currentPlayerInt = 0;
     private List<Player> players;
     private ModelUpdateListener viewer;
     private int numberOfHumanPlayers, numberOfAIPlayers, totalNumberOfPlayers;
     private int initialNumberOfHumanPlayers;
-    private String newPlayerName;
-    private InputStream inputStream;
     private Board board = new Board();
-    boolean wantToQuit = false;
     private List<ModelUpdateListener> views;
 
     boolean ableToPurchaseRed = false;
@@ -48,7 +42,6 @@ public class Game {
         parser = new Parser();
         players = new ArrayList<>();
         this.views = new ArrayList<>();
-
     }
     public boolean isAbleToPurchaseBlue() {
         return ableToPurchaseBlue;
@@ -145,11 +138,6 @@ public class Game {
         views.add(view);
     }
 
-    private void printCurrentPlayer() {
-        System.out.println("\n!*-----------------------------------------------NEW TURN!-------------------------------------------------------*!");
-        System.out.println("The current player is " + getCurrentPlayer().getName() + "\n");
-    }
-
     /**
      * @author John Afolayan
      * @param property Property a player lands on
@@ -184,7 +172,6 @@ public class Game {
         for(ModelUpdateListener v: this.views) {
             v.passTurn(getCurrentPlayer().getPlayerNumber());
         }
-
     }
 
     public void manualPass(){
@@ -215,14 +202,6 @@ public class Game {
         for(ModelUpdateListener v: this.views) {
             v.initializeGame(totalNumberOfPlayers, getCurrentPlayer().getPlayerNumber());
         }
-
-
-
-    }
-
-    private void update() {
-        if (this.viewer != null)
-            this.viewer.modelUpdated();
     }
 
     public void setViewer(ModelUpdateListener viewer) {
@@ -704,14 +683,6 @@ public class Game {
 
     }
 
-    public int getNumberOfHumanPlayers(){
-        return numberOfHumanPlayers;
-    }
-
-    public int getNumberOfAIPlayers(){
-        return numberOfAIPlayers;
-    }
-
     public void sellAHotel(){
         String currentColor = (((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getColor());
         if (isAbleToPurchaseBlue() && currentColor.equals("blue")){
@@ -1039,12 +1010,6 @@ public class Game {
             }
             index += 1;
         }
-        //REMOVE LATER
-        System.out.println("There are now " + players.size() +" left in the game.");
-        for(int i = 0; i < players.size(); i++){
-            System.out.print(players.get(i).getPlayerNumber() + ", ");
-        }
-        System.out.println();
     }
 
     /**
@@ -1154,6 +1119,11 @@ public class Game {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
         }
+    }
+
+    public void playerIsLeavingJail(){
+        getCurrentPlayer().decrementBalance(50);
+        freePlayerFromJail();
     }
 
     public void checkSquare(int diceRoll) {
