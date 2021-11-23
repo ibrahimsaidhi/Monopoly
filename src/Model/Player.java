@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Player {
-    private String name;
-    //private String piece (not implementing for now)
     private final int playerNumber; // ie. player1, player2 etc
     private int position, previousPosition;
     private int balance;
@@ -36,7 +34,6 @@ public class Player {
 
     //constructor
     public Player(int playerNumber){
-        //this.name = name;
         this.playerNumber = playerNumber;
         this.balance = 1500; //default starting balance
         this.position = 0; //start at the first square
@@ -119,13 +116,6 @@ public class Player {
 
     public void setBlueProperties(int blueProperties) {
         this.blueProperties = blueProperties;
-    }
-
-    /**
-     * returns Player's name
-     */
-    public String getName() {
-        return name;
     }
 
     /**

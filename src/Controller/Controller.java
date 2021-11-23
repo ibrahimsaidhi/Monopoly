@@ -1,14 +1,11 @@
 package Controller;
 
-import Game.Command;
 import Model.*;
 import View.View;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Controller implements ActionListener {
     View gameView;

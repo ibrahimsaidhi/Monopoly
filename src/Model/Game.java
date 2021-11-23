@@ -1,9 +1,7 @@
 package Model;
 
-import Game.Parser;
 import View.BoardOverlay;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,13 +11,11 @@ import java.util.Random;
 /**
  * @author John Afolayan
  * <p>
- * This main class creates and initialises all the others. This class acts the Controller.
- * It creates the parser and starts the game.
- * It also evaluates and executes the commands that the parser returns.
+ * This class acts as the model for the game. Important data handling will be done in this class.
+ *
  */
 
 public class Game {
-    private Parser parser;
     private Player currentPlayer;
     private int currentPlayerInt = 0;
     private List<Player> players;
@@ -39,7 +35,6 @@ public class Game {
     boolean ableToPurchaseYellow = false;
 
     public Game() {
-        parser = new Parser();
         players = new ArrayList<>();
         this.views = new ArrayList<>();
     }
@@ -1136,7 +1131,7 @@ public class Game {
                 }
                 passTurn();
             }
-            if (hasPlayerLandedOnSpecialPosition()) {
+            else if (hasPlayerLandedOnSpecialPosition()) {
                 for (ModelUpdateListener v : views) {
                     v.displaySpecialPosition();
                 }
