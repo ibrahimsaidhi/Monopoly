@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 /**
  * The Property class: A Model.Square on the board that can be bought by a Player
  * Date: October 17, 2021
@@ -12,6 +14,12 @@ public class Property extends Square {
     private String color;
 
     private int value;
+    private ArrayList<House> houses = new ArrayList<>();
+    private ArrayList<Hotel> hotels = new ArrayList<>();
+
+    public ArrayList<Hotel> getHotels() {
+        return hotels;
+    }
 
     // class constructor
     public Property(String name, String color, int value){
@@ -19,6 +27,10 @@ public class Property extends Square {
         this.name = name;
         this.value = value;
         this.color = color;
+    }
+
+    public ArrayList<House> getHouses() {
+        return houses;
     }
 
     @Override
@@ -73,6 +85,10 @@ public class Property extends Square {
      */
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public int getTax(){
+        return (int) (this.getValue() * 0.1);
     }
 
 

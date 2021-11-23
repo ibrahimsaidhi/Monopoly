@@ -154,8 +154,10 @@ public class BoardOverlay extends JPanel {
     }
 
     public Color setPlayerColor(int num){
-        if(num == 1){
-            return Color.WHITE;
+        if(num == 0){
+            return Color.black;
+        } else if(num == 1){
+            return Color.PINK;
         } else if(num == 2){
             return Color.CYAN;
         } else if(num == 3){
@@ -174,18 +176,41 @@ public class BoardOverlay extends JPanel {
         return Color.WHITE;
     }
 
+    public static String getPlayerColor(int num){
+        if(num == 0){
+            return "BLACK";
+        } else if(num == 1){
+            return "PINK";
+        } else if(num == 2){
+            return "CYAN";
+        } else if(num == 3){
+            return "YELLOW";
+        } else if(num == 4){
+            return "MAGENTA";
+        } else if(num == 5){
+            return "GREEN";
+        } else if(num == 6){
+            return "ORANGE";
+        } else if(num == 7){
+            return "RED";
+        } else if(num == 8){
+            return "BLUE";
+        }
+        return "WHITE";
+    }
+
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         //Draw a circle for the amount of players in the game
-            for (int i = 0; i < game.getPlayers().size(); i++) {
-                int intPos = game.getPlayers().get(i).getPosition(); //Get the integer position of the current player
-                String positionName = game.getBoard().getIndex(intPos).getName(); //Get the name of the square which player is currently on
-                if (boardLocations.containsKey(positionName)) {
-                    graphics.drawOval(boardLocations.get(positionName).x, boardLocations.get(positionName).y, getWidth() / 30, getHeight() / 30);
-                    graphics.fillOval(boardLocations.get(positionName).x, boardLocations.get(positionName).y, getWidth() / 30, getHeight() / 30);
-                    graphics.setColor(setPlayerColor(game.getPlayers().get(i).getPlayerNumber())); //Passes player's number as parameter for getPlayerColor() which has a player's assigned color
-                }
+        for (int i = 0; i < game.getPlayers().size(); i++) {
+            int intPos = game.getPlayers().get(i).getPosition(); //Get the integer position of the current player
+            String positionName = game.getBoard().getIndex(intPos).getName(); //Get the name of the square which player is currently on
+            if (boardLocations.containsKey(positionName)) {
+                graphics.drawOval(boardLocations.get(positionName).x, boardLocations.get(positionName).y, getWidth() / 30, getHeight() / 30);
+                graphics.fillOval(boardLocations.get(positionName).x, boardLocations.get(positionName).y, getWidth() / 30, getHeight() / 30);
+                graphics.setColor(setPlayerColor(game.getPlayers().get(i).getPlayerNumber())); //Passes player's number as parameter for getPlayerColor() which has a player's assigned color
             }
+        }
     }
 }

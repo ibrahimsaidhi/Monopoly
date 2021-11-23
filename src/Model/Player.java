@@ -12,27 +12,110 @@ import java.util.List;
 import java.util.Random;
 
 public class Player {
-    private String name;
-    //private String piece (not implementing for now)
-    private int playerNumber; // ie. player1, player2 etc
+    private final int playerNumber; // ie. player1, player2 etc
     private int position, previousPosition;
     private int balance;
+    private ArrayList<House> ownedHouses = new ArrayList<>();
+    private ArrayList<Hotel> ownedHotels = new ArrayList<>();
     private ArrayList<Property> ownedProperties = new ArrayList<>();
+    private ArrayList<Utility> ownedUtility = new ArrayList<>();
+    private ArrayList<Railroad> ownedRailroads  = new ArrayList<>();
+
+    int greenProperties = 0;
+    int yellowProperties = 0;
+    int blueProperties = 0;
+    int brownProperties = 0;
+    int purpleProperties = 0;
+    int lightBlueProperties = 0;
+    int orangeProperties = 0;
+    int redProperties = 0;
+    public enum PlayerType {Human, AI};
+    private PlayerType type;
 
     //constructor
     public Player(int playerNumber){
-        //this.name = name;
         this.playerNumber = playerNumber;
         this.balance = 1500; //default starting balance
         this.position = 0; //start at the first square
-        this.previousPosition = 0;
+        this.type = PlayerType.Human;
     }
 
-    /**
-     * returns Player's name
-     */
-    public String getName() {
-        return name;
+    public ArrayList<House> getOwnedHouses() {
+        return ownedHouses;
+    }
+
+
+    public ArrayList<Hotel> getOwnedHotels() {
+        return ownedHotels;
+    }
+
+
+    public int getPreviousPosition() {
+        return previousPosition;
+    }
+
+    public int getYellowProperties() {
+        return yellowProperties;
+    }
+
+    public int getRedProperties() {
+        return redProperties;
+    }
+
+    public int getOrangeProperties() {
+        return orangeProperties;
+    }
+
+    public int getPurpleProperties() {
+        return purpleProperties;
+    }
+
+    public int getLightBlueProperties() {
+        return lightBlueProperties;
+    }
+
+    public int getGreenProperties() {
+        return greenProperties;
+    }
+
+    public int getBrownProperties() {
+        return brownProperties;
+    }
+
+    public int getBlueProperties() {
+        return blueProperties;
+    }
+
+    public void setYellowProperties(int yellowProperties) {
+        this.yellowProperties = yellowProperties;
+    }
+
+    public void setRedProperties(int redProperties) {
+        this.redProperties = redProperties;
+    }
+
+    public void setPurpleProperties(int purpleProperties) {
+        this.purpleProperties = purpleProperties;
+    }
+
+    public void setOrangeProperties(int orangeProperties) {
+        this.orangeProperties = orangeProperties;
+    }
+
+    public void setLightBlueProperties(int lightBlueProperties) {
+        this.lightBlueProperties = lightBlueProperties;
+    }
+
+    public void setGreenProperties(int greenProperties) {
+        this.greenProperties = greenProperties;
+    }
+
+    public void setBrownProperties(int brownProperties) {
+        this.brownProperties = brownProperties;
+    }
+
+    public void setBlueProperties(int blueProperties) {
+        this.blueProperties = blueProperties;
     }
 
     /**
@@ -81,15 +164,18 @@ public class Player {
     public int getPosition() { return this.position; }
 
     /**
-     * gets a player's previous position
-     */
-    public int getPreviousPosition() { return this.previousPosition; }
-
-    /**
      * adds a new property a player's collected
      */
     public void addProperty(Property property){
         ownedProperties.add(property);
+    }
+
+    public void addUtility(Utility utility){
+        ownedUtility.add(utility);
+    }
+
+    public void addRailroad(Railroad railroad){
+        ownedRailroads.add(railroad);
     }
 
     /**
@@ -97,6 +183,29 @@ public class Player {
      */
     public ArrayList getOwnedProperties(){
         return ownedProperties;
+    }
+
+    public ArrayList<Utility> getOwnedUtility() {
+        return ownedUtility;
+    }
+
+    public ArrayList<Railroad> getOwnedRailroads() {
+        for (int i =0; i < ownedRailroads.size();i++){
+            System.out.println(ownedRailroads.get(i));
+        }
+        return ownedRailroads;
+    }
+
+    public int totalRailroadsOwned(){
+        return ownedRailroads.size();
+    }
+
+    public PlayerType getType() {
+        return type;
+    }
+
+    public void setAI(){
+        this.type = PlayerType.AI;
     }
 
     /**
@@ -107,10 +216,11 @@ public class Player {
     }
 
     /**
-     * Calculates a random die roll
+     * Calculates a random die roll based on 2 die
      */
     public Integer rollDice() {
-        Integer numberOfDiceToRoll = 1; //rolling one die
+
+        Integer numberOfDiceToRoll = 2; //rolling two dices
         List<Integer> diceRolls = new ArrayList<>();
         int dieRoll = 0;
         Random random = new Random();

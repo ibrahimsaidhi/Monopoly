@@ -1,10 +1,7 @@
 package View;
 
 import Controller.Controller;
-import Model.Game;
-import Model.ModelUpdateListener;
-import Model.Player;
-import Model.Property;
+import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,11 +14,14 @@ public class View extends JFrame implements ModelUpdateListener {
     JButton passTurnButton;
     JButton buyButton;
     JButton quitButton;
+    JButton addHouseButton;
     ArrayList<JButton> listOfCommandButtons;
     JTextArea feedbackArea;
     JButton stateButton;
+    JButton addHotelButton;
     BoardOverlay boardOverlay;
     MonopolyBoard monopolyBoard;
+
     //MyPanel panel;
 
     public View(Game gameModel) {
@@ -41,7 +41,7 @@ public class View extends JFrame implements ModelUpdateListener {
     static int askUser(Integer[] choices) {
         Integer s = (Integer) JOptionPane.showInputDialog(
                 null,
-                "How many players are playing today?",
+                "How many human players are playing today?",
                 "Select the number of players!",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
@@ -63,6 +63,8 @@ public class View extends JFrame implements ModelUpdateListener {
         monopolyBoard = new MonopolyBoard();
         jLayeredPane.add(monopolyBoard, JLayeredPane.DEFAULT_LAYER);
 
+        gameModel.addView(this);
+
         boardOverlay = new BoardOverlay(gameModel);
         jLayeredPane.add(boardOverlay, JLayeredPane.POPUP_LAYER);
         root.add(jLayeredPane, BorderLayout.CENTER);
@@ -74,15 +76,19 @@ public class View extends JFrame implements ModelUpdateListener {
         newGameButton = new JButton("New Game");
         rollDieButton = new JButton("Roll Die");
         buyButton = new JButton("Buy");
+        addHouseButton = new JButton("Buy/Sell House");
+        addHotelButton = new JButton("Buy/Sell Hotel");
         passTurnButton = new JButton("Pass Turn");
         quitButton = new JButton("Quit Game");
         stateButton = new JButton("State");
+        addHotelButton.setEnabled(false);
         rollDieButton.setEnabled(false);
         passTurnButton.setEnabled(false);
         buyButton.setEnabled(false);
         stateButton.setEnabled(false);
         passTurnButton.setEnabled(false);
         quitButton.setEnabled(false);
+        addHouseButton.setEnabled(false);
         listOfCommandButtons = new ArrayList<JButton>();
         listOfCommandButtons.add(rollDieButton);
         listOfCommandButtons.add(buyButton);
@@ -90,6 +96,8 @@ public class View extends JFrame implements ModelUpdateListener {
         listOfCommandButtons.add(stateButton);
         listOfCommandButtons.add(quitButton);
         listOfCommandButtons.add(newGameButton);
+        listOfCommandButtons.add(addHotelButton);
+        listOfCommandButtons.add(addHouseButton);
 
 
         feedbackArea = new JTextArea("Welcome to Monopoly! Please press New Game in order to start!\n");
@@ -100,13 +108,19 @@ public class View extends JFrame implements ModelUpdateListener {
         menuPanel.add(newGameButton, BorderLayout.WEST);
 
         JPanel centerPanel = new JPanel();
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BorderLayout());
         centerPanel.setLayout(new BorderLayout());
         menuPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(rollDieButton, BorderLayout.CENTER);
         centerPanel.add(buyButton, BorderLayout.WEST);
         centerPanel.add(stateButton, BorderLayout.EAST);
+        bottomPanel.add(addHouseButton, BorderLayout.EAST);
+        bottomPanel.add(addHotelButton, BorderLayout.CENTER);
         menuPanel.add(passTurnButton, BorderLayout.EAST);
-        menuPanel.add(quitButton, BorderLayout.SOUTH);
+
+        bottomPanel.add(quitButton, BorderLayout.WEST);
+        menuPanel.add(bottomPanel, BorderLayout.SOUTH);
         root.add(menuPanel, BorderLayout.SOUTH);
 
         //Initialization of the frame
@@ -117,28 +131,76 @@ public class View extends JFrame implements ModelUpdateListener {
     }
 
 
-    public void promptUserToPurchase(){
+    public void promptPropertyPurchase(){
         rollDieButton.setEnabled(false);
         int propertyPrice = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
                 "? It costs $" + propertyPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
-        checkPlayerBalance(gameModel.getCurrentPlayer());
-        lookingForWinner();
+        gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+        gameModel.lookingForWinner();
+
+    }
+
+    public void promptUtilityPurchase(){
+        rollDieButton.setEnabled(false);
+        int utilityPrice = ((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
+                "? It costs $" + utilityPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+        gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+        gameModel.lookingForWinner();
+
+    }
+
+    public void promptRailroadPurchase() {
+        rollDieButton.setEnabled(false);
+        int railroadPrice = ((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
+                "? It costs $" + railroadPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+        gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+        gameModel.lookingForWinner();
+
     }
 
     /**
      * @author John Afolayan
      * This method taxes a player whenver they land on another player's property
      */
-    public void taxPlayer(){
+    public void taxProperty(){
         Player ownedBy = gameModel.whoOwnsProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())); //player who owns property
         if(!ownedBy.equals(gameModel.getCurrentPlayer())){ //If current player who lands on property doesn't own that property, tax them.
             int amount = (int) (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue() * 0.1); //amount to decrement by, 10%
             gameModel.getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed
             ownedBy.incrementBalance(amount); //add $amount to player who owns property
             setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
-            checkPlayerBalance(gameModel.getCurrentPlayer());
-            lookingForWinner();
+            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+            gameModel.lookingForWinner();
+        }
+    }
+
+    /**
+     * @author Hamza
+     * This method taxes a player whenever they land of another players utility
+     */
+
+    public void taxUtility(int tax){
+        Player ownedBy = gameModel.whoOwnsUtility((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
+        if(!ownedBy.equals(gameModel.getCurrentPlayer())){
+            gameModel.getCurrentPlayer().decrementBalance(tax);
+            ownedBy.incrementBalance(tax);
+            setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a utility owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
+            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+            gameModel.lookingForWinner();
+        }
+    }
+
+    public void taxRailroad(int tax) {
+        Player ownedBy = gameModel.whoOwnsRailroad((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
+        if(!ownedBy.equals(gameModel.getCurrentPlayer())){
+            gameModel.getCurrentPlayer().decrementBalance(tax);
+            ownedBy.incrementBalance(tax);
+            setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a railroad owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
+            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+            gameModel.lookingForWinner();
         }
     }
 
@@ -165,21 +227,6 @@ public class View extends JFrame implements ModelUpdateListener {
         }
     }
 
-    public void payToLeaveJail(){
-        if(gameModel.playerIsInJail()){
-            int input = JOptionPane.showConfirmDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You are in Jail. Would you like to pay $50 bail to leave?" + "\nClick yes to pay bail or no to stay in jail.", "Pay bail?", JOptionPane.YES_NO_OPTION);
-            if(input == JOptionPane.YES_OPTION){
-                gameModel.getCurrentPlayer().decrementBalance(50);
-                gameModel.freePlayerFromJail();
-            } else if(input == JOptionPane.NO_OPTION){
-                setFeedbackArea("\nYikes :/ another night in jail doesn't sound fun. Good luck.");
-            } else {
-                setFeedbackArea("Seems like there might have been an error. Please report it to the developer.");
-            }
-        }
-        repaint();
-    }
-
 
     private void initialize(Controller gameController) {
         for (JButton button : listOfCommandButtons) {
@@ -187,13 +234,6 @@ public class View extends JFrame implements ModelUpdateListener {
         }
     }
 
-    /*
-     * This method updates the model
-     */
-    @Override
-    public void modelUpdated() {
-        repaint();
-    }
 
     /**
      * @author John Afolayan
@@ -206,6 +246,10 @@ public class View extends JFrame implements ModelUpdateListener {
         }
     }
 
+
+    public void lockRollButton(){
+        rollDieButton.setEnabled(false);
+    }
     public void lockBuyButton(){
         buyButton.setEnabled(false);
     }
@@ -216,9 +260,6 @@ public class View extends JFrame implements ModelUpdateListener {
 
     public void unlockRollDieButton(){
         rollDieButton.setEnabled(true);
-    }
-    public void lockRollDieButton(){
-        rollDieButton.setEnabled(false);
     }
 
     public JTextArea getFeedbackArea() {
@@ -233,10 +274,261 @@ public class View extends JFrame implements ModelUpdateListener {
         return newGameButton;
     }
 
+    private void goToTheBottomOfTextField() {
+        getFeedbackArea().getCaret().setDot(Integer.MAX_VALUE);
+    }
+
     public int numberOfPlayersRequest() {
         Integer[] choices = new Integer[]{2, 3, 4, 5, 6, 7, 8};
         int choice = askUser(choices);
         return choice;
+    }
+
+    static int askUserAboutAI(Integer[] choices) {
+        Integer s = (Integer) JOptionPane.showInputDialog(
+                null,
+                "How many AI controlled players would you like to set?",
+                "Select the number of AI players!",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                choices,
+                choices[0]);
+        return s;
+    }
+
+    public int numberOfAIPlayersRequest(int numberOfPlayers) {
+        if(numberOfPlayers != 8) {
+            Integer[] choices = new Integer[9 - numberOfPlayers];
+            choices[0] = 0;
+            int index = 7 - numberOfPlayers;
+            for (int i = numberOfPlayers; i < 8; i++) {
+                choices[index+1] = 8 - i;
+                index--;
+            }
+            int choice = askUserAboutAI(choices);
+            return choice;
+        }
+        return 0;
+    }
+
+    /*
+     * This method updates the model
+     */
+    @Override
+    public void modelUpdated() {
+        repaint();
+    }
+
+    @Override
+    public void dieCount(int value, int position) {
+        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die that added up to " + value);
+        setFeedbackArea("\nYour new position is now " + position + ": " + gameModel.getBoardName());
+    }
+
+    @Override
+    public void unlockPropertyBuy() {
+        unlockBuyButton();
+        promptPropertyPurchase();
+        lockRollButton();
+
+    }
+
+    @Override
+    public void unlockUtilityBuy() {
+        unlockBuyButton();
+        promptUtilityPurchase();
+        lockRollButton();
+
+    }
+
+    @Override
+    public void unlockRailroadBuy() {
+        unlockBuyButton();
+        promptRailroadPurchase();
+        lockRollButton();
+
+    }
+
+    @Override
+    public void passTurn(int playerNumber) {
+        setFeedbackArea("\nCurrently turn of: Player " + playerNumber + "\n");
+    }
+
+    @Override
+    public void taxProperty(int tax, Player ownedBy, int playerNumber, int balance) {
+        if(!ownedBy.equals(gameModel.getCurrentPlayer())) { //If current player who lands on property doesn't own that property, tax them.
+            setFeedbackArea("\nPlayer " + playerNumber + ": You've landed on a property owned by player " + ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + balance);
+            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+            gameModel.lookingForWinner();
+        }
+    }
+
+    @Override
+    public void confirmPurchase(int playerNumber, String name, int balance) {
+        lockBuyButton();
+        setFeedbackArea("\nPlayer " + playerNumber + ": Congratulations, you now own: " + name +
+        "\nYour new balance is: $" + balance + "\nSpend wisely!");
+    }
+
+    @Override
+    public void printState(int i, int balance, String toString, int balance1) {
+        setFeedbackArea("You are player " + (i) + "\nYou own the following properties:\n"
+                + toString + "\nYour current balance is " + balance);
+        goToTheBottomOfTextField();
+    }
+
+    @Override
+    public void initializeGame(int numberOfPlayers, int playerNumber) {
+        unlockButtons();
+        setFeedbackArea("A new game has begun with " + numberOfPlayers + " players\n" + "\nCurrently turn of: Player " + playerNumber + "\n");
+        getNewGameButton().setEnabled(false);
+    }
+
+    @Override
+    public void manualPassUpdate(int playerNumber) {
+        setFeedbackArea("\nPlayer # " + playerNumber + " has passed their turn\n");
+        goToTheBottomOfTextField();
+    }
+
+    @Override
+    public void returnWinner(int playerNumber) {
+        JOptionPane.showMessageDialog(null, "Player " + playerNumber + " has won the game! Congratulations");
+    }
+
+    @Override
+    public void displayBankruptPlayer(int playerNumber) {
+        JOptionPane.showMessageDialog(null, "Player " + playerNumber + ": You are now bankrupt! You have been kicked out of the game. Too bad...");
+    }
+
+    @Override
+    public void displayPlayerHasPassedGo() {
+        setFeedbackArea("\nCongratulations, you've passed GO! Your balance has increased by $200.");
+    }
+
+    @Override
+    public void displaySpecialPosition() {
+        setFeedbackArea("\nSince you landed on " + gameModel.getBoardName() + ", a fee of $" + gameModel.getSpecialPositionFee() + " has been deducted from your balance.");
+    }
+
+    @Override
+    public void AIRepaint() {
+        setFeedbackArea(gameModel.aiAlgorithm());
+        repaint();
+    }
+
+    @Override
+    public void purchasingHouse() {
+        JOptionPane.showMessageDialog(this, "You are able to purchase houses!" );
+    }
+
+    @Override
+    public void notPurchasingAHouse() {
+        JOptionPane.showMessageDialog(this, "You cannot buy a house for " + gameModel.getBoardName() + " as it is not a property");
+    }
+
+    @Override
+    public void cannotPurchase() {
+        setFeedbackArea("Sorry, you cannot buy a house at the moment. Please try again later...");
+    }
+
+    @Override
+    public void confirmHouseTransaction() {
+        String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
+
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have bought a new " + propertyColor + " house for " + gameModel.getBoardName() +
+                ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+        gameModel.passTurn();
+        checkPlayerBalance(gameModel.getCurrentPlayer());
+        lookingForWinner();
+    }
+
+    @Override
+    public void confirmHouseSold() {
+        String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
+
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have sold a  " + propertyColor + " house from " + gameModel.getBoardName() +
+                ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+        gameModel.passTurn();
+        checkPlayerBalance(gameModel.getCurrentPlayer());
+        lookingForWinner();
+    }
+
+    @Override
+    public void cannotSell() {
+        setFeedbackArea("Sorry, you cannot sell a house at the moment. Please try again later...\n");
+    }
+
+    @Override
+    public void purchasingHotel() {
+        JOptionPane.showMessageDialog(this, "You are able to purchase hotels!" );
+    }
+
+    @Override
+    public void cannotPurchaseHotel(){
+        setFeedbackArea("Sorry, you cannot buy a hotel at the moment. Please try again later...\n");
+    }
+
+    @Override
+    public void notPurchasingAHotel() {
+        JOptionPane.showMessageDialog(this, "You cannot buy a hotel for " + gameModel.getBoardName() + " as it is not a property\n");
+    }
+
+    @Override
+    public void confirmHotelTransaction() {
+        String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
+
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have bought a new " + propertyColor + " hotel for " + gameModel.getBoardName() +
+                ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+        gameModel.passTurn();
+        gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+        gameModel.lookingForWinner();
+    }
+
+    @Override
+    public void confirmHotelSold() {
+        String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
+
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have sold a  " + propertyColor + " hotel from " + gameModel.getBoardName() +
+                ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+        gameModel.passTurn();
+        gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
+        gameModel.lookingForWinner();
+    }
+
+    @Override
+    public void cannotSellHotel() {
+        setFeedbackArea("Sorry, you cannot sell a hotel at the moment. Please try again later...\n");
+    }
+
+    @Override
+    public void sellingHouse() {
+
+    }
+
+    @Override
+    public void payToLeaveJail(){
+            if (gameModel.playerIsInJail()) {
+                lockRollButton();
+                int input = JOptionPane.showConfirmDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You are in Jail. Would you like to pay $50 bail to leave?" + "\nClick yes to pay bail or no to stay in jail.", "Pay bail?", JOptionPane.YES_NO_OPTION);
+                if (input == JOptionPane.YES_OPTION) {
+                    gameModel.playerIsLeavingJail();
+                } else if (input == JOptionPane.NO_OPTION) {
+                    setFeedbackArea("\nYikes :/ another night in jail doesn't sound fun. Good luck.");
+                } else {
+                    setFeedbackArea("Seems like there might have been an error. Please report it to the developer.");
+                }
+            }
+            repaint();
+    }
+
+    public String requestingHouseStatus(){
+        String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a house?");
+        return input;
+    }
+
+    public String requestingHotelStatus(){
+        String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a hotel?");
+        return input;
     }
 
 }
