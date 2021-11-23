@@ -41,7 +41,7 @@ public class View extends JFrame implements ModelUpdateListener {
     static int askUser(Integer[] choices) {
         Integer s = (Integer) JOptionPane.showInputDialog(
                 null,
-                "How many players are playing today?",
+                "How many human players are playing today?",
                 "Select the number of players!",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
