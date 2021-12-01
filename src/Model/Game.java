@@ -173,6 +173,7 @@ public class Game {
                 passTurn();
             }
             v.modelUpdated();
+            v.lockPassTurnButton();
         }
     }
 

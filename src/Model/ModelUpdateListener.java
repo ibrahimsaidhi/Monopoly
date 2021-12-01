@@ -11,6 +11,10 @@ public interface ModelUpdateListener {
 
     void unlockRailroadBuy();
 
+    void lockPassTurnButton();
+
+    void unlockPassTurnButton();
+
     void passTurn(int playerNumber);
 
     void taxProperty(int tax, Player ownedBy, int playerNumber, int balance);

@@ -250,16 +250,25 @@ public class View extends JFrame implements ModelUpdateListener {
     public void lockRollButton(){
         rollDieButton.setEnabled(false);
     }
+    public void unlockRollDieButton(){
+        rollDieButton.setEnabled(true);
+    }
+
     public void lockBuyButton(){
         buyButton.setEnabled(false);
     }
-
     public void unlockBuyButton(){
         buyButton.setEnabled(true);
     }
 
-    public void unlockRollDieButton(){
-        rollDieButton.setEnabled(true);
+    @Override
+    public void lockPassTurnButton(){
+        passTurnButton.setEnabled(false);
+    }
+
+    @Override
+    public void unlockPassTurnButton(){
+        passTurnButton.setEnabled(true);
     }
 
     public JTextArea getFeedbackArea() {
@@ -352,6 +361,14 @@ public class View extends JFrame implements ModelUpdateListener {
     @Override
     public void passTurn(int playerNumber) {
         setFeedbackArea("\nCurrently turn of: Player " + playerNumber + "\n");
+        lockPassTurnButton();
+    }
+
+    @Override
+    public void manualPassUpdate(int playerNumber) {
+        setFeedbackArea("\nPlayer # " + playerNumber + " has passed their turn\n");
+        goToTheBottomOfTextField();
+        lockPassTurnButton();
     }
 
     @Override
@@ -385,12 +402,6 @@ public class View extends JFrame implements ModelUpdateListener {
     }
 
     @Override
-    public void manualPassUpdate(int playerNumber) {
-        setFeedbackArea("\nPlayer # " + playerNumber + " has passed their turn\n");
-        goToTheBottomOfTextField();
-    }
-
-    @Override
     public void returnWinner(int playerNumber) {
         JOptionPane.showMessageDialog(null, "Player " + playerNumber + " has won the game! Congratulations");
     }
@@ -414,6 +425,7 @@ public class View extends JFrame implements ModelUpdateListener {
     public void AIRepaint() {
         setFeedbackArea(gameModel.aiAlgorithm());
         repaint();
+        lockPassTurnButton();
     }
 
     @Override

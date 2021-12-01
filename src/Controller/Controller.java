@@ -27,15 +27,15 @@ public class Controller implements ActionListener {
                 numberOfAIPlayers= gameView.numberOfAIPlayersRequest(numberOfHumanPlayers);
                 totalPlayerAmount = numberOfHumanPlayers + numberOfAIPlayers;
                 gameModel.initializePlayers(numberOfHumanPlayers, numberOfAIPlayers);
+                gameView.lockPassTurnButton();
                 break;
             case rollDie:
                 int diceRoll = gameModel.rollDie();
                 gameView.repaint();
                 gameView.lookingForWinner();
                 gameModel.checkSquare(diceRoll);
-
+                gameView.unlockPassTurnButton();
                 goToTheBottomOfTextField();
-
                 break;
 
             case buy:
