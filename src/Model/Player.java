@@ -220,7 +220,7 @@ public class Player {
      */
     public Integer rollDice() {
 
-        Integer numberOfDiceToRoll = 2; //rolling two dices
+        Integer numberOfDiceToRoll = 1; //rolling two dices
         List<Integer> diceRolls = new ArrayList<>();
         int dieRoll = 0;
         Random random = new Random();

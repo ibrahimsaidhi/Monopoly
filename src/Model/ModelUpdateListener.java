@@ -3,7 +3,7 @@ package Model;
 public interface ModelUpdateListener {
     void modelUpdated();
 
-    void dieCount(int value, int position);
+    void dieCount(int dieRoll1, int dieRoll2, int position);
 
     void unlockPropertyBuy();
 

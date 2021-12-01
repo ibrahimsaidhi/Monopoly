@@ -320,8 +320,8 @@ public class View extends JFrame implements ModelUpdateListener {
     }
 
     @Override
-    public void dieCount(int value, int position) {
-        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die that added up to " + value);
+    public void dieCount(int dieRoll1, int dieRoll2, int position) {
+        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
         setFeedbackArea("\nYour new position is now " + position + ": " + gameModel.getBoardName());
     }
 

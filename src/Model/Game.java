@@ -166,6 +166,13 @@ public class Game {
         this.currentPlayer = this.players.get(this.currentPlayerInt);
         for(ModelUpdateListener v: this.views) {
             v.passTurn(getCurrentPlayer().getPlayerNumber());
+            while (isPlayerAnAI()){
+                for (ModelUpdateListener vw: views){
+                    vw.AIRepaint();
+                }
+                passTurn();
+            }
+            v.modelUpdated();
         }
     }
 
@@ -219,13 +226,13 @@ public class Game {
     }
 
     public int rollDie(){
-        int value = getCurrentPlayer().rollDice();
-        setCurrentPlayerPosition(value);
+        int dieRoll1 = getCurrentPlayer().rollDice();
+        int dieRoll2 = getCurrentPlayer().rollDice();
+        setCurrentPlayerPosition(dieRoll1 + dieRoll2);
         for(ModelUpdateListener v: this.views) {
-            v.dieCount(value, getCurrentPlayerPosition());
+            v.dieCount(dieRoll1, dieRoll2, getCurrentPlayerPosition());
         }
-        return value;
-
+        return (dieRoll1 + dieRoll2);
     }
 
     public boolean playerIsInJail(){
