@@ -228,8 +228,8 @@ public class Player {
         Random random = new Random();
         for (int i = 0; i < numberOfDiceToRoll; i++) {
             int diceRoll = random.nextInt(6) + 1;
-            diceRolls.add(diceRoll);
-            dieRoll += diceRoll;
+            diceRolls.add(6);
+            dieRoll += 6;
         }
         if(dieRoll >=0){
             return dieRoll;
@@ -242,9 +242,13 @@ public class Player {
     public boolean isDouble(){
         if (diceRolls.get(0) == diceRolls.get(1)){
             addDoublesCount();
+            clearDiceRolls();
             return true;
         }
         clearDiceRolls();
+        if(doubleCount > 0) {
+            clearDoublesCount();
+        }
         return false;
     }
 
@@ -254,6 +258,10 @@ public class Player {
 
     public void addDoublesCount(){
         doubleCount += 1;
+    }
+
+    public void clearDoublesCount(){
+        doubleCount = 0;
     }
 
     public int getDoubleCount(){

@@ -229,19 +229,27 @@ public class Game {
     public int rollDie(){
         int dieRoll1 = getCurrentPlayer().rollDice();
         int dieRoll2 = getCurrentPlayer().rollDice();
-        getCurrentPlayer().isDouble();
+        boolean doubleCheck = getCurrentPlayer().isDouble();
         int count = getCurrentPlayer().getDoubleCount();
-        if (count > 3){
+        if (count == 3){
             setCurrentPlayerPosition(30);
+            getCurrentPlayer().clearDoublesCount();
         }
-        else if(playerIsInJail() && getCurrentPlayer().isDouble()){
+        else if(playerIsInJail() && doubleCheck){
             freePlayerFromJail();
+            getCurrentPlayer().clearDoublesCount();
         }
-        else{setCurrentPlayerPosition(dieRoll1 + dieRoll2);}
+        else{
+            setCurrentPlayerPosition(dieRoll1 + dieRoll2);
+            for(ModelUpdateListener v: this.views) {
+                v.dieCount(dieRoll1, dieRoll2, getCurrentPlayerPosition());
+            }
+            return (dieRoll1 + dieRoll2);
+        }
         for(ModelUpdateListener v: this.views) {
             v.dieCount(dieRoll1, dieRoll2, getCurrentPlayerPosition());
         }
-        return (dieRoll1 + dieRoll2);
+        return 0;
     }
 
     public boolean playerIsInJail(){
