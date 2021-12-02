@@ -81,7 +81,7 @@ public class View extends JFrame implements ModelUpdateListener {
         addHouseButton = new JButton("Buy/Sell House");
         addHotelButton = new JButton("Buy/Sell Hotel");
         passTurnButton = new JButton("Pass Turn");
-        resumeGameButton = new JButton("Resume Game");
+        resumeGameButton = new JButton("Load Game");
         saveGameButton = new JButton("Save Current Game");
         quitButton = new JButton("Quit Game");
         stateButton = new JButton("State");
@@ -250,7 +250,7 @@ public class View extends JFrame implements ModelUpdateListener {
     public void unlockButtons() {
         resumeGameButton.setEnabled(false);
         for (JButton button : listOfCommandButtons) {
-            if(!button.getText().equalsIgnoreCase("Buy") && !button.getText().equalsIgnoreCase("Resume Game"))
+            if(!button.getText().equalsIgnoreCase("Buy") && !button.getText().equalsIgnoreCase("Load Game"))
                 button.setEnabled(true);
         }
     }
@@ -540,4 +540,7 @@ public class View extends JFrame implements ModelUpdateListener {
         return input;
     }
 
+    public void lockNewGameButton() {
+        newGameButton.setEnabled(false);
+    }
 }

@@ -114,10 +114,11 @@ public class Controller implements ActionListener, Serializable {
                 }
                 break;
 
-            case "Resume Game":
+            case "Load Game":
                 try {
-                    gameModel.setPlayers(Game.readFile().getPlayers());
-                    gameView.repaint();
+                    gameModel = Game.readFile();
+                    gameView.unlockButtons();
+                    gameView.lockNewGameButton();
                 } catch (IOException | ClassNotFoundException ioException) {
                     ioException.printStackTrace();
                 }

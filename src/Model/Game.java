@@ -44,14 +44,69 @@ public class Game implements Serializable {
         this.players = players;
     }
 
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     public static void writeToFile(Game game) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("gamefile.txt"));
-        oos.writeObject(game);
+        oos.writeObject(game.getCurrentPlayer());
+        oos.writeObject(game.getBoard());
+        oos.writeObject(game.getPlayers());
+        oos.writeObject(game.numberOfAIPlayers);
+        oos.writeObject(game.numberOfHumanPlayers);
+        oos.writeObject(game.initialNumberOfHumanPlayers);
+        oos.writeObject(game.totalNumberOfPlayers);
+
     }
 
     public static Game readFile() throws IOException, ClassNotFoundException {
+        Game game = new Game();
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream("gamefile.txt"));
-        return (Game) ois.readObject();
+        game.setCurrentPlayer((Player) ois.readObject());
+        game.setBoard((Board) ois.readObject());
+        game.setPlayers((List<Player>) ois.readObject());
+        game.setNumberOfAIPlayers((int) ois.readObject());
+        game.setNumberOfHumanPlayers((int) ois.readObject());
+        game.setInitialNumberOfHumanPlayers((int) ois.readObject());
+        game.setTotalNumberOfPlayers((int) ois.readObject());
+        return game;
+    }
+
+    public int getInitialNumberOfHumanPlayers() {
+        return initialNumberOfHumanPlayers;
+    }
+
+    public int getNumberOfAIPlayers() {
+        return numberOfAIPlayers;
+    }
+
+    public int getNumberOfHumanPlayers() {
+        return numberOfHumanPlayers;
+    }
+
+    public int getTotalNumberOfPlayers() {
+        return totalNumberOfPlayers;
+    }
+
+    public void setInitialNumberOfHumanPlayers(int initialNumberOfHumanPlayers) {
+        this.initialNumberOfHumanPlayers = initialNumberOfHumanPlayers;
+    }
+
+    public void setNumberOfAIPlayers(int numberOfAIPlayers) {
+        this.numberOfAIPlayers = numberOfAIPlayers;
+    }
+
+    public void setNumberOfHumanPlayers(int numberOfHumanPlayers) {
+        this.numberOfHumanPlayers = numberOfHumanPlayers;
+    }
+
+    public void setTotalNumberOfPlayers(int totalNumberOfPlayers) {
+        this.totalNumberOfPlayers = totalNumberOfPlayers;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     @Override
