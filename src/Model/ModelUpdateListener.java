@@ -61,7 +61,6 @@ public interface ModelUpdateListener {
 
     void cannotSellHotel();
 
-    void payToLeaveJail();
 
 
     void sellingHouse();

@@ -517,22 +517,6 @@ public class View extends JFrame implements ModelUpdateListener {
 
     }
 
-    @Override
-    public void payToLeaveJail(){
-            if (gameModel.playerIsInJail()) {
-                lockRollButton();
-                int input = JOptionPane.showConfirmDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You are in Jail. Would you like to pay $50 bail to leave?" + "\nClick yes to pay bail or no to stay in jail.", "Pay bail?", JOptionPane.YES_NO_OPTION);
-                if (input == JOptionPane.YES_OPTION) {
-                    gameModel.playerIsLeavingJail();
-                } else if (input == JOptionPane.NO_OPTION) {
-                    setFeedbackArea("\nYikes :/ another night in jail doesn't sound fun. Good luck.");
-                } else {
-                    setFeedbackArea("Seems like there might have been an error. Please report it to the developer.");
-                }
-            }
-            repaint();
-    }
-
     public String requestingHouseStatus(){
         String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a house?");
         return input;

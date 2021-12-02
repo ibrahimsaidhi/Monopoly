@@ -229,7 +229,15 @@ public class Game {
     public int rollDie(){
         int dieRoll1 = getCurrentPlayer().rollDice();
         int dieRoll2 = getCurrentPlayer().rollDice();
-        setCurrentPlayerPosition(dieRoll1 + dieRoll2);
+        getCurrentPlayer().isDouble();
+        int count = getCurrentPlayer().getDoubleCount();
+        if (count > 3){
+            setCurrentPlayerPosition(30);
+        }
+        else if(playerIsInJail() && getCurrentPlayer().isDouble()){
+            freePlayerFromJail();
+        }
+        else{setCurrentPlayerPosition(dieRoll1 + dieRoll2);}
         for(ModelUpdateListener v: this.views) {
             v.dieCount(dieRoll1, dieRoll2, getCurrentPlayerPosition());
         }
@@ -1180,11 +1188,6 @@ public class Game {
                 checkPlayerBalance(getCurrentPlayer());
                 lookingForWinner();
                 passTurn();
-            }
-        }
-        else if (playerIsInJail() && !isPlayerAnAI()){
-            for (ModelUpdateListener v: views){
-                v.payToLeaveJail();
             }
         }
         while (isPlayerAnAI()){
