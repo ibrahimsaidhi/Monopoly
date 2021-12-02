@@ -233,6 +233,7 @@ public class Game {
         int count = getCurrentPlayer().getDoubleCount();
         if (count == 3){
             setCurrentPlayerPosition(30);
+            int pos = getCurrentPlayerPosition();
             getCurrentPlayer().clearDoublesCount();
         }
         else if(playerIsInJail() && doubleCheck){
