@@ -232,13 +232,17 @@ public class Game {
         boolean doubleCheck = getCurrentPlayer().isDouble();
         int count = getCurrentPlayer().getDoubleCount();
         if (count == 3){
-            setCurrentPlayerPosition(30);
-            int pos = getCurrentPlayerPosition();
-            getCurrentPlayer().clearDoublesCount();
+            goToJail();
+            for(ModelUpdateListener v: this.views) {
+                v.goingToJail(dieRoll1, dieRoll2, getCurrentPlayerPosition());
+            }
         }
         else if(playerIsInJail() && doubleCheck){
             freePlayerFromJail();
             getCurrentPlayer().clearDoublesCount();
+            for(ModelUpdateListener v: this.views) {
+                v.freeFromJail(dieRoll1, dieRoll2, getCurrentPlayerPosition());
+            }
         }
         else{
             setCurrentPlayerPosition(dieRoll1 + dieRoll2);
@@ -247,14 +251,11 @@ public class Game {
             }
             return (dieRoll1 + dieRoll2);
         }
-        for(ModelUpdateListener v: this.views) {
-            v.dieCount(dieRoll1, dieRoll2, getCurrentPlayerPosition());
-        }
-        return 0;
+        return 0; //
     }
 
     public boolean playerIsInJail(){
-        if(board.getIndex(getCurrentPlayer().getPosition()).getName().equalsIgnoreCase("Jail")){
+        if(getCurrentPlayer().getPosition() == 30){
             return true;
         }
         return false;
@@ -262,6 +263,11 @@ public class Game {
 
     public void freePlayerFromJail(){
         getCurrentPlayer().setPosition(10); //Sets player position to just visiting jail.
+    }
+
+    public void goToJail(){
+        getCurrentPlayer().setPosition(30);
+        getCurrentPlayer().clearDoublesCount();
     }
 
     public boolean hasPlayerPassedGo(){
@@ -304,6 +310,7 @@ public class Game {
      */
     public void setCurrentPlayerPosition(int pos) {
         getCurrentPlayer().setPosition((getCurrentPlayerPosition() + pos) % board.size());
+        int position = getCurrentPlayerPosition();
     }
 
     /**
@@ -475,96 +482,104 @@ public class Game {
     public String aiAlgorithm() {
         checkPlayerBalance(getCurrentPlayer());
         lookingForWinner();
+        hasPlayerPassedGo();
+        int diceroll1 = getCurrentPlayer().rollDice(); //roll first die
+        int diceroll2 = getCurrentPlayer().rollDice(); //roll second die
+        int totalDiceroll = diceroll1 + diceroll2; //add two die together
         if (isPlayerAnAI() && getCurrentPlayer().getBalance() > 0 && getCurrentPlayer().getPosition() != 30) {
-            hasPlayerPassedGo();
-            int diceroll1 = getCurrentPlayer().rollDice(); //roll first die
-            int diceroll2 = getCurrentPlayer().rollDice(); //roll second die
-            int totalDiceroll = diceroll1 + diceroll2; //add two die together
-            getCurrentPlayer().setPosition((totalDiceroll+getCurrentPlayerPosition()) % board.size()); //move AI player to position specified by die
+            int count = getCurrentPlayer().getDoubleCount();
+            if (count == 3) {
+                goToJail();
+            } else {
+                getCurrentPlayer().setPosition((totalDiceroll + getCurrentPlayerPosition()) % board.size()); //move AI player to position specified by die
 
-            if(getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Property){ //If player lands on a property
-                if (isCurrentPositionPropertyOwned()) { //If AI lands on a position owned by another player then tax them.
-                    int taxedAmount = (int) (0.1 * ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
-                    Player tempPlayer = whoOwnsProperty((Property) getBoard().getIndex(getCurrentPlayer().getPosition())); //Get player who owns property
-                    tempPlayer.incrementBalance(taxedAmount); //Increment balance for player who owns property.
-                    checkPlayerBalance(getCurrentPlayer());
-                    lookingForWinner();
-                    return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by another player " + tempPlayer.getPlayerNumber() +". AI has been taxed $" + taxedAmount;
-                } else if (!isCurrentPositionPropertyOwned()) { //If AI lands on an available property, it will decide whether to purchase it or not.
-                    if (aiPurchaseDecision()) {
-                        getCurrentPlayer().addProperty((Property) getProperty(getCurrentPlayer().getPosition()));
-                        getCurrentPlayer().decrementBalance(((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+                if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Property) { //If player lands on a property
+                    if (isCurrentPositionPropertyOwned()) { //If AI lands on a position owned by another player then tax them.
+                        int taxedAmount = (int) (0.1 * ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+                        Player tempPlayer = whoOwnsProperty((Property) getBoard().getIndex(getCurrentPlayer().getPosition())); //Get player who owns property
+                        tempPlayer.incrementBalance(taxedAmount); //Increment balance for player who owns property.
                         checkPlayerBalance(getCurrentPlayer());
                         lookingForWinner();
-                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". They decided to purchase " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
-                    } else {
-                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". They decided not to purchase " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
+                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by another player " + tempPlayer.getPlayerNumber() + ". AI has been taxed $" + taxedAmount;
+                    } else if (!isCurrentPositionPropertyOwned()) { //If AI lands on an available property, it will decide whether to purchase it or not.
+                        if (aiPurchaseDecision()) {
+                            getCurrentPlayer().addProperty((Property) getProperty(getCurrentPlayer().getPosition()));
+                            getCurrentPlayer().decrementBalance(((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+                            checkPlayerBalance(getCurrentPlayer());
+                            lookingForWinner();
+                            return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". They decided to purchase " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
+                        } else {
+                            return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". They decided not to purchase " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
+                        }
                     }
-                }
-            } else if(getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Railroad){ //If player lands on a railroad
-                if (isCurrentPositionRailroadOwned()) { //If AI lands on a position owned by another player then tax them.
-                    int taxedAmount = (int) (0.1 * ((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
-                    Player tempPlayer = whoOwnsRailroad((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition())); //Get player who owns property
-                    tempPlayer.incrementBalance(taxedAmount); //Increment balance for player who owns property.
-                    checkPlayerBalance(getCurrentPlayer());
-                    lookingForWinner();
-                    return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by player " + tempPlayer.getPlayerNumber() +". AI has been taxed $" + taxedAmount;
-                } else if (!isCurrentPositionRailroadOwned()) { //If AI lands on an available property, it will decide whether to purchase it or not.
-                    if (aiPurchaseDecision()) {
-                        getCurrentPlayer().addRailroad((Railroad) getRailroad(getCurrentPlayer().getPosition()));
-                        getCurrentPlayer().decrementBalance(((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+                } else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Railroad) { //If player lands on a railroad
+                    if (isCurrentPositionRailroadOwned()) { //If AI lands on a position owned by another player then tax them.
+                        int taxedAmount = (int) (0.1 * ((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+                        Player tempPlayer = whoOwnsRailroad((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition())); //Get player who owns property
+                        tempPlayer.incrementBalance(taxedAmount); //Increment balance for player who owns property.
                         checkPlayerBalance(getCurrentPlayer());
                         lookingForWinner();
-                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". They decided to purchase " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
-                    } else {
-                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". They decided not to purchase " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
+                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by player " + tempPlayer.getPlayerNumber() + ". AI has been taxed $" + taxedAmount;
+                    } else if (!isCurrentPositionRailroadOwned()) { //If AI lands on an available property, it will decide whether to purchase it or not.
+                        if (aiPurchaseDecision()) {
+                            getCurrentPlayer().addRailroad((Railroad) getRailroad(getCurrentPlayer().getPosition()));
+                            getCurrentPlayer().decrementBalance(((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+                            checkPlayerBalance(getCurrentPlayer());
+                            lookingForWinner();
+                            return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". They decided to purchase " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
+                        } else {
+                            return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". They decided not to purchase " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
+                        }
                     }
-                }
-            } else if(getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Utility){ //If player lands on a utility
-                if (isCurrentPositionUtilityOwned()) { //If AI lands on a position owned by another player then tax them.
-                    int taxedAmount = (int) (0.1 * ((Utility) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
-                    Player tempPlayer = whoOwnsUtility((Utility) getBoard().getIndex(getCurrentPlayer().getPosition())); //Get player who owns property
-                    tempPlayer.incrementBalance(taxedAmount); //Increment balance for player who owns property.
-                    checkPlayerBalance(getCurrentPlayer());
-                    lookingForWinner();
-                    return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by player " + tempPlayer.getPlayerNumber() + ". AI has been taxed $" + taxedAmount;
-                } else if (!isCurrentPositionUtilityOwned()) { //If AI lands on an available utility, it will decide whether to purchase it or not.
-                    if (aiPurchaseDecision()) {
-                        getCurrentPlayer().addUtility((Utility) getUtility(getCurrentPlayer().getPosition()));
-                        getCurrentPlayer().decrementBalance(((Utility) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+                } else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Utility) { //If player lands on a utility
+                    if (isCurrentPositionUtilityOwned()) { //If AI lands on a position owned by another player then tax them.
+                        int taxedAmount = (int) (0.1 * ((Utility) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+                        Player tempPlayer = whoOwnsUtility((Utility) getBoard().getIndex(getCurrentPlayer().getPosition())); //Get player who owns property
+                        tempPlayer.incrementBalance(taxedAmount); //Increment balance for player who owns property.
                         checkPlayerBalance(getCurrentPlayer());
                         lookingForWinner();
-                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". They decided to purchase " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
-                    } else {
-                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". They decided not to purchase " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
+                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by player " + tempPlayer.getPlayerNumber() + ". AI has been taxed $" + taxedAmount;
+                    } else if (!isCurrentPositionUtilityOwned()) { //If AI lands on an available utility, it will decide whether to purchase it or not.
+                        if (aiPurchaseDecision()) {
+                            getCurrentPlayer().addUtility((Utility) getUtility(getCurrentPlayer().getPosition()));
+                            getCurrentPlayer().decrementBalance(((Utility) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+                            checkPlayerBalance(getCurrentPlayer());
+                            lookingForWinner();
+                            return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". They decided to purchase " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
+                        } else {
+                            return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". They decided not to purchase " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
+                        }
                     }
+                } else if (getCurrentPlayer().getPosition() == 4) { //AI Player landed on Income Tax square and must pay $200.
+                    getCurrentPlayer().decrementBalance(200);
+                    checkPlayerBalance(getCurrentPlayer());
+                    lookingForWinner();
+                    return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". The AI has been taxed $200";
+                } else if (getCurrentPlayer().getPosition() == 38) { //If AI Players landed on Luxury Tax square, they must pay $100.
+                    getCurrentPlayer().decrementBalance(100);
+                    checkPlayerBalance(getCurrentPlayer());
+                    lookingForWinner();
+                    return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". The AI has been taxed $100";
+                } else if (getCurrentPlayer().getPosition() == 30) { //Player rolled die and is in Jail.
+                    return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now in: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".";
                 }
-            } else if(getCurrentPlayer().getPosition() == 4){ //AI Player landed on Income Tax square and must pay $200.
-                getCurrentPlayer().decrementBalance(200);
-                checkPlayerBalance(getCurrentPlayer());
-                lookingForWinner();
-                return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". The AI has been taxed $200";
-            } else if(getCurrentPlayer().getPosition() == 38){ //If AI Players landed on Luxury Tax square, they must pay $100.
-                getCurrentPlayer().decrementBalance(100);
-                checkPlayerBalance(getCurrentPlayer());
-                lookingForWinner();
-                return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". The AI has been taxed $100";
-            }else if(getCurrentPlayer().getPosition() == 30){ //Player rolled die and is in Jail.
-                return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now in: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".";
+                return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
             }
-            return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName();
+        } else if (isPlayerAnAI() && getCurrentPlayer().getBalance() < 0) { //If AI is bankrupt, remove them from the game
+                checkPlayerBalance(getCurrentPlayer());
+                lookingForWinner();
+                return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + " is bankrupt and has therefore been eliminated.\n";
+            } else if (isPlayerAnAI() && playerIsInJail()) {
+            boolean doubleCheck = getCurrentPlayer().isDouble();
+            if(doubleCheck){
+                freePlayerFromJail();
+                getCurrentPlayer().clearDoublesCount();
+                return "\nPlayer " + getCurrentPlayer().getPlayerNumber() +" is free from jail!";
+            }
         }
-        else if(isPlayerAnAI() && getCurrentPlayer().getBalance() < 0) { //If AI is bankrupt, remove them from the game
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
-            return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + " is bankrupt and has therefore been eliminated.\n";
-        } else if(isPlayerAnAI() && getCurrentPlayer().getPosition() == 30) { //If AI is in jail, they will pay to leave.
-            getCurrentPlayer().setPosition(10);
-            return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + " has paid $50 to leave jail.";
-        }
-        checkPlayerBalance(getCurrentPlayer());
-        lookingForWinner();
-        return "This player is an AI but the expected output isn't being printed.";
+            return "This player is an AI but the expected output isn't being printed.";
     }
 
     public void buyingHouseEligibility() {
@@ -1141,14 +1156,13 @@ public class Game {
         }
     }
 
-    public void playerIsLeavingJail(){
-        getCurrentPlayer().decrementBalance(50);
-        freePlayerFromJail();
-    }
+
 
     public void checkSquare(int diceRoll) {
+
         checkPlayerBalance(getCurrentPlayer());
         lookingForWinner();
+
         if(!playerIsInJail() && !isPlayerAnAI()) {
             if (hasPlayerPassedGo()) {
                 for (ModelUpdateListener v : views) {
@@ -1198,6 +1212,9 @@ public class Game {
                 lookingForWinner();
                 passTurn();
             }
+        }
+        else if(playerIsInJail() && !isPlayerAnAI()){
+            passTurn();
         }
         while (isPlayerAnAI()){
             try {

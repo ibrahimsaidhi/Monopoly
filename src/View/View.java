@@ -517,6 +517,20 @@ public class View extends JFrame implements ModelUpdateListener {
 
     }
 
+    @Override
+    public void goingToJail(int dieRoll1, int dieRoll2, int currentPlayerPosition) {
+        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
+        setFeedbackArea("\nYou've Been caught speeding! Time to go to jail!");
+
+    }
+
+    @Override
+    public void freeFromJail(int dieRoll1, int dieRoll2, int currentPlayerPosition) {
+        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
+        setFeedbackArea("\nYou're free from jail! Be careful next time! your current position is now " + currentPlayerPosition + ": " + gameModel.getBoardName());
+
+    }
+
     public String requestingHouseStatus(){
         String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a house?");
         return input;
