@@ -19,6 +19,8 @@ public interface ModelUpdateListener extends Serializable {
 
     void confirmPurchase(int playerNumber, String name, int balance);
 
+    void loadingSavedGame(int playerNumber);
+
     void printState(int i, int balance, String toString, int balance1);
 
     void initializeGame(int numberOfPlayers, int playerNumber);

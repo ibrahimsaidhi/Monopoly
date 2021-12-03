@@ -12,7 +12,7 @@ import java.io.Serializable;
  * The JPanel is an image of the Monopoly board that we will be overlaying the components over.
  */
 class MonopolyBoard extends JPanel implements Serializable {
-    private Image image;
+    transient Image image;
 
     public MonopolyBoard() {
         this.setSize(950, 560);

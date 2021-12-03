@@ -57,6 +57,8 @@ public class Game implements Serializable {
         oos.writeObject(game.numberOfHumanPlayers);
         oos.writeObject(game.initialNumberOfHumanPlayers);
         oos.writeObject(game.totalNumberOfPlayers);
+        oos.writeObject(game.getViews());
+        oos.writeObject(game.getViewer());
 
     }
 
@@ -70,7 +72,27 @@ public class Game implements Serializable {
         game.setNumberOfHumanPlayers((int) ois.readObject());
         game.setInitialNumberOfHumanPlayers((int) ois.readObject());
         game.setTotalNumberOfPlayers((int) ois.readObject());
+        game.setViews((List<ModelUpdateListener>) ois.readObject());
+        game.setViewer((ModelUpdateListener) ois.readObject());
         return game;
+    }
+
+    public ModelUpdateListener getViewer() {
+        return viewer;
+    }
+
+    public void setViews(List<ModelUpdateListener> views) {
+        this.views = views;
+    }
+
+    public List<ModelUpdateListener> getViews() {
+        return views;
+    }
+
+    public void notifyStartOfLoadedGame(){
+        for (ModelUpdateListener v : views){
+            v.loadingSavedGame(getCurrentPlayer().getPlayerNumber());
+        }
     }
 
     public int getInitialNumberOfHumanPlayers() {

@@ -35,7 +35,6 @@ public class Controller implements ActionListener, Serializable {
                 gameView.repaint();
                 gameView.lookingForWinner();
                 gameModel.checkSquare(diceRoll);
-
                 goToTheBottomOfTextField();
 
                 break;
@@ -109,6 +108,7 @@ public class Controller implements ActionListener, Serializable {
             case "Save Current Game":
                 try {
                     Game.writeToFile(gameModel);
+                    gameView.setFeedbackArea("The game has been saved!");
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -117,6 +117,9 @@ public class Controller implements ActionListener, Serializable {
             case "Load Game":
                 try {
                     gameModel = Game.readFile();
+                    gameModel.setViewer(gameView);
+                    gameView.repaint();
+                    gameView.setFeedbackArea("Previous game has been loaded\n" + "\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                     gameView.unlockButtons();
                     gameView.lockNewGameButton();
                 } catch (IOException | ClassNotFoundException ioException) {

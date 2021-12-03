@@ -5,9 +5,10 @@ import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 
-public class View extends JFrame implements ModelUpdateListener {
+public class View extends JFrame implements ModelUpdateListener, Serializable {
     Game gameModel;
     JButton newGameButton;
     JButton rollDieButton;
@@ -21,8 +22,8 @@ public class View extends JFrame implements ModelUpdateListener {
     JTextArea feedbackArea;
     JButton stateButton;
     JButton addHotelButton;
-    BoardOverlay boardOverlay;
-    MonopolyBoard monopolyBoard;
+    transient BoardOverlay boardOverlay;
+    transient MonopolyBoard monopolyBoard;
 
     //MyPanel panel;
 
@@ -31,6 +32,12 @@ public class View extends JFrame implements ModelUpdateListener {
         this.gameModel = gameModel;
         initialize();
     }
+
+    public View() {
+        super("Monopoly");
+        initialize();
+    }
+
 
     public static void main(String[] args) {
         Game gameModel = new Game();
@@ -107,7 +114,7 @@ public class View extends JFrame implements ModelUpdateListener {
         listOfCommandButtons.add(addHouseButton);
 
 
-        feedbackArea = new JTextArea("Welcome to Monopoly! Please press New Game in order to start!\n");
+        feedbackArea = new JTextArea("Welcome to Monopoly! Please press New Game in order to start a new game, or Load Game to load a previous one!\n");
         feedbackArea.setRows(8);
         JScrollPane feedbackAreaScrollPane = new JScrollPane(feedbackArea);
         menuPanel.setLayout(new BorderLayout());
@@ -120,12 +127,12 @@ public class View extends JFrame implements ModelUpdateListener {
         centerPanel.setLayout(new BorderLayout());
         menuPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(rollDieButton, BorderLayout.CENTER);
-        centerPanel.add(buyButton, BorderLayout.WEST);
+        centerPanel.add(resumeGameButton, BorderLayout.WEST);
         centerPanel.add(stateButton, BorderLayout.EAST);
         bottomPanel.add(addHouseButton);
         bottomPanel.add(addHotelButton);
         menuPanel.add(passTurnButton, BorderLayout.EAST);
-        bottomPanel.add(resumeGameButton);
+        bottomPanel.add(buyButton);
         bottomPanel.add(saveGameButton);
         bottomPanel.add(quitButton);
         menuPanel.add(bottomPanel, BorderLayout.SOUTH);
@@ -138,6 +145,25 @@ public class View extends JFrame implements ModelUpdateListener {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    public static void writeToFile(View view) throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("viewfile.txt"));
+        oos.writeObject(view);
+    }
+
+    public static View readFile(Game game) throws IOException, ClassNotFoundException{
+        View view;
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("viewfile.txt"));
+        view = (View) ois.readObject();
+        view.setGameModel(game);
+        game.setViewer(view);
+        return view;
+    }
+
+
+
+    public void setGameModel(Game gameModel) {
+        this.gameModel = gameModel;
+    }
 
     public void promptPropertyPurchase(){
         rollDieButton.setEnabled(false);
@@ -332,6 +358,7 @@ public class View extends JFrame implements ModelUpdateListener {
     public void dieCount(int value, int position) {
         setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die that added up to " + value);
         setFeedbackArea("\nYour new position is now " + position + ": " + gameModel.getBoardName());
+
     }
 
     @Override
@@ -379,6 +406,8 @@ public class View extends JFrame implements ModelUpdateListener {
         "\nYour new balance is: $" + balance + "\nSpend wisely!");
     }
 
+
+
     @Override
     public void printState(int i, int balance, String toString, int balance1) {
         setFeedbackArea("You are player " + (i) + "\nYou own the following properties:\n"
@@ -391,6 +420,13 @@ public class View extends JFrame implements ModelUpdateListener {
         unlockButtons();
         setFeedbackArea("A new game has begun with " + numberOfPlayers + " players\n" + "\nCurrently turn of: Player " + playerNumber + "\n");
         getNewGameButton().setEnabled(false);
+    }
+
+    @Override
+    public void loadingSavedGame(int playerNumber) {
+        unlockButtons();
+        setFeedbackArea("Previous game has been loaded\n" + "\nCurrently turn of: Player " + playerNumber + "\n");
+        lockNewGameButton();
     }
 
     @Override
