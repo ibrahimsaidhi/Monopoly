@@ -65,7 +65,7 @@ public class Controller implements ActionListener, Serializable {
                     gameModel.purchaseAHouse();
                 }
                 else if (input.equals("buy") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().size() == 4){
-                    gameView.setFeedbackArea("Sorry, you can only add 4 houses to a property at a time");
+                    gameView.setFeedbackArea("\nSorry, you can only add 4 houses to a property at a time");
                 }
                 else if (input.equals("sell") && !((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHouses().isEmpty()) {
                     gameModel.sellAHouse();
@@ -89,7 +89,7 @@ public class Controller implements ActionListener, Serializable {
                 }
 
                 else if (hotelInput.equals("buy") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().size() == 1){
-                    gameView.setFeedbackArea("Sorry, you can only add 1 hotel to a property at a time");
+                    gameView.setFeedbackArea("\nSorry, you can only add 1 hotel to a property at a time");
                 }
 
                 else if(hotelInput.equals("sell") && !((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().isEmpty()){
@@ -97,7 +97,7 @@ public class Controller implements ActionListener, Serializable {
                 }
 
                 else if(hotelInput.equals("sell") && ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getHotels().isEmpty()){
-                    gameView.setFeedbackArea("There are no hotels for you to sell");
+                    gameView.setFeedbackArea("\nThere are no hotels for you to sell");
                 }
 
                 else {
