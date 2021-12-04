@@ -30,6 +30,7 @@ public class Player implements Serializable {
     int lightBlueProperties = 0;
     int orangeProperties = 0;
     int redProperties = 0;
+    int doubleCount = 0;
     public enum PlayerType {Human, AI};
     private PlayerType type;
 
@@ -233,6 +234,35 @@ public class Player implements Serializable {
             rollDice();
         }
         return 2;
+    }
+
+    public boolean isDouble(){
+        if (diceRolls.get(0) == diceRolls.get(1)){
+            addDoublesCount();
+            clearDiceRolls();
+            return true;
+        }
+        clearDiceRolls();
+        if(doubleCount > 0) {
+            clearDoublesCount();
+        }
+        return false;
+    }
+
+    private void clearDiceRolls() {
+        diceRolls.clear();
+    }
+
+    public void addDoublesCount(){
+        doubleCount += 1;
+    }
+
+    public void clearDoublesCount(){
+        doubleCount = 0;
+    }
+
+    public int getDoubleCount(){
+        return  doubleCount;
     }
 
 }
