@@ -61,7 +61,7 @@ public class Game implements Serializable {
         oos.writeObject(game.numberOfHumanPlayers);
         oos.writeObject(game.initialNumberOfHumanPlayers);
         oos.writeObject(game.totalNumberOfPlayers);
-        oos.writeObject(game.getBoard());
+        oos.writeObject(game.backgroundFileName);
 
     }
 
@@ -78,7 +78,7 @@ public class Game implements Serializable {
         int numOfHumanPlayers = (int) ois.readObject();
         int initialNumOfHumanPlayers = (int) ois.readObject();
         int totalNumOfPlayers = (int) ois.readObject();
-        Board board = (Board) ois.readObject();
+        String backgroundFileName = (String) ois.readObject();
 
 
         List<Object> gameStuff = new ArrayList<>();
@@ -92,7 +92,7 @@ public class Game implements Serializable {
         gameStuff.add(numOfHumanPlayers);
         gameStuff.add(initialNumOfHumanPlayers);
         gameStuff.add(totalNumOfPlayers);
-        gameStuff.add(board);
+        gameStuff.add(backgroundFileName);
 
         return gameStuff;
     }
