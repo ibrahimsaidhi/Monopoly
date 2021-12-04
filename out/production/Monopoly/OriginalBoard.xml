@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<board>
+    <Square>
+        <name>Go!</name>
+        <index>0</index>
+    </Square>
+    <Property>
+        <name>Mediterranean Ave</name>
+        <color>brown</color>
+        <value>60</value>
+        <index>1</index>
+    </Property>
+    <Square>
+        <name>empty 1</name>
+        <index>2</index>
+    </Square>
+    <Property>
+        <name>Baltic Ave</name>
+        <color>brown</color>
+        <value>60</value>
+        <index>3</index>
+    </Property>
+    <Square>
+        <name>Income Tax</name>
+        <index>4</index>
+    </Square>
+    <Railroad>
+        <name>Reading RailRoad</name>
+        <value>200</value>
+        <index>5</index>
+    </Railroad>
+    <Property>
+        <name>Oriental Ave</name>
+        <color>light blue</color>
+        <value>100</value>
+        <index>6</index>
+    </Property>
+    <Square>
+        <name>empty 2</name>
+        <index>7</index>
+    </Square>
+    <Property>
+        <name>Vermont Ave</name>
+        <color>light blue</color>
+        <value>100</value>
+        <index>8</index>
+    </Property>
+    <Property>
+        <name>Connecticut Ave</name>
+        <color>light blue</color>
+        <value>120</value>
+        <index>9</index>
+    </Property>
+    <Square>
+        <name>Just Visiting Jail</name>
+        <index>10</index>
+    </Square>
+    <Property>
+        <name>St. Charles Place</name>
+        <color>purple</color>
+        <value>140</value>
+        <index>11</index>
+    </Property>
+    <Utility>
+        <name>Electric Company</name>
+        <value>150</value>
+        <index>12</index>
+    </Utility>
+    <Property>
+        <name>States Ave</name>
+        <color>purple</color>
+        <value>140</value>
+        <index>13</index>
+    </Property>
+    <Property>
+        <name>Virginia Ave</name>
+        <color>purple</color>
+        <value>160</value>
+        <index>14</index>
+    </Property>
+    <Railroad>
+        <name>Pennsylvania Railroad</name>
+        <value>200</value>
+        <index>15</index>
+    </Railroad>
+    <Property>
+        <name>St. James Place</name>
+        <color>orange</color>
+        <value>180</value>
+        <index>16</index>
+    </Property>
+    <Square>
+        <name>empty 3</name>
+        <index>17</index>
+    </Square>
+    <Property>
+        <name>Tennessee Ave</name>
+        <color>orange</color>
+        <value>180</value>
+        <index>18</index>
+    </Property>
+    <Property>
+        <name>New York Ave</name>
+        <color>orange</color>
+        <value>200</value>
+        <index>19</index>
+    </Property>
+    <Square>
+        <name>Free Parking</name>
+        <index>20</index>
+    </Square>
+    <Property>
+        <name>Kentucky Ave</name>
+        <color>red</color>
+        <value>220</value>
+        <index>21</index>
+    </Property>
+    <Square>
+        <name>empty 4</name>
+        <index>22</index>
+    </Square>
+    <Property>
+        <name>Indiana Ave</name>
+        <color>red</color>
+        <value>220</value>
+        <index>23</index>
+    </Property>
+    <Property>
+        <name>Illinois Ave</name>
+        <color>red</color>
+        <value>240</value>
+        <index>24</index>
+    </Property>
+    <Railroad>
+        <name>B. &amp; O. Railroad</name>
+        <value>200</value>
+        <index>25</index>
+    </Railroad>
+    <Property>
+        <name>Atlantic Ave</name>
+        <color>yellow</color>
+        <value>260</value>
+        <index>26</index>
+    </Property>
+    <Property>
+        <name>Ventnor Ave</name>
+        <color>yellow</color>
+        <value>260</value>
+        <index>27</index>
+    </Property>
+    <Utility>
+        <name>Water Works</name>
+        <value>150</value>
+        <index>28</index>
+    </Utility>
+    <Property>
+        <name>Marvin Gardens</name>
+        <color>yellow</color>
+        <value>280</value>
+        <index>29</index>
+    </Property>
+    <Square>
+        <name>Jail</name>
+        <index>30</index>
+    </Square>
+    <Property>
+        <name>Pacific Ave</name>
+        <color>green</color>
+        <value>300</value>
+        <index>31</index>
+    </Property>
+    <Property>
+        <name>North Carolina Ave</name>
+        <color>green</color>
+        <value>300</value>
+        <index>32</index>
+    </Property>
+    <Square>
+        <name>empty 5</name>
+        <index>33</index>
+    </Square>
+    <Property>
+        <name>Pennsylvania Ave</name>
+        <color>green</color>
+        <value>320</value>
+        <index>34</index>
+    </Property>
+    <Railroad>
+        <name>Short Line</name>
+        <value>200</value>
+        <index>35</index>
+    </Railroad>
+    <Square>
+        <name>empty 6</name>
+        <index>36</index>
+    </Square>
+    <Property>
+        <name>Park Place</name>
+        <color>blue</color>
+        <value>350</value>
+        <index>37</index>
+    </Property>
+    <Square>
+        <name>Luxury Tax</name>
+        <index>38</index>
+    </Square>
+    <Property>
+        <name>Boardwalk</name>
+        <color>blue</color>
+        <value>400</value>
+        <index>39</index>
+    </Property>
+</board>
