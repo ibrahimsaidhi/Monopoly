@@ -116,14 +116,6 @@ public class Board implements Serializable {
                 //        " Railroad: " + railroad + " Utility: " + utility + " Color: " + color + " Value: " + value);
                 //System.out.println("CHARS: " + new String(ch, start, length));
                 checkConditions();
-                index = "";
-                square = "";
-                property = "";
-                railroad = "";
-                utility = "";
-                name = "";
-                color = "";
-                value = "";
             }
         };
         s.parse(file, dh);

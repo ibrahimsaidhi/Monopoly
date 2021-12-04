@@ -21,6 +21,8 @@ public class Player implements Serializable {
     private ArrayList<Property> ownedProperties = new ArrayList<>();
     private ArrayList<Utility> ownedUtility = new ArrayList<>();
     private ArrayList<Railroad> ownedRailroads  = new ArrayList<>();
+    List<Integer> diceRolls = new ArrayList<>();
+
 
     int greenProperties = 0;
     int yellowProperties = 0;
@@ -219,8 +221,7 @@ public class Player implements Serializable {
      */
     public Integer rollDice() {
 
-        Integer numberOfDiceToRoll = 1; //rolling two dices
-        List<Integer> diceRolls = new ArrayList<>();
+        Integer numberOfDiceToRoll = 1; //rolling two dices`
         int dieRoll = 0;
         Random random = new Random();
         for (int i = 0; i < numberOfDiceToRoll; i++) {
@@ -264,5 +265,6 @@ public class Player implements Serializable {
     public int getDoubleCount(){
         return  doubleCount;
     }
+
 
 }
