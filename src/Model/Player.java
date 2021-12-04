@@ -231,7 +231,7 @@ public class Player implements Serializable {
             dieRoll += diceRoll;
         }
         if(dieRoll >=0){
-            return dieRoll;
+            return 1;
         } else {
             rollDice();
         }
