@@ -403,6 +403,13 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     @Override
+    public void initializeLoadedGame(int numberOfPlayers, int playerNumber) {
+        unlockButtons();
+        setFeedbackArea("A previous game has resumed with " + numberOfPlayers + " players\n" + "\nCurrently turn of: Player " + playerNumber + "\n");
+        getNewGameButton().setEnabled(false);
+    }
+
+    @Override
     public void unlockPropertyBuy() {
         unlockBuyButton();
         promptPropertyPurchase();

@@ -7,6 +7,8 @@ public interface ModelUpdateListener extends Serializable {
 
     void dieCount(int dieRoll1, int dieRoll2, int position);
 
+    void initializeLoadedGame(int numberOfPlayers, int playerNumber);
+
     void unlockPropertyBuy();
 
     void unlockUtilityBuy();

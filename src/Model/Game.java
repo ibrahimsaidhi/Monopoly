@@ -53,15 +53,16 @@ public class Game implements Serializable {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("gamefile.txt"));
         oos.writeObject(game);
         oos.writeObject(game.getCurrentPlayer());
-        oos.writeObject(game.getBoard());
+
         oos.writeObject(game.getPlayers());
-        oos.writeObject(game.getCurrentPlayerPosition());
+
+
         oos.writeObject(game.numberOfAIPlayers);
         oos.writeObject(game.numberOfHumanPlayers);
         oos.writeObject(game.initialNumberOfHumanPlayers);
         oos.writeObject(game.totalNumberOfPlayers);
-        oos.writeObject(game.getViews());
-        oos.writeObject(game.getViewer());
+        oos.writeObject(game.getBoard());
+
     }
 
     public static List<Object> readFile() throws IOException, ClassNotFoundException {
@@ -69,27 +70,30 @@ public class Game implements Serializable {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream("gamefile.txt"));
         game = (Game) ois.readObject();
         Player player = (Player) ois.readObject();
-        Board board = (Board) ois.readObject();
+
         List<Player> players = (List<Player>) ois.readObject();
-        int currentPlayerPosition = (int) ois.readObject();
+
+
         int numOfAIPlayers = (int) ois.readObject();
         int numOfHumanPlayers = (int) ois.readObject();
         int initialNumOfHumanPlayers = (int) ois.readObject();
         int totalNumOfPlayers = (int) ois.readObject();
-        List<ModelUpdateListener> views = (List<ModelUpdateListener>) ois.readObject();
-        ModelUpdateListener viewer = views.get(0);
+        Board board = (Board) ois.readObject();
+
+
         List<Object> gameStuff = new ArrayList<>();
         gameStuff.add(game);
         gameStuff.add(player);
-        gameStuff.add(board);
+
+
         gameStuff.add(players);
+
         gameStuff.add(numOfAIPlayers);
         gameStuff.add(numOfHumanPlayers);
         gameStuff.add(initialNumOfHumanPlayers);
         gameStuff.add(totalNumOfPlayers);
-        gameStuff.add(views);
-        gameStuff.add(viewer);
-        gameStuff.add(currentPlayerPosition);
+        gameStuff.add(board);
+
         return gameStuff;
     }
 
@@ -342,8 +346,28 @@ public class Game implements Serializable {
         }
     }
 
+    public void initializeLoadedPlayers(int humanPlayers, int aiPlayers, List<Player> players, int currentPlayerInt){
+        this.numberOfHumanPlayers = humanPlayers;
+        this.initialNumberOfHumanPlayers = numberOfHumanPlayers;
+        this.numberOfAIPlayers = aiPlayers;
+
+        this.totalNumberOfPlayers = numberOfAIPlayers + numberOfHumanPlayers;
+        this.currentPlayerInt = currentPlayerInt;
+        reloadPlayers(players);
+
+        for (ModelUpdateListener v: views){
+            v.initializeLoadedGame(totalNumberOfPlayers, getCurrentPlayer().getPlayerNumber());
+        }
+
+    }
+
     public void setViewer(ModelUpdateListener viewer) {
         this.viewer = viewer;
+    }
+
+    public void reloadPlayers(List<Player> players){
+        this.players.addAll(players);
+
     }
 
     /**
@@ -356,6 +380,7 @@ public class Game implements Serializable {
             players.add(new Player(i));
         }
     }
+
 
     public List<Player> getPlayers() {
         return players;
