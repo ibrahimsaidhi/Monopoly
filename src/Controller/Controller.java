@@ -15,7 +15,7 @@ public class Controller implements ActionListener, Serializable {
     Game gameModel;
     int numberOfHumanPlayers, numberOfAIPlayers, initialNumberOfHumanPlayers, totalPlayerAmount;
     String customBoardChoice;
-    private static final String newGame = "New Game", rollDie = "Roll Die", buy = "Buy", passTurn = "Pass Turn", state = "State", bsHouse = "Buy/Sell House", bsHotel = "Buy/Sell Hotel", quit = "Quit Game";
+    private static final String newGame = "New Game", rollDie = "Roll Die", buy = "Buy", passTurn = "Pass Turn", state = "State", bsHouse = "Buy/Sell House", bsHotel = "Buy/Sell Hotel", quit = "Quit Game", save = "Save Current Game", load = "Load Game";
 
     public Controller(Game gameModel, View gameView) {
         this.gameModel = gameModel;
@@ -113,7 +113,7 @@ public class Controller implements ActionListener, Serializable {
 
                 gameModel.clear();
                 break;
-            case "Save Current Game":
+            case save:
                 try {
                     Game.writeToFile(gameModel);
                     //View.writeToFile(gameView);
@@ -123,7 +123,7 @@ public class Controller implements ActionListener, Serializable {
                 }
                 break;
 
-            case "Load Game":
+            case load:
                 try {
                     List<Object> gameStuff = Game.readFile();
                     gameModel = (Game) gameStuff.get(0);
