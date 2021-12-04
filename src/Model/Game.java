@@ -50,32 +50,49 @@ public class Game implements Serializable {
 
     public static void writeToFile(Game game) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("gamefile.txt"));
+        oos.writeObject(game);
         oos.writeObject(game.getCurrentPlayer());
         oos.writeObject(game.getBoard());
         oos.writeObject(game.getPlayers());
+        oos.writeObject(game.getCurrentPlayerPosition());
         oos.writeObject(game.numberOfAIPlayers);
         oos.writeObject(game.numberOfHumanPlayers);
         oos.writeObject(game.initialNumberOfHumanPlayers);
         oos.writeObject(game.totalNumberOfPlayers);
         oos.writeObject(game.getViews());
         oos.writeObject(game.getViewer());
-
     }
 
-    public static Game readFile() throws IOException, ClassNotFoundException {
-        Game game = new Game();
+    public static List<Object> readFile() throws IOException, ClassNotFoundException {
+        Game game;
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream("gamefile.txt"));
-        game.setCurrentPlayer((Player) ois.readObject());
-        game.setBoard((Board) ois.readObject());
-        game.setPlayers((List<Player>) ois.readObject());
-        game.setNumberOfAIPlayers((int) ois.readObject());
-        game.setNumberOfHumanPlayers((int) ois.readObject());
-        game.setInitialNumberOfHumanPlayers((int) ois.readObject());
-        game.setTotalNumberOfPlayers((int) ois.readObject());
-        game.setViews((List<ModelUpdateListener>) ois.readObject());
-        game.setViewer((ModelUpdateListener) ois.readObject());
-        return game;
+        game = (Game) ois.readObject();
+        Player player = (Player) ois.readObject();
+        Board board = (Board) ois.readObject();
+        List<Player> players = (List<Player>) ois.readObject();
+        int currentPlayerPosition = (int) ois.readObject();
+        int numOfAIPlayers = (int) ois.readObject();
+        int numOfHumanPlayers = (int) ois.readObject();
+        int initialNumOfHumanPlayers = (int) ois.readObject();
+        int totalNumOfPlayers = (int) ois.readObject();
+        List<ModelUpdateListener> views = (List<ModelUpdateListener>) ois.readObject();
+        ModelUpdateListener viewer = views.get(0);
+        List<Object> gameStuff = new ArrayList<>();
+        gameStuff.add(game);
+        gameStuff.add(player);
+        gameStuff.add(board);
+        gameStuff.add(players);
+        gameStuff.add(numOfAIPlayers);
+        gameStuff.add(numOfHumanPlayers);
+        gameStuff.add(initialNumOfHumanPlayers);
+        gameStuff.add(totalNumOfPlayers);
+        gameStuff.add(views);
+        gameStuff.add(viewer);
+        gameStuff.add(currentPlayerPosition);
+        return gameStuff;
     }
+
+
 
     public ModelUpdateListener getViewer() {
         return viewer;

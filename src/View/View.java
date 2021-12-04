@@ -47,6 +47,10 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         gameView.initialize(gameController);
     }
 
+    public BoardOverlay getBoardOverlay() {
+        return boardOverlay;
+    }
+
     static int askUser(Integer[] choices) {
         Integer s = (Integer) JOptionPane.showInputDialog(
                 null,
@@ -145,21 +149,26 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    public void setBoardOverlay(BoardOverlay boardOverlay) {
+        this.boardOverlay = boardOverlay;
+    }
+
     public static void writeToFile(View view) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("viewfile.txt"));
-        oos.writeObject(view);
+        oos.writeObject(view.getBoardOverlay());
     }
 
-    public static View readFile(Game game) throws IOException, ClassNotFoundException{
-        View view;
+    public static BoardOverlay readFile(Game game) throws IOException, ClassNotFoundException{
+
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream("viewfile.txt"));
-        view = (View) ois.readObject();
-        view.setGameModel(game);
-        game.setViewer(view);
-        return view;
+        BoardOverlay overlay = new BoardOverlay(game);
+        overlay = (BoardOverlay) ois.readObject();
+        return overlay;
     }
 
-
+    public void setFeedbackAreaField(JTextArea feedbackArea) {
+        this.feedbackArea = feedbackArea;
+    }
 
     public void setGameModel(Game gameModel) {
         this.gameModel = gameModel;

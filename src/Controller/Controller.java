@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 public class Controller implements ActionListener, Serializable {
     View gameView;
@@ -108,6 +109,7 @@ public class Controller implements ActionListener, Serializable {
             case "Save Current Game":
                 try {
                     Game.writeToFile(gameModel);
+                    //View.writeToFile(gameView);
                     gameView.setFeedbackArea("The game has been saved!");
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
@@ -116,8 +118,23 @@ public class Controller implements ActionListener, Serializable {
 
             case "Load Game":
                 try {
-                    gameModel = Game.readFile();
+                    List<Object> gameStuff = Game.readFile();
+                    gameModel = (Game) gameStuff.get(0);
+                    gameModel.setCurrentPlayer((Player)gameStuff.get(1));
+                    gameModel.setBoard((Board) gameStuff.get(2));
+                    gameModel.setPlayers((List<Player>) gameStuff.get(3));
+
+                    /*
+                    numberOfAIPlayers = (int) gameStuff.get(4);
+                    numberOfHumanPlayers = (int) gameStuff.get(5);
+                    initialNumberOfHumanPlayers = (int) gameStuff.get(6);
+                    totalPlayerAmount = (int) gameStuff.get(7);
+                     */
+
+                    gameView.setBoardOverlay(View.readFile(gameModel));
+                    gameModel.setViews((List<ModelUpdateListener>) gameStuff.get(8));
                     gameModel.setViewer(gameView);
+                    //gameModel.setCurrentPlayerPosition((int) gameStuff.get(10));
                     gameView.repaint();
                     gameView.setFeedbackArea("Previous game has been loaded\n" + "\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
                     gameView.unlockButtons();
