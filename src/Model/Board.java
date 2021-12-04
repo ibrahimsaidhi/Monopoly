@@ -1,7 +1,16 @@
 package Model;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Board Class: sets up the board to be played on
@@ -10,58 +19,130 @@ import java.util.List;
  * @version 2.0
  */
 
-public class Board {
+public class Board implements Serializable {
 
     private ArrayList<Square> board;
     private List<Player> players;
 
+    public static String index = "", square = "", property = "", railroad = "", utility = "", name = "", color = "", value = "";
+
     public Board(){
         board = new ArrayList<>();
-        buildBoard();
     }
 
-    public void buildBoard(){
-        board.add(0, new Square("Go!"));
-        board.add(1, new Property("Mediterranean Ave", "brown", 60));
-        board.add(2, new Square("empty 1"));
-        board.add(3, new Property("Baltic Ave", "brown", 60));
-        board.add(4, new Square("Income Tax"));
-        board.add(5, new Railroad("Reading RailRoad",200));
-        board.add(6, new Property("Oriental Ave", "light blue", 100));
-        board.add(7, new Square("empty 2"));
-        board.add(8, new Property("Vermont Ave", "light blue", 100));
-        board.add(9, new Property("Connecticut Ave", "light blue", 120));
-        board.add(10, new Square("Just Visiting Jail"));
-        board.add(11, new Property("St. Charles Place", "purple", 140));
-        board.add(12, new Utility("Electric Company", 150));
-        board.add(13, new Property("States Ave", "purple", 140));
-        board.add(14, new Property("Virginia Ave", "purple", 160));
-        board.add(15, new Railroad("Pennsylvania Railroad", 200));
-        board.add(16, new Property("St. James Place", "orange", 180));
-        board.add(17, new Square("empty 3"));
-        board.add(18, new Property("Tennessee Ave", "orange", 180));
-        board.add(19, new Property("New York Ave", "orange", 200));
-        board.add(20, new Square("Free Parking"));
-        board.add(21, new Property("Kentucky Ave", "red", 220));
-        board.add(22, new Square("empty 4"));
-        board.add(23, new Property("Indiana Ave", "red", 220));
-        board.add(24, new Property("Illinois Ave", "red", 240));
-        board.add(25, new Railroad("B. & O. Railroad", 200));
-        board.add(26, new Property("Atlantic Ave", "yellow", 260));
-        board.add(27, new Property("Ventnor Ave", "yellow", 260));
-        board.add(28, new Utility("Water Works", 150));
-        board.add(29, new Property("Marvin Gardens", "yellow", 280));
-        board.add(30, new Square("Jail"));
-        board.add(31, new Property("Pacific Ave", "green", 300));
-        board.add(32, new Property("North Carolina Ave", "green", 300));
-        board.add(33, new Square("empty 5"));
-        board.add(34, new Property("Pennsylvania Ave", "green", 320));
-        board.add(35, new Railroad("Short Line", 200));
-        board.add(36, new Square("empty 6"));
-        board.add(37, new Property("Park Place", "blue", 350));
-        board.add(38, new Square("Luxury Tax"));
-        board.add(39, new Property("Boardwalk", "blue", 400));
+    public void importFromXmlFile(String file) throws Exception {
+        readSAX(new File(file));
+        for(int i = 0; i < board.size(); i++){
+            System.out.println(board.get(i).getName());
+        }
+    }
 
+    public void checkConditions(){
+        if((!index.equals("") && !index.equals(null)) && (!square.equals("") && !square.equals(null)) && (!name.equals("") && !name.equals(null)) && !squareExists(name)){
+            //System.out.println("Square Index is "+Integer.valueOf(index));
+            addSquare(Integer.valueOf(index), name);
+        } else if((!index.equals("") && !index.equals(null)) && (!property.equals("") && !property.equals(null)) && (!name.equals("") && !name.equals(null)) && (!color.equals("") && !color.equals(null)) && (!value.equals("") && !value.equals(null)) && !squareExists(name)){
+            //System.out.println("Property Index is "+Integer.valueOf(index));
+            addProperty(Integer.valueOf(index), name, color, Integer.valueOf(value));
+        } else if((!index.equals("") && !index.equals(null)) && (!railroad.equals("") && !railroad.equals(null)) && (!name.equals("") && !name.equals(null)) && (!value.equals("") && !value.equals(null)) && !squareExists(name)){
+            //System.out.println("Railroad Index is "+Integer.valueOf(index));
+            addRailroad(Integer.valueOf(index), name, Integer.valueOf(value));
+        } else if((!index.equals("") && !index.equals(null)) && (!utility.equals("") && !utility.equals(null)) && (!name.equals("") && !name.equals(null)) && (!value.equals("") && !value.equals(null)) && !squareExists(name)){
+            //System.out.println("Utility Index is "+Integer.valueOf(index));
+            addUtility(Integer.valueOf(index), name, Integer.valueOf(value));
+        }
+    }
+
+    public void readSAX(File file) throws Exception {
+        SAXParserFactory spf = SAXParserFactory.newInstance();
+        SAXParser s = spf.newSAXParser();
+
+        DefaultHandler dh = new DefaultHandler(){
+            boolean parseIndex = false, parseSquare = false, parseProperty = false, parseRailroad = false,
+                    parseUtility = false, parseName = false, parseColor = false, parseValue = false;
+
+            public void startElement(String u, String ln, String qname, Attributes a){
+                if(qname.equalsIgnoreCase("index")){
+                    parseIndex = true;
+                } else if(qname.equalsIgnoreCase("square")){
+                    parseSquare = true;
+                } else if(qname.equalsIgnoreCase("property")){
+                    parseProperty = true;
+                } else if(qname.equalsIgnoreCase("railroad")){
+                    parseRailroad = true;
+                } else if(qname.equalsIgnoreCase("utility")){
+                    parseUtility = true;
+                } else if(qname.equalsIgnoreCase("name")){
+                    parseName = true;
+                } else if(qname.equalsIgnoreCase("color")){
+                    parseColor = true;
+                } else if(qname.equalsIgnoreCase("value")){
+                    parseValue = true;
+                }
+                //System.out.println("START: " + qname);
+            }
+
+            public void endElement(String uri, String localName, String qname){
+                //System.out.println("END: " + qname);
+            }
+
+            public void characters(char[] ch, int start, int length) throws SAXException {
+                if(parseIndex == true){
+                    index = new String(ch, start, length);
+                    parseIndex = false;
+                } else if(parseSquare == true){
+                    square = new String(ch, start, length);
+                    parseSquare = false;
+                } else if(parseProperty == true){
+                    property = "Property";
+                    parseProperty = false;
+                } else if(parseRailroad == true){
+                    railroad = new String(ch, start, length);
+                    parseRailroad = false;
+                } else if(parseUtility == true){
+                    utility = new String(ch, start, length);
+                    parseUtility = false;
+                } else if(parseName == true){
+                    name = new String(ch, start, length);
+                    parseName = false;
+                } else if(parseColor == true){
+                    color = new String(ch, start, length);
+                    parseColor = false;
+                } else if(parseValue == true){
+                    value = new String(ch, start, length);
+                    parseValue = false;
+                }
+                //System.out.println("Index: " + index + " Name: " + name + " Square: " + square + " Property: " + property +
+                //        " Railroad: " + railroad + " Utility: " + utility + " Color: " + color + " Value: " + value);
+                //System.out.println("CHARS: " + new String(ch, start, length));
+                checkConditions();
+                index = "";
+                square = "";
+                property = "";
+                railroad = "";
+                utility = "";
+                name = "";
+                color = "";
+                value = "";
+            }
+        };
+        s.parse(file, dh);
+    }
+
+    public void addSquare(int squareIndex, String squareName){
+        board.add(squareIndex, new Square(squareName));
+    }
+
+    public void addProperty(int index, String squareName, String squareColor, int squareValue){
+        board.add(index, new Property(squareName, squareColor, squareValue));
+    }
+
+    public void addRailroad(int index, String railroadName, int railroadValue){
+        board.add(index, new Railroad(railroadName, railroadValue));
+    }
+
+    public void addUtility(int index, String utilityName, int utilityValue){
+        board.add(index, new Utility(utilityName, utilityValue));
     }
 
     public ArrayList<Square> getBoard() {
@@ -74,6 +155,20 @@ public class Board {
 
     public Square getIndex(int x){
         return board.get(x);
+    }
+
+    /**
+     * All squares, properties, railroad, utilities have unique names
+     * This method checks to see if a square with a given name exists within the board
+     * @return
+     */
+    public boolean squareExists(String name){
+        for(int i = 0; i < this.size(); i++){
+            if(this.getIndex(i).getName() == name){
+                return true;
+            }
+        }
+        return false;
     }
 
     public Property getProperty(int x){

@@ -5,9 +5,10 @@ import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 
-public class View extends JFrame implements ModelUpdateListener {
+public class View extends JFrame implements ModelUpdateListener, Serializable {
     Game gameModel;
     JButton newGameButton;
     JButton rollDieButton;
@@ -15,12 +16,14 @@ public class View extends JFrame implements ModelUpdateListener {
     JButton buyButton;
     JButton quitButton;
     JButton addHouseButton;
+    JButton resumeGameButton;
+    JButton saveGameButton;
     ArrayList<JButton> listOfCommandButtons;
     JTextArea feedbackArea;
     JButton stateButton;
     JButton addHotelButton;
-    BoardOverlay boardOverlay;
-    MonopolyBoard monopolyBoard;
+    transient BoardOverlay boardOverlay;
+    transient MonopolyBoard monopolyBoard;
 
     //MyPanel panel;
 
@@ -30,12 +33,22 @@ public class View extends JFrame implements ModelUpdateListener {
         initialize();
     }
 
+    public View() {
+        super("Monopoly");
+        initialize();
+    }
+
+
     public static void main(String[] args) {
         Game gameModel = new Game();
         View gameView = new View(gameModel);
         gameModel.setViewer(gameView);
         Controller gameController = new Controller(gameModel, gameView);
         gameView.initialize(gameController);
+    }
+
+    public BoardOverlay getBoardOverlay() {
+        return boardOverlay;
     }
 
     static int askUser(Integer[] choices) {
@@ -60,7 +73,7 @@ public class View extends JFrame implements ModelUpdateListener {
         //The layered pane will have multiple layers in order for us to overlay components
         JLayeredPane jLayeredPane = new JLayeredPane();
         jLayeredPane.setSize(950, 550);
-        monopolyBoard = new MonopolyBoard();
+        monopolyBoard = new MonopolyBoard(this.gameModel.getBackgroundFileName());
         jLayeredPane.add(monopolyBoard, JLayeredPane.DEFAULT_LAYER);
 
         gameModel.addView(this);
@@ -79,8 +92,11 @@ public class View extends JFrame implements ModelUpdateListener {
         addHouseButton = new JButton("Buy/Sell House");
         addHotelButton = new JButton("Buy/Sell Hotel");
         passTurnButton = new JButton("Pass Turn");
+        resumeGameButton = new JButton("Load Game");
+        saveGameButton = new JButton("Save Current Game");
         quitButton = new JButton("Quit Game");
         stateButton = new JButton("State");
+        saveGameButton.setEnabled(false);
         addHotelButton.setEnabled(false);
         rollDieButton.setEnabled(false);
         passTurnButton.setEnabled(false);
@@ -91,6 +107,8 @@ public class View extends JFrame implements ModelUpdateListener {
         addHouseButton.setEnabled(false);
         listOfCommandButtons = new ArrayList<JButton>();
         listOfCommandButtons.add(rollDieButton);
+        listOfCommandButtons.add(saveGameButton);
+        listOfCommandButtons.add(resumeGameButton);
         listOfCommandButtons.add(buyButton);
         listOfCommandButtons.add(passTurnButton);
         listOfCommandButtons.add(stateButton);
@@ -100,7 +118,7 @@ public class View extends JFrame implements ModelUpdateListener {
         listOfCommandButtons.add(addHouseButton);
 
 
-        feedbackArea = new JTextArea("Welcome to Monopoly! Please press New Game in order to start!\n");
+        feedbackArea = new JTextArea("Welcome to Monopoly! Please press New Game in order to start a new game, or Load Game to load a previous one!\n");
         feedbackArea.setRows(8);
         JScrollPane feedbackAreaScrollPane = new JScrollPane(feedbackArea);
         menuPanel.setLayout(new BorderLayout());
@@ -109,25 +127,55 @@ public class View extends JFrame implements ModelUpdateListener {
 
         JPanel centerPanel = new JPanel();
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new BorderLayout());
+        bottomPanel.setLayout(new FlowLayout());
         centerPanel.setLayout(new BorderLayout());
         menuPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(rollDieButton, BorderLayout.CENTER);
-        centerPanel.add(buyButton, BorderLayout.WEST);
+        centerPanel.add(resumeGameButton, BorderLayout.WEST);
         centerPanel.add(stateButton, BorderLayout.EAST);
-        bottomPanel.add(addHouseButton, BorderLayout.EAST);
-        bottomPanel.add(addHotelButton, BorderLayout.CENTER);
+        bottomPanel.add(addHouseButton);
+        bottomPanel.add(addHotelButton);
         menuPanel.add(passTurnButton, BorderLayout.EAST);
-
-        bottomPanel.add(quitButton, BorderLayout.WEST);
+        bottomPanel.add(buyButton);
+        bottomPanel.add(saveGameButton);
+        bottomPanel.add(quitButton);
         menuPanel.add(bottomPanel, BorderLayout.SOUTH);
         root.add(menuPanel, BorderLayout.SOUTH);
 
         //Initialization of the frame
         this.setVisible(true);
         this.setResizable(false);
-        this.setSize(950, 650);
+        this.setSize(950, 660);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public void setBoardOverlay(BoardOverlay boardOverlay) {
+        this.boardOverlay = boardOverlay;
+    }
+
+    public static void writeToFile(View view) throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("viewfile.txt"));
+        oos.writeObject(view.getBoardOverlay());
+    }
+
+    public static BoardOverlay readFile(Game game) throws IOException, ClassNotFoundException{
+
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("viewfile.txt"));
+        BoardOverlay overlay = new BoardOverlay(game);
+        overlay = (BoardOverlay) ois.readObject();
+        return overlay;
+    }
+
+    public void setFeedbackAreaField(JTextArea feedbackArea) {
+        this.feedbackArea = feedbackArea;
+    }
+
+    public void setGameModel(Game gameModel) {
+        this.gameModel = gameModel;
+    }
+    public void setBackground(){
+        System.out.println(this.gameModel.getBackgroundFileName());
+        this.monopolyBoard.loadBackground(this.gameModel.getBackgroundFileName());
     }
 
 
@@ -240,8 +288,9 @@ public class View extends JFrame implements ModelUpdateListener {
      * This method unlocks GUI buttons after a player specifies amount of players
      */
     public void unlockButtons() {
+        resumeGameButton.setEnabled(false);
         for (JButton button : listOfCommandButtons) {
-            if(!button.getText().equalsIgnoreCase("Buy"))
+            if(!button.getText().equalsIgnoreCase("Buy") && !button.getText().equalsIgnoreCase("Load Game"))
                 button.setEnabled(true);
         }
     }
@@ -250,6 +299,10 @@ public class View extends JFrame implements ModelUpdateListener {
     public void lockRollButton(){
         rollDieButton.setEnabled(false);
     }
+    public void unlockRollDieButton(){
+        rollDieButton.setEnabled(true);
+    }
+
     public void lockBuyButton(){
         buyButton.setEnabled(false);
     }
@@ -258,8 +311,14 @@ public class View extends JFrame implements ModelUpdateListener {
         buyButton.setEnabled(true);
     }
 
-    public void unlockRollDieButton(){
-        rollDieButton.setEnabled(true);
+    @Override
+    public void lockPassTurnButton(){
+        passTurnButton.setEnabled(false);
+    }
+
+    @Override
+    public void unlockPassTurnButton(){
+        passTurnButton.setEnabled(true);
     }
 
     public JTextArea getFeedbackArea() {
@@ -311,6 +370,24 @@ public class View extends JFrame implements ModelUpdateListener {
         return 0;
     }
 
+    public String customBoardRequest() {
+        String[] choices = new String[]{"OriginalBoard.xml", "Restaurant.xml" };
+        String choice = askUserChoiceOfBoard(choices);
+        return choice;
+    }
+
+    static String askUserChoiceOfBoard(String[] choices) {
+        String s = (String) JOptionPane.showInputDialog(
+                null,
+                "Which Board would you like to play on?",
+                "Select the Board!",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                choices,
+                choices[0]);
+        return s;
+    }
+
     /*
      * This method updates the model
      */
@@ -320,9 +397,16 @@ public class View extends JFrame implements ModelUpdateListener {
     }
 
     @Override
-    public void dieCount(int value, int position) {
-        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die that added up to " + value);
+    public void dieCount(int dieRoll1, int dieRoll2, int position) {
+        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
         setFeedbackArea("\nYour new position is now " + position + ": " + gameModel.getBoardName());
+    }
+
+    @Override
+    public void initializeLoadedGame(int numberOfPlayers, int playerNumber) {
+        unlockButtons();
+        setFeedbackArea("A previous game has resumed with " + numberOfPlayers + " players\n" + "\nCurrently turn of: Player " + playerNumber + "\n");
+        getNewGameButton().setEnabled(false);
     }
 
     @Override
@@ -352,6 +436,7 @@ public class View extends JFrame implements ModelUpdateListener {
     @Override
     public void passTurn(int playerNumber) {
         setFeedbackArea("\nCurrently turn of: Player " + playerNumber + "\n");
+        lockPassTurnButton();
     }
 
     @Override
@@ -385,6 +470,13 @@ public class View extends JFrame implements ModelUpdateListener {
     }
 
     @Override
+    public void loadingSavedGame(int playerNumber) {
+        unlockButtons();
+        setFeedbackArea("Previous game has been loaded\n" + "\nCurrently turn of: Player " + playerNumber + "\n");
+        lockNewGameButton();
+    }
+
+    @Override
     public void manualPassUpdate(int playerNumber) {
         setFeedbackArea("\nPlayer # " + playerNumber + " has passed their turn\n");
         goToTheBottomOfTextField();
@@ -414,6 +506,7 @@ public class View extends JFrame implements ModelUpdateListener {
     public void AIRepaint() {
         setFeedbackArea(gameModel.aiAlgorithm());
         repaint();
+        lockPassTurnButton();
     }
 
     @Override
@@ -531,4 +624,7 @@ public class View extends JFrame implements ModelUpdateListener {
         return input;
     }
 
+    public void lockNewGameButton() {
+        newGameButton.setEnabled(false);
+    }
 }

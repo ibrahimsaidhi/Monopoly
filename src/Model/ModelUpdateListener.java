@@ -1,9 +1,13 @@
 package Model;
 
-public interface ModelUpdateListener {
+import java.io.Serializable;
+
+public interface ModelUpdateListener extends Serializable {
     void modelUpdated();
 
-    void dieCount(int value, int position);
+    void dieCount(int dieRoll1, int dieRoll2, int position);
+
+    void initializeLoadedGame(int numberOfPlayers, int playerNumber);
 
     void unlockPropertyBuy();
 
@@ -11,11 +15,17 @@ public interface ModelUpdateListener {
 
     void unlockRailroadBuy();
 
+    void lockPassTurnButton();
+
+    void unlockPassTurnButton();
+
     void passTurn(int playerNumber);
 
     void taxProperty(int tax, Player ownedBy, int playerNumber, int balance);
 
     void confirmPurchase(int playerNumber, String name, int balance);
+
+    void loadingSavedGame(int playerNumber);
 
     void printState(int i, int balance, String toString, int balance1);
 
@@ -58,6 +68,8 @@ public interface ModelUpdateListener {
     void cannotSellHotel();
 
     void payToLeaveJail();
+
+
 
 
     void sellingHouse();

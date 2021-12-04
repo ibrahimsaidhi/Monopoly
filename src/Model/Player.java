@@ -7,11 +7,12 @@ package Model;
  * @version 1.0
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Player {
+public class Player implements Serializable {
     private final int playerNumber; // ie. player1, player2 etc
     private int position, previousPosition;
     private int balance;
@@ -190,9 +191,6 @@ public class Player {
     }
 
     public ArrayList<Railroad> getOwnedRailroads() {
-        for (int i =0; i < ownedRailroads.size();i++){
-            System.out.println(ownedRailroads.get(i));
-        }
         return ownedRailroads;
     }
 
@@ -220,7 +218,7 @@ public class Player {
      */
     public Integer rollDice() {
 
-        Integer numberOfDiceToRoll = 2; //rolling two dices
+        Integer numberOfDiceToRoll = 1; //rolling two dices
         List<Integer> diceRolls = new ArrayList<>();
         int dieRoll = 0;
         Random random = new Random();
