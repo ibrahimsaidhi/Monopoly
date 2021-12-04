@@ -244,6 +244,14 @@ public class Game {
                 v.freeFromJail(dieRoll1, dieRoll2, getCurrentPlayerPosition());
             }
         }
+
+        else if(playerIsInJail() && !doubleCheck){
+            getCurrentPlayer().clearDoublesCount();
+            for(ModelUpdateListener v: this.views) {
+                v.stayInJail(getCurrentPlayer().getPlayerNumber());
+            }
+        }
+
         else{
             setCurrentPlayerPosition(dieRoll1 + dieRoll2);
             for(ModelUpdateListener v: this.views) {

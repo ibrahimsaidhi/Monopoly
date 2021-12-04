@@ -228,8 +228,8 @@ public class Player {
         Random random = new Random();
         for (int i = 0; i < numberOfDiceToRoll; i++) {
             int diceRoll = random.nextInt(6) + 1;
-            diceRolls.add(4);
-            dieRoll += 4;
+            diceRolls.add(diceRoll);
+            dieRoll += diceRoll;
         }
         if(dieRoll >=0){
             return dieRoll;
