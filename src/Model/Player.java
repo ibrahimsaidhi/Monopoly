@@ -191,9 +191,6 @@ public class Player implements Serializable {
     }
 
     public ArrayList<Railroad> getOwnedRailroads() {
-        for (int i =0; i < ownedRailroads.size();i++){
-            System.out.println(ownedRailroads.get(i));
-        }
         return ownedRailroads;
     }
 
@@ -221,7 +218,7 @@ public class Player implements Serializable {
      */
     public Integer rollDice() {
 
-        Integer numberOfDiceToRoll = 2; //rolling two dices
+        Integer numberOfDiceToRoll = 1; //rolling two dices
         List<Integer> diceRolls = new ArrayList<>();
         int dieRoll = 0;
         Random random = new Random();

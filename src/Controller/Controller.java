@@ -14,6 +14,8 @@ public class Controller implements ActionListener, Serializable {
     View gameView;
     Game gameModel;
     int numberOfHumanPlayers, numberOfAIPlayers, initialNumberOfHumanPlayers, totalPlayerAmount;
+    String customBoardChoice;
+    private static final String newGame = "New Game", rollDie = "Roll Die", buy = "Buy", passTurn = "Pass Turn", state = "State", bsHouse = "Buy/Sell House", bsHotel = "Buy/Sell Hotel", quit = "Quit Game";
 
     public Controller(Game gameModel, View gameView) {
         this.gameModel = gameModel;
@@ -23,40 +25,45 @@ public class Controller implements ActionListener, Serializable {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "New Game":
+            case newGame:
+                customBoardChoice= gameView.customBoardRequest();
+                gameModel.setCustomBoard(customBoardChoice);
+                gameView.setBackground();
+
                 initialNumberOfHumanPlayers = gameView.numberOfPlayersRequest();
                 numberOfHumanPlayers = initialNumberOfHumanPlayers;
                 numberOfAIPlayers= gameView.numberOfAIPlayersRequest(numberOfHumanPlayers);
                 totalPlayerAmount = numberOfHumanPlayers + numberOfAIPlayers;
                 gameModel.initializePlayers(numberOfHumanPlayers, numberOfAIPlayers);
-
+                gameView.lockPassTurnButton();
                 break;
-            case "Roll Die":
+            case rollDie:
                 int diceRoll = gameModel.rollDie();
                 gameView.repaint();
                 gameView.lookingForWinner();
                 gameModel.checkSquare(diceRoll);
+                gameView.unlockPassTurnButton();
                 goToTheBottomOfTextField();
 
                 break;
 
-            case "Buy":
+            case buy:
                 gameModel.makePurchase();
                 gameView.unlockRollDieButton();
                 goToTheBottomOfTextField();
                 break;
-            case "Pass Turn":
+            case passTurn:
                 gameModel.manualPass();
                 gameView.lockBuyButton();
                 gameView.unlockRollDieButton();
                 goToTheBottomOfTextField();
-
+                gameModel.aiAlgorithm();
                 break;
-            case "State":
+            case state:
                 gameView.setFeedbackArea(gameModel.printState()+"\n");
                 goToTheBottomOfTextField();
                 break;
-            case "Buy/Sell House":
+            case bsHouse:
                 gameModel.checkingForHouseEligibility();
                 String input = gameView.requestingHouseStatus();
                 gameModel.buyingHouseEligibility();
@@ -79,7 +86,7 @@ public class Controller implements ActionListener, Serializable {
 
                 gameModel.clear();
                 break;
-            case "Buy/Sell Hotel":
+            case bsHotel:
                 gameModel.checkingForHouseEligibility();
                 String hotelInput = gameView.requestingHotelStatus();
                 gameModel.buyingHotelEligibility();
@@ -143,7 +150,7 @@ public class Controller implements ActionListener, Serializable {
                     ioException.printStackTrace();
                 }
                 break;
-            case "Quit Game":
+            case quit:
                 gameModel.quitGame();
                 break;
         }

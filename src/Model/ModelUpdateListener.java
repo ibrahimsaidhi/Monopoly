@@ -5,13 +5,17 @@ import java.io.Serializable;
 public interface ModelUpdateListener extends Serializable {
     void modelUpdated();
 
-    void dieCount(int value, int position);
+    void dieCount(int dieRoll1, int dieRoll2, int position);
 
     void unlockPropertyBuy();
 
     void unlockUtilityBuy();
 
     void unlockRailroadBuy();
+
+    void lockPassTurnButton();
+
+    void unlockPassTurnButton();
 
     void passTurn(int playerNumber);
 

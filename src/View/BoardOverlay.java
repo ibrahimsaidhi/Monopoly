@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class BoardOverlay extends JPanel implements Serializable {
     Game game;
-    HashMap<String, Point> boardLocations = new HashMap<String, Point>();
+    HashMap<Integer, Point> boardLocations = new HashMap<Integer, Point>();
 
     public BoardOverlay(Game gameModel) {
         setSize(950, 550);
@@ -30,126 +30,126 @@ public class BoardOverlay extends JPanel implements Serializable {
         Point coord;
         for(int i = 0; i < game.getBoard().size(); i++){
             String boardName = game.getBoard().getIndex(i).getName();
-            if(boardName.equalsIgnoreCase("Go!")){
+            if(i == 0){
                 coord = new Point(857, 395);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Mediterranean Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 1){
                 coord = new Point(757, 395);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("empty 1")){
+                boardLocations.put(i, coord);
+            } else if(i == 2){
                 coord = new Point(680, 395);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Baltic Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 3){
                 coord = new Point(600, 395);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Income Tax")){
+                boardLocations.put(i, coord);
+            } else if(i == 4){
                 coord = new Point(525, 395);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Reading Railroad")){
+                boardLocations.put(i, coord);
+            } else if(i == 5){
                 coord = new Point(445, 395);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Oriental Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 6){
                 coord = new Point(380, 395);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("empty 2")){
+                boardLocations.put(i, coord);
+            } else if(i == 7){
                 coord = new Point(295, 395);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Vermont Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 8){
                 coord = new Point(220, 395);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Connecticut Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 9){
                 coord = new Point(145, 395);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Jail")){
+                boardLocations.put(i, coord);
+            } else if(i == 10){
                 coord = new Point(70, 385);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Just Visiting Jail")){
+                boardLocations.put(i, coord);
+            } else if(i == 11){
                 coord = new Point(5, 410);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("St. Charles Place")){
+                boardLocations.put(i, coord);
+            } else if(i == 12){
                 coord = new Point(30, 345);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Electric Company")){
+                boardLocations.put(i, coord);
+            } else if(i == 13){
                 coord = new Point(30, 310);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("States Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 14){
                 coord = new Point(30, 275);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Virginia Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 15){
                 coord = new Point(30, 240);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Pennsylvania Railroad")){
+                boardLocations.put(i, coord);
+            } else if(i == 16){
                 coord = new Point(30, 205);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("St. James Place")){
+                boardLocations.put(i, coord);
+            } else if(i == 17){
                 coord = new Point(30, 170);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("empty 3")){
+                boardLocations.put(i, coord);
+            } else if(i == 18){
                 coord = new Point(30, 135);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Tennessee Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 19){
                 coord = new Point(30, 98);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("New York Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 20){
                 coord = new Point(30, 65);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Free Parking")){
+                boardLocations.put(i, coord);
+            } else if(i == 21){
                 coord = new Point(50, 25);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Kentucky Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 22){
                 coord = new Point(145, 10);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("empty 4")){
+                boardLocations.put(i, coord);
+            } else if(i == 23){
                 coord = new Point(220, 20);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Indiana Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 24){
                 coord = new Point(300, 10);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Illinois Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 25){
                 coord = new Point(375, 10);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("B. & O. Railroad")){
+                boardLocations.put(i, coord);
+            } else if(i == 26){
                 coord = new Point(450, 30);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Atlantic Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 27){
                 coord = new Point(528, 10);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Ventnor Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 28){
                 coord = new Point(605, 10);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Water Works")){
+                boardLocations.put(i, coord);
+            } else if(i == 29){
                 coord = new Point(680, 15);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Marvin Gardens")){
+                boardLocations.put(i, coord);
+            } else if(i == 30){
                 coord = new Point(755, 10);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Go to jail")){
+                boardLocations.put(i, coord);
+            } else if(i == 31){
                 coord = new Point(70, 385);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Pacific Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 32){
                 coord = new Point(875, 67);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("empty 5")){
+                boardLocations.put(i, coord);
+            } else if(i == 33){
                 coord = new Point(860, 135);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Pennsylvania Ave")){
+                boardLocations.put(i, coord);
+            } else if(i == 34){
                 coord = new Point(875, 170);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Short Line")){
+                boardLocations.put(i, coord);
+            } else if(i == 35){
                 coord = new Point(865, 205);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("empty 6")){
+                boardLocations.put(i, coord);
+            } else if(i == 36){
                 coord = new Point(860, 240);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Park Place")){
+                boardLocations.put(i, coord);
+            } else if(i == 37){
                 coord = new Point(875, 275);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Luxury Tax")){
+                boardLocations.put(i, coord);
+            } else if(i == 38){
                 coord = new Point(860, 313);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
-            } else if(boardName.equalsIgnoreCase("Boardwalk")){
+                boardLocations.put(i, coord);
+            } else if(i == 39){
                 coord = new Point(875, 348);
-                boardLocations.put(game.getBoard().getIndex(i).getName(), coord);
+                boardLocations.put(i, coord);
             }
         }
     }
@@ -205,12 +205,12 @@ public class BoardOverlay extends JPanel implements Serializable {
         super.paintComponent(graphics);
         //Draw a circle for the amount of players in the game
         for (int i = 0; i < game.getPlayers().size(); i++) {
-            int intPos = game.getPlayers().get(i).getPosition(); //Get the integer position of the current player
-            String positionName = game.getBoard().getIndex(intPos).getName(); //Get the name of the square which player is currently on
-            if (boardLocations.containsKey(positionName)) {
-                graphics.drawOval(boardLocations.get(positionName).x, boardLocations.get(positionName).y, getWidth() / 30, getHeight() / 30);
-                graphics.fillOval(boardLocations.get(positionName).x, boardLocations.get(positionName).y, getWidth() / 30, getHeight() / 30);
-                graphics.setColor(setPlayerColor(game.getPlayers().get(i).getPlayerNumber())); //Passes player's number as parameter for getPlayerColor() which has a player's assigned color
+            int intPos = game.getCurrentPlayer().getPosition(); //Get the integer position of the current player
+            //String positionName = game.getBoard().getIndex(intPos).getName(); //Get the name of the square which player is currently on
+            if (boardLocations.containsKey(intPos)) {
+                graphics.drawOval(boardLocations.get(intPos).x, boardLocations.get(intPos).y, getWidth() / 30, getHeight() / 30);
+                graphics.fillOval(boardLocations.get(intPos).x, boardLocations.get(intPos).y, getWidth() / 30, getHeight() / 30);
+                graphics.setColor(setPlayerColor(game.getCurrentPlayer().getPlayerNumber())); //Passes player's number as parameter for getPlayerColor() which has a player's assigned color
             }
         }
     }

@@ -73,7 +73,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         //The layered pane will have multiple layers in order for us to overlay components
         JLayeredPane jLayeredPane = new JLayeredPane();
         jLayeredPane.setSize(950, 550);
-        monopolyBoard = new MonopolyBoard();
+        monopolyBoard = new MonopolyBoard(this.gameModel.getBackgroundFileName());
         jLayeredPane.add(monopolyBoard, JLayeredPane.DEFAULT_LAYER);
 
         gameModel.addView(this);
@@ -145,7 +145,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         //Initialization of the frame
         this.setVisible(true);
         this.setResizable(false);
-        this.setSize(950, 650);
+        this.setSize(950, 660);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
@@ -173,6 +173,11 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     public void setGameModel(Game gameModel) {
         this.gameModel = gameModel;
     }
+    public void setBackground(){
+        System.out.println(this.gameModel.getBackgroundFileName());
+        this.monopolyBoard.loadBackground(this.gameModel.getBackgroundFileName());
+    }
+
 
     public void promptPropertyPurchase(){
         rollDieButton.setEnabled(false);
@@ -294,6 +299,10 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     public void lockRollButton(){
         rollDieButton.setEnabled(false);
     }
+    public void unlockRollDieButton(){
+        rollDieButton.setEnabled(true);
+    }
+
     public void lockBuyButton(){
         buyButton.setEnabled(false);
     }
@@ -302,8 +311,14 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         buyButton.setEnabled(true);
     }
 
-    public void unlockRollDieButton(){
-        rollDieButton.setEnabled(true);
+    @Override
+    public void lockPassTurnButton(){
+        passTurnButton.setEnabled(false);
+    }
+
+    @Override
+    public void unlockPassTurnButton(){
+        passTurnButton.setEnabled(true);
     }
 
     public JTextArea getFeedbackArea() {
@@ -355,6 +370,24 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         return 0;
     }
 
+    public String customBoardRequest() {
+        String[] choices = new String[]{"OriginalBoard.xml", "Restaurant.xml" };
+        String choice = askUserChoiceOfBoard(choices);
+        return choice;
+    }
+
+    static String askUserChoiceOfBoard(String[] choices) {
+        String s = (String) JOptionPane.showInputDialog(
+                null,
+                "Which Board would you like to play on?",
+                "Select the Board!",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                choices,
+                choices[0]);
+        return s;
+    }
+
     /*
      * This method updates the model
      */
@@ -364,10 +397,9 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     @Override
-    public void dieCount(int value, int position) {
-        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die that added up to " + value);
+    public void dieCount(int dieRoll1, int dieRoll2, int position) {
+        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
         setFeedbackArea("\nYour new position is now " + position + ": " + gameModel.getBoardName());
-
     }
 
     @Override
@@ -397,6 +429,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     @Override
     public void passTurn(int playerNumber) {
         setFeedbackArea("\nCurrently turn of: Player " + playerNumber + "\n");
+        lockPassTurnButton();
     }
 
     @Override
@@ -414,8 +447,6 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         setFeedbackArea("\nPlayer " + playerNumber + ": Congratulations, you now own: " + name +
         "\nYour new balance is: $" + balance + "\nSpend wisely!");
     }
-
-
 
     @Override
     public void printState(int i, int balance, String toString, int balance1) {
@@ -468,6 +499,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     public void AIRepaint() {
         setFeedbackArea(gameModel.aiAlgorithm());
         repaint();
+        lockPassTurnButton();
     }
 
     @Override

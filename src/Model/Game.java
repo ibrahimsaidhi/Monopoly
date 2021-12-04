@@ -25,6 +25,7 @@ public class Game implements Serializable {
     private int initialNumberOfHumanPlayers;
     private Board board = new Board();
     private List<ModelUpdateListener> views;
+    private String backgroundFileName = "";
 
     boolean ableToPurchaseRed = false;
     boolean ableToPurchaseBlue = false;
@@ -300,6 +301,14 @@ public class Game implements Serializable {
         this.currentPlayer = this.players.get(this.currentPlayerInt);
         for(ModelUpdateListener v: this.views) {
             v.passTurn(getCurrentPlayer().getPlayerNumber());
+            while (isPlayerAnAI()){
+                for (ModelUpdateListener vw: views){
+                    vw.AIRepaint();
+                }
+                passTurn();
+            }
+            v.modelUpdated();
+            v.lockPassTurnButton();
         }
     }
 
@@ -353,13 +362,13 @@ public class Game implements Serializable {
     }
 
     public int rollDie(){
-        int value = getCurrentPlayer().rollDice();
-        setCurrentPlayerPosition(value);
+        int dieRoll1 = getCurrentPlayer().rollDice();
+        int dieRoll2 = getCurrentPlayer().rollDice();
+        setCurrentPlayerPosition(dieRoll1 + dieRoll2);
         for(ModelUpdateListener v: this.views) {
-            v.dieCount(value, getCurrentPlayerPosition());
+            v.dieCount(dieRoll1, dieRoll2, getCurrentPlayerPosition());
         }
-        return value;
-
+        return (dieRoll1 + dieRoll2);
     }
 
     public boolean playerIsInJail(){
@@ -1563,6 +1572,28 @@ public class Game implements Serializable {
             passTurn();
         }
 
+    }
+
+    /**
+     * Since the corresponding png background is the same name as the xml document, we just need to change xml to png
+     * @param fileName
+     */
+    public void setBackgroundFileName(String fileName){
+        backgroundFileName = fileName.replaceAll("xml", "png");
+        System.out.println("File name: "+backgroundFileName + "\nBoard size: " + board.size()); //REMOVE LATER
+    }
+
+    public String getBackgroundFileName(){
+        return backgroundFileName;
+    }
+
+    public void setCustomBoard(String customBoardChoice) {
+        try {
+            this.getBoard().importFromXmlFile(customBoardChoice);
+            setBackgroundFileName(customBoardChoice);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
