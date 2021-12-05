@@ -149,35 +149,14 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void setBoardOverlay(BoardOverlay boardOverlay) {
-        this.boardOverlay = boardOverlay;
-    }
-
-    public static void writeToFile(View view) throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("viewfile.txt"));
-        oos.writeObject(view.getBoardOverlay());
-    }
-
-    public static BoardOverlay readFile(Game game) throws IOException, ClassNotFoundException{
-
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("viewfile.txt"));
-        BoardOverlay overlay = new BoardOverlay(game);
-        overlay = (BoardOverlay) ois.readObject();
-        return overlay;
-    }
-
-    public void setFeedbackAreaField(JTextArea feedbackArea) {
-        this.feedbackArea = feedbackArea;
-    }
-
-    public void setGameModel(Game gameModel) {
-        this.gameModel = gameModel;
-    }
+    /**
+     * Gets the png background file corresponding to xml image name
+     * and it paints it to the frame
+     */
     public void setBackground(){
         System.out.println(this.gameModel.getBackgroundFileName());
         this.monopolyBoard.loadBackground(this.gameModel.getBackgroundFileName());
     }
-
 
     public void promptPropertyPurchase(){
         rollDieButton.setEnabled(false);
@@ -207,38 +186,6 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
 
-    }
-
-    /**
-     * @author John Afolayan
-     * This method taxes a player whenver they land on another player's property
-     */
-    public void taxProperty(){
-        Player ownedBy = gameModel.whoOwnsProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())); //player who owns property
-        if(!ownedBy.equals(gameModel.getCurrentPlayer())){ //If current player who lands on property doesn't own that property, tax them.
-            int amount = (int) (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue() * 0.1); //amount to decrement by, 10%
-            gameModel.getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed
-            ownedBy.incrementBalance(amount); //add $amount to player who owns property
-            setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
-            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
-            gameModel.lookingForWinner();
-        }
-    }
-
-    /**
-     * @author Hamza
-     * This method taxes a player whenever they land of another players utility
-     */
-
-    public void taxUtility(int tax){
-        Player ownedBy = gameModel.whoOwnsUtility((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
-        if(!ownedBy.equals(gameModel.getCurrentPlayer())){
-            gameModel.getCurrentPlayer().decrementBalance(tax);
-            ownedBy.incrementBalance(tax);
-            setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a utility owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
-            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
-            gameModel.lookingForWinner();
-        }
     }
 
     public void taxRailroad(int tax) {

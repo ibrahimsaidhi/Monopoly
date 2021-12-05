@@ -26,6 +26,7 @@ public class Game implements Serializable {
     private Board board = new Board();
     private List<ModelUpdateListener> views;
     private String backgroundFileName = "";
+    private static String xmlFileName = "";
 
     boolean ableToPurchaseRed = false;
     boolean ableToPurchaseBlue = false;
@@ -61,7 +62,7 @@ public class Game implements Serializable {
         oos.writeObject(game.numberOfHumanPlayers);
         oos.writeObject(game.initialNumberOfHumanPlayers);
         oos.writeObject(game.totalNumberOfPlayers);
-        oos.writeObject(game.backgroundFileName);
+        oos.writeObject(xmlFileName);
 
     }
 
@@ -78,9 +79,7 @@ public class Game implements Serializable {
         int numOfHumanPlayers = (int) ois.readObject();
         int initialNumOfHumanPlayers = (int) ois.readObject();
         int totalNumOfPlayers = (int) ois.readObject();
-        String backgroundFileName = (String) ois.readObject();
-
-
+        String xmlFile = (String) ois.readObject();
         List<Object> gameStuff = new ArrayList<>();
         gameStuff.add(game);
         gameStuff.add(player);
@@ -92,7 +91,7 @@ public class Game implements Serializable {
         gameStuff.add(numOfHumanPlayers);
         gameStuff.add(initialNumOfHumanPlayers);
         gameStuff.add(totalNumOfPlayers);
-        gameStuff.add(backgroundFileName);
+        gameStuff.add(xmlFile);
 
         return gameStuff;
     }
@@ -1642,6 +1641,7 @@ public class Game implements Serializable {
     }
 
     public void setCustomBoard(String customBoardChoice) {
+        xmlFileName = customBoardChoice;
         try {
             this.getBoard().importFromXmlFile(customBoardChoice);
             setBackgroundFileName(customBoardChoice);
