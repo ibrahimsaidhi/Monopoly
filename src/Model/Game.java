@@ -410,7 +410,7 @@ public class Game implements Serializable {
             }
             return (dieRoll1 + dieRoll2);
         }
-        return 0; //
+        return 0;
     }
 
     public boolean playerIsInJail(){

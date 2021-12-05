@@ -66,7 +66,6 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         gameModel.addView(this);
 
         boardOverlay = new BoardOverlay(gameModel);
-        System.out.println("Boardoverlay line executed but not initialized "); //REMOVE
         jLayeredPane.add(boardOverlay, JLayeredPane.POPUP_LAYER);
         root.add(jLayeredPane, BorderLayout.CENTER);
 

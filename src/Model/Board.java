@@ -33,22 +33,17 @@ public class Board implements Serializable {
     public void importFromXmlFile(String file) throws Exception {
         readSAX(new File(file));
         for(int i = 0; i < board.size(); i++){
-            //System.out.println(board.get(i).getName());
         }
     }
 
     public void checkConditions(){
         if((!index.equals("") && !index.equals(null)) && (!square.equals("") && !square.equals(null)) && (!name.equals("") && !name.equals(null)) && !squareExists(name)){
-            //System.out.println("Square Index is "+Integer.valueOf(index));
             addSquare(Integer.valueOf(index), name);
         } else if((!index.equals("") && !index.equals(null)) && (!property.equals("") && !property.equals(null)) && (!name.equals("") && !name.equals(null)) && (!color.equals("") && !color.equals(null)) && (!value.equals("") && !value.equals(null)) && !squareExists(name)){
-            //System.out.println("Property Index is "+Integer.valueOf(index));
             addProperty(Integer.valueOf(index), name, color, Integer.valueOf(value));
         } else if((!index.equals("") && !index.equals(null)) && (!railroad.equals("") && !railroad.equals(null)) && (!name.equals("") && !name.equals(null)) && (!value.equals("") && !value.equals(null)) && !squareExists(name)){
-            //System.out.println("Railroad Index is "+Integer.valueOf(index));
             addRailroad(Integer.valueOf(index), name, Integer.valueOf(value));
         } else if((!index.equals("") && !index.equals(null)) && (!utility.equals("") && !utility.equals(null)) && (!name.equals("") && !name.equals(null)) && (!value.equals("") && !value.equals(null)) && !squareExists(name)){
-            //System.out.println("Utility Index is "+Integer.valueOf(index));
             addUtility(Integer.valueOf(index), name, Integer.valueOf(value));
         }
     }
@@ -79,11 +74,6 @@ public class Board implements Serializable {
                 } else if(qname.equalsIgnoreCase("value")){
                     parseValue = true;
                 }
-                //System.out.println("START: " + qname);
-            }
-
-            public void endElement(String uri, String localName, String qname){
-                //System.out.println("END: " + qname);
             }
 
             public void characters(char[] ch, int start, int length) throws SAXException {
@@ -112,9 +102,6 @@ public class Board implements Serializable {
                     value = new String(ch, start, length);
                     parseValue = false;
                 }
-                //System.out.println("Index: " + index + " Name: " + name + " Square: " + square + " Property: " + property +
-                //        " Railroad: " + railroad + " Utility: " + utility + " Color: " + color + " Value: " + value);
-                //System.out.println("CHARS: " + new String(ch, start, length));
                 checkConditions();
             }
         };

@@ -32,7 +32,6 @@ public class BoardOverlay extends JPanel implements Serializable {
             if(i == 0){
                 coord = new Point(857, 395);
                 this.boardLocations.put(i, coord);
-                System.out.println("location successfully placed");
             } else if(i == 1){
                 coord = new Point(757, 395);
                 boardLocations.put(i, coord);
