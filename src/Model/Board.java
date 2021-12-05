@@ -116,14 +116,6 @@ public class Board implements Serializable {
                 //        " Railroad: " + railroad + " Utility: " + utility + " Color: " + color + " Value: " + value);
                 //System.out.println("CHARS: " + new String(ch, start, length));
                 checkConditions();
-                index = "";
-                square = "";
-                property = "";
-                railroad = "";
-                utility = "";
-                name = "";
-                color = "";
-                value = "";
             }
         };
         s.parse(file, dh);
@@ -131,18 +123,30 @@ public class Board implements Serializable {
 
     public void addSquare(int squareIndex, String squareName){
         board.add(squareIndex, new Square(squareName));
+        square = "";
+        name = "";
+        index = "";
     }
 
-    public void addProperty(int index, String squareName, String squareColor, int squareValue){
-        board.add(index, new Property(squareName, squareColor, squareValue));
+    public void addProperty(int propertyIndex, String squareName, String squareColor, int squareValue){
+        board.add(propertyIndex, new Property(squareName, squareColor, squareValue));
+        property = "";
+        name = "";
+        index = "";
     }
 
-    public void addRailroad(int index, String railroadName, int railroadValue){
-        board.add(index, new Railroad(railroadName, railroadValue));
+    public void addRailroad(int railroadIndex, String railroadName, int railroadValue){
+        board.add(railroadIndex, new Railroad(railroadName, railroadValue));
+        railroad = "";
+        name = "";
+        index = "";
     }
 
-    public void addUtility(int index, String utilityName, int utilityValue){
-        board.add(index, new Utility(utilityName, utilityValue));
+    public void addUtility(int utilityIndex, String utilityName, int utilityValue){
+        board.add(utilityIndex, new Utility(utilityName, utilityValue));
+        utility = "";
+        name = "";
+        index = "";
     }
 
     public ArrayList<Square> getBoard() {

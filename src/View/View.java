@@ -599,19 +599,17 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     @Override
-    public void payToLeaveJail(){
-            if (gameModel.playerIsInJail()) {
-                lockRollButton();
-                int input = JOptionPane.showConfirmDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You are in Jail. Would you like to pay $50 bail to leave?" + "\nClick yes to pay bail or no to stay in jail.", "Pay bail?", JOptionPane.YES_NO_OPTION);
-                if (input == JOptionPane.YES_OPTION) {
-                    gameModel.playerIsLeavingJail();
-                } else if (input == JOptionPane.NO_OPTION) {
-                    setFeedbackArea("\nYikes :/ another night in jail doesn't sound fun. Good luck.");
-                } else {
-                    setFeedbackArea("Seems like there might have been an error. Please report it to the developer.");
-                }
-            }
-            repaint();
+    public void goingToJail(int dieRoll1, int dieRoll2, int currentPlayerPosition) {
+        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
+        setFeedbackArea("\nYou've Been caught speeding! Time to go to jail!");
+
+    }
+
+    @Override
+    public void freeFromJail(int dieRoll1, int dieRoll2, int currentPlayerPosition) {
+        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
+        setFeedbackArea("\nYou're free from jail! Be careful next time! your current position is now " + currentPlayerPosition + ": " + gameModel.getBoardName());
+
     }
 
     public String requestingHouseStatus(){
