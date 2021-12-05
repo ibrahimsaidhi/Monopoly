@@ -137,8 +137,9 @@ public class Controller implements ActionListener, Serializable {
                     gameModel.setNumberOfHumanPlayers(numberOfHumanPlayers);
                     gameModel.setNumberOfAIPlayers(numberOfAIPlayers);
                     gameModel.setTotalNumberOfPlayers(totalPlayerAmount);
-                    Board board = (Board) gameStuff.get(7);
-                    gameModel.setBoard(board);
+                    customBoardChoice = (String) gameStuff.get(7);
+                    gameModel.setCustomBoard(customBoardChoice);
+                    gameView.setBackground();
 
                     gameView.repaint();
                     gameView.setFeedbackArea("Previous game has been loaded\n" + "\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
