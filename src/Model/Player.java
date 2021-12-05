@@ -7,7 +7,6 @@ package Model;
  * @version 1.0
  */
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -265,6 +264,5 @@ public class Player implements Serializable {
     public int getDoubleCount(){
         return  doubleCount;
     }
-
 
 }

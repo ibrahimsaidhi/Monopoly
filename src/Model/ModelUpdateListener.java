@@ -76,4 +76,6 @@ public interface ModelUpdateListener extends Serializable {
     void goingToJail(int dieRoll1, int dieRoll2, int currentPlayerPosition);
 
     void freeFromJail(int dieRoll1, int dieRoll2, int currentPlayerPosition);
+
+    void stayInJail(int currentPlayer);
 }

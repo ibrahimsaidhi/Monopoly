@@ -539,6 +539,12 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
     }
 
+    @Override
+    public void stayInJail(int currentPlayer) {
+        setFeedbackArea("sorry player" + currentPlayer + " you're staying in jail for now");
+        goToTheBottomOfTextField();
+    }
+
     public String requestingHouseStatus(){
         String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a house?");
         return input;
