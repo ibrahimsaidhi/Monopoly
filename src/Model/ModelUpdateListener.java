@@ -19,9 +19,9 @@ public interface ModelUpdateListener extends Serializable {
 
     void passTurn(int playerNumber);
 
-    void taxProperty(int tax, Player ownedBy, int playerNumber, int balance);
+    void taxProperty(int tax, Player ownedBy, int playerNumber, int balance, String currency);
 
-    void confirmPurchase(int playerNumber, String name, int balance);
+    void confirmPurchase(int playerNumber, String name, int balance, String currency);
 
     void loadingSavedGame(int playerNumber);
 
@@ -35,9 +35,9 @@ public interface ModelUpdateListener extends Serializable {
 
     void displayBankruptPlayer(int playerNumber);
 
-    void displayPlayerHasPassedGo();
+    void displayPlayerHasPassedGo(String currency);
 
-    void displaySpecialPosition();
+    void displaySpecialPosition(String boardName, int specialPositionFee, String currency);
 
     void AIRepaint();
 
@@ -47,9 +47,9 @@ public interface ModelUpdateListener extends Serializable {
 
     void cannotPurchase();
 
-    void confirmHouseTransaction();
+    void confirmHouseTransaction(String currency);
 
-    void confirmHouseSold();
+    void confirmHouseSold(String currency);
 
     void cannotSell();
 
@@ -57,9 +57,9 @@ public interface ModelUpdateListener extends Serializable {
 
     void notPurchasingAHotel();
 
-    void confirmHotelTransaction();
+    void confirmHotelTransaction(String currency);
 
-    void confirmHotelSold();
+    void confirmHotelSold(String currency);
 
     void cannotPurchaseHotel();
 

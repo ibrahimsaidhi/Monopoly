@@ -712,7 +712,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v : views) {
-                v.confirmHouseTransaction();
+                v.confirmHouseTransaction(getBoard().getCurrency());
             }
         }
         if (!status) {
@@ -720,7 +720,7 @@ public class Game implements Serializable {
             ((Property) board.getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
             getCurrentPlayer().incrementBalance(100);
             for (ModelUpdateListener v: views){
-                v.confirmHouseSold();
+                v.confirmHouseSold(getBoard().getCurrency());
             }
         }
 
@@ -737,7 +737,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v : views) {
-                v.confirmHouseTransaction();
+                v.confirmHouseTransaction(getBoard().getCurrency());
             }
         }
         if (!status) {
@@ -745,7 +745,7 @@ public class Game implements Serializable {
             ((Property) board.getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
             getCurrentPlayer().incrementBalance(25);
             for (ModelUpdateListener v : views) {
-                v.confirmHouseSold();
+                v.confirmHouseSold(getBoard().getCurrency());
             }
         }
     }
@@ -761,7 +761,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v : views) {
-                v.confirmHouseTransaction();
+                v.confirmHouseTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -769,7 +769,7 @@ public class Game implements Serializable {
             ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
             getCurrentPlayer().incrementBalance(25);
             for (ModelUpdateListener v: views){
-                v.confirmHouseSold();
+                v.confirmHouseSold(getBoard().getCurrency());
             }
         }
     }
@@ -785,7 +785,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHouseTransaction();
+                v.confirmHouseTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -793,7 +793,7 @@ public class Game implements Serializable {
             ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
             getCurrentPlayer().incrementBalance(50);
             for (ModelUpdateListener v: views){
-                v.confirmHouseSold();
+                v.confirmHouseSold(getBoard().getCurrency());
             }
         }
 
@@ -810,7 +810,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHouseTransaction();
+                v.confirmHouseTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -818,7 +818,7 @@ public class Game implements Serializable {
             ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
             getCurrentPlayer().incrementBalance(75);
             for (ModelUpdateListener v: views){
-                v.confirmHouseSold();
+                v.confirmHouseSold(getBoard().getCurrency());
             }
         }
 
@@ -835,7 +835,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHouseTransaction();
+                v.confirmHouseTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -843,7 +843,7 @@ public class Game implements Serializable {
             ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
             getCurrentPlayer().incrementBalance(25);
             for (ModelUpdateListener v: views){
-                v.confirmHouseSold();
+                v.confirmHouseSold(getBoard().getCurrency());
             }
         }
 
@@ -860,7 +860,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHouseTransaction();
+                v.confirmHouseTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -868,7 +868,7 @@ public class Game implements Serializable {
             ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
             getCurrentPlayer().incrementBalance(75);
             for (ModelUpdateListener v: views){
-                v.confirmHouseSold();
+                v.confirmHouseSold(getBoard().getCurrency());
             }
         }
 
@@ -885,7 +885,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHouseTransaction();
+                v.confirmHouseTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -893,7 +893,7 @@ public class Game implements Serializable {
             ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getHouses().remove(0);
             getCurrentPlayer().incrementBalance(100);
             for (ModelUpdateListener v: views){
-                v.confirmHouseSold();
+                v.confirmHouseSold(getBoard().getCurrency());
             }
         }
 
@@ -984,7 +984,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelTransaction();
+                v.confirmHotelTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -994,7 +994,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelSold();
+                v.confirmHotelSold(getBoard().getCurrency());
             }
         }
     }
@@ -1010,7 +1010,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelTransaction();
+                v.confirmHotelTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -1020,7 +1020,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelSold();
+                v.confirmHotelSold(getBoard().getCurrency());
             }
         }
     }
@@ -1037,7 +1037,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelTransaction();
+                v.confirmHotelTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -1047,7 +1047,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelSold();
+                v.confirmHotelSold(getBoard().getCurrency());
             }
         }
     }
@@ -1064,7 +1064,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelTransaction();
+                v.confirmHotelTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -1074,7 +1074,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelSold();
+                v.confirmHotelSold(getBoard().getCurrency());
             }
         }
     }
@@ -1090,7 +1090,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelTransaction();
+                v.confirmHotelTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -1100,7 +1100,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelSold();
+                v.confirmHotelSold(getBoard().getCurrency());
             }
         }
     }
@@ -1116,7 +1116,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelTransaction();
+                v.confirmHotelTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -1126,7 +1126,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelSold();
+                v.confirmHotelSold(getBoard().getCurrency());
             }
         }
     }
@@ -1143,7 +1143,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelTransaction();
+                v.confirmHotelTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -1153,7 +1153,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelSold();
+                v.confirmHotelSold(getBoard().getCurrency());
             }
         }
     }
@@ -1169,7 +1169,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelTransaction();
+                v.confirmHotelTransaction(getBoard().getCurrency());
             }
         }
         if (!status){
@@ -1179,7 +1179,7 @@ public class Game implements Serializable {
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
             for (ModelUpdateListener v: views){
-                v.confirmHotelSold();
+                v.confirmHotelSold(getBoard().getCurrency());
             }
         }
     }
@@ -1366,7 +1366,7 @@ public class Game implements Serializable {
         }
 
         for(ModelUpdateListener v: this.views) {
-            v.taxProperty(total, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance());
+            v.taxProperty(total, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance(),getBoard().getCurrency());
         }
     }
 
@@ -1386,7 +1386,7 @@ public class Game implements Serializable {
         }
 
         for(ModelUpdateListener v: this.views) {
-            v.taxProperty(tax, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance());
+            v.taxProperty(tax, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance(), getBoard().getCurrency());
         }
 
     }
@@ -1402,7 +1402,7 @@ public class Game implements Serializable {
             ownedBy.incrementBalance(tax);
 
             for(ModelUpdateListener v: this.views) {
-                v.taxProperty(tax, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance());
+                v.taxProperty(tax, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance(), getBoard().getCurrency());
             }
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
@@ -1420,13 +1420,13 @@ public class Game implements Serializable {
         if(!playerIsInJail() && !isPlayerAnAI()) {
             if (hasPlayerPassedGo()) {
                 for (ModelUpdateListener v : views) {
-                    v.displayPlayerHasPassedGo();
+                    v.displayPlayerHasPassedGo(getBoard().getCurrency());
                 }
                 passTurn();
             }
             else if (hasPlayerLandedOnSpecialPosition()) {
                 for (ModelUpdateListener v : views) {
-                    v.displaySpecialPosition();
+                    v.displaySpecialPosition(getBoardName(), getSpecialPositionFee(), getBoard().getCurrency());
                 }
                 passTurn();
             }
@@ -1543,7 +1543,7 @@ public class Game implements Serializable {
             lookingForWinner();
 
             for(ModelUpdateListener v: this.views) {
-                v.confirmPurchase(getCurrentPlayer().getPlayerNumber(), getBoardName(), getCurrentPlayer().getBalance());
+                v.confirmPurchase(getCurrentPlayer().getPlayerNumber(), getBoardName(), getCurrentPlayer().getBalance(), getBoard().getCurrency());
             }
             passTurn();
 
@@ -1555,7 +1555,7 @@ public class Game implements Serializable {
             lookingForWinner();
 
             for(ModelUpdateListener v: this.views) {
-                v.confirmPurchase(getCurrentPlayer().getPlayerNumber(), getBoardName(), getCurrentPlayer().getBalance());
+                v.confirmPurchase(getCurrentPlayer().getPlayerNumber(), getBoardName(), getCurrentPlayer().getBalance(), getBoard().getCurrency());
             }
 
             passTurn();
@@ -1567,7 +1567,7 @@ public class Game implements Serializable {
             lookingForWinner();
 
             for(ModelUpdateListener v: this.views) {
-                v.confirmPurchase(getCurrentPlayer().getPlayerNumber(), getBoardName(), getCurrentPlayer().getBalance());
+                v.confirmPurchase(getCurrentPlayer().getPlayerNumber(), getBoardName(), getCurrentPlayer().getBalance(), getBoard().getCurrency());
             }
             passTurn();
         }

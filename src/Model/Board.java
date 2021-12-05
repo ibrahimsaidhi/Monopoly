@@ -24,7 +24,7 @@ public class Board implements Serializable {
     private ArrayList<Square> board;
     private List<Player> players;
 
-    public static String index = "", square = "", property = "", railroad = "", utility = "", name = "", color = "", value = "";
+    public static String index = "", square = "", property = "", railroad = "", utility = "", name = "", color = "", value = "", currency = "";
 
     public Board(){
         board = new ArrayList<>();
@@ -59,7 +59,7 @@ public class Board implements Serializable {
 
         DefaultHandler dh = new DefaultHandler(){
             boolean parseIndex = false, parseSquare = false, parseProperty = false, parseRailroad = false,
-                    parseUtility = false, parseName = false, parseColor = false, parseValue = false;
+                    parseUtility = false, parseName = false, parseColor = false, parseValue = false, currencyType = false;
 
             public void startElement(String u, String ln, String qname, Attributes a){
                 if(qname.equalsIgnoreCase("index")){
@@ -78,8 +78,9 @@ public class Board implements Serializable {
                     parseColor = true;
                 } else if(qname.equalsIgnoreCase("value")){
                     parseValue = true;
+                }else if(qname.equalsIgnoreCase("currency")){
+                    currencyType = true;
                 }
-                //System.out.println("START: " + qname);
             }
 
             public void endElement(String uri, String localName, String qname){
@@ -111,6 +112,9 @@ public class Board implements Serializable {
                 } else if(parseValue == true){
                     value = new String(ch, start, length);
                     parseValue = false;
+                } else if(currencyType == true){
+                    currency = new String(ch, start, length);
+                    currencyType = false;
                 }
                 //System.out.println("Index: " + index + " Name: " + name + " Square: " + square + " Property: " + property +
                 //        " Railroad: " + railroad + " Utility: " + utility + " Color: " + color + " Value: " + value);
@@ -155,6 +159,10 @@ public class Board implements Serializable {
         utility = "";
         name = "";
         index = "";
+    }
+
+    public String getCurrency(){
+        return currency;
     }
 
     public ArrayList<Square> getBoard() {
