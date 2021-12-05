@@ -149,7 +149,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         rollDieButton.setEnabled(false);
         int propertyPrice = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
-                "? It costs $" + propertyPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+                "? It costs "  + gameModel.getBoard().getCurrency() +  propertyPrice + " and you currently have "  + gameModel.getBoard().getCurrency() + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
 
@@ -163,7 +163,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         rollDieButton.setEnabled(false);
         int utilityPrice = ((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
-                "? It costs $" + utilityPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+                "? It costs "  + gameModel.getBoard().getCurrency() +  utilityPrice + " and you currently have "  + gameModel.getBoard().getCurrency() +  gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
 
@@ -173,7 +173,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         rollDieButton.setEnabled(false);
         int railroadPrice = ((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
-                "? It costs $" + railroadPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+                "? It costs " + gameModel.getBoard().getCurrency() +  railroadPrice + " and you currently have "  + gameModel.getBoard().getCurrency() +  + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
 
@@ -369,7 +369,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     @Override
     public void taxProperty(int tax, Player ownedBy, int playerNumber, int balance, String currency) {
         if(!ownedBy.equals(gameModel.getCurrentPlayer())) { //If current player who lands on property doesn't own that property, tax them.
-            setFeedbackArea("\nPlayer " + playerNumber + ": You've landed on a property owned by player " + ownedBy.getPlayerNumber() + ". You've been taxed "+ currency + tax + ", your new balance is $" + balance);
+            setFeedbackArea("\nPlayer " + playerNumber + ": You've landed on a property owned by player " + ownedBy.getPlayerNumber() + ". You've been taxed "+ currency + tax + ", your new balance is "  + gameModel.getBoard().getCurrency() +  + balance);
             gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
             gameModel.lookingForWinner();
         }

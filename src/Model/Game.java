@@ -290,7 +290,7 @@ public class Game implements Serializable {
          */
         return("\nThere are " + players.size() + " active players in the game currently and you are player " + getCurrentPlayer().getPlayerNumber() + ".\nYou own the following properties: "
                 + getCurrentPlayer().getOwnedProperties().toString() +  "You own the following houses: " + getCurrentPlayer().getOwnedHouses().toString() +
-                "\nYou are on position: " + board.getIndex(getCurrentPlayer().getPosition()).getName() + ", your current balance is $" + getCurrentPlayer().getBalance() + " and your color on the board is " + BoardOverlay.getPlayerColor(currentPlayerInt));
+                "\nYou are on position: " + board.getIndex(getCurrentPlayer().getPosition()).getName() + ", your current balance is "  + getBoard().getCurrency() +  getCurrentPlayer().getBalance() + " and your color on the board is " + BoardOverlay.getPlayerColor(currentPlayerInt));
     }
 
     public void passTurn() {
@@ -659,7 +659,7 @@ public class Game implements Serializable {
                         tempPlayer.incrementBalance(taxedAmount); //Increment balance for player who owns property.
                         checkPlayerBalance(getCurrentPlayer());
                         lookingForWinner();
-                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by another player " + tempPlayer.getPlayerNumber() + ". AI has been taxed $" + taxedAmount;
+                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by another player " + tempPlayer.getPlayerNumber() + ". AI has been taxed "  + getBoard().getCurrency() + taxedAmount;
                     } else if (!isCurrentPositionPropertyOwned()) { //If AI lands on an available property, it will decide whether to purchase it or not.
                         if (aiPurchaseDecision()) {
                             getCurrentPlayer().addProperty((Property) getProperty(getCurrentPlayer().getPosition()));
@@ -678,7 +678,7 @@ public class Game implements Serializable {
                         tempPlayer.incrementBalance(taxedAmount); //Increment balance for player who owns property.
                         checkPlayerBalance(getCurrentPlayer());
                         lookingForWinner();
-                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by player " + tempPlayer.getPlayerNumber() + ". AI has been taxed $" + taxedAmount;
+                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by player " + tempPlayer.getPlayerNumber() + ". AI has been taxed " + getBoard().getCurrency() + taxedAmount;
                     } else if (!isCurrentPositionRailroadOwned()) { //If AI lands on an available property, it will decide whether to purchase it or not.
                         if (aiPurchaseDecision()) {
                             getCurrentPlayer().addRailroad((Railroad) getRailroad(getCurrentPlayer().getPosition()));
@@ -697,7 +697,7 @@ public class Game implements Serializable {
                         tempPlayer.incrementBalance(taxedAmount); //Increment balance for player who owns property.
                         checkPlayerBalance(getCurrentPlayer());
                         lookingForWinner();
-                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by player " + tempPlayer.getPlayerNumber() + ". AI has been taxed $" + taxedAmount;
+                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by player " + tempPlayer.getPlayerNumber() + ". AI has been taxed " + getBoard().getCurrency() + taxedAmount;
                     } else if (!isCurrentPositionUtilityOwned()) { //If AI lands on an available utility, it will decide whether to purchase it or not.
                         if (aiPurchaseDecision()) {
                             getCurrentPlayer().addUtility((Utility) getUtility(getCurrentPlayer().getPosition()));
@@ -713,12 +713,12 @@ public class Game implements Serializable {
                     getCurrentPlayer().decrementBalance(200);
                     checkPlayerBalance(getCurrentPlayer());
                     lookingForWinner();
-                    return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". The AI has been taxed $200";
+                    return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". The AI has been taxed " + getBoard().getCurrency() + "200";
                 } else if (getCurrentPlayer().getPosition() == 38) { //If AI Players landed on Luxury Tax square, they must pay $100.
                     getCurrentPlayer().decrementBalance(100);
                     checkPlayerBalance(getCurrentPlayer());
                     lookingForWinner();
-                    return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". The AI has been taxed $100";
+                    return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ". The AI has been taxed " + getBoard().getCurrency() + "100";
                 } else if (getCurrentPlayer().getPosition() == 30) { //Player rolled die and is in Jail.
                     return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now in: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".";
                 }
@@ -733,7 +733,7 @@ public class Game implements Serializable {
             if(doubleCheck){
                 freePlayerFromJail();
                 getCurrentPlayer().clearDoublesCount();
-                return "\nPlayer " + getCurrentPlayer().getPlayerNumber() +" is free from jail!";
+                return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + " rolled a double and is free from jail!";
             }
         }
             checkPlayerBalance(getCurrentPlayer());
