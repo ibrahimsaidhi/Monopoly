@@ -107,7 +107,7 @@
         <index>16</index>
     </Board>
     <Board>
-        <Square>Property</Square>
+        <Square>Square</Square>
         <name>empty 3</name>
         <index>17</index>
     </Board>

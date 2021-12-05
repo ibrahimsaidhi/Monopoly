@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="90a0b1b4-e1b3-4816-a2c8-c7323432a091" name="Default Changelist" comment="board xml for standard monopoly game">
-      <change beforePath="$PROJECT_DIR$/src/Model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-22_12_08_p_m___Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-22_12_08_p_m___Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OriginalBoard.xml" beforeDir="false" afterPath="$PROJECT_DIR$/OriginalBoard.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,7 +164,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Model/Board.java</url>
           <line>134</line>
-          <properties class="Model.Board" method="addSquare">
+          <properties class="Model.Board">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="74" />
@@ -170,7 +172,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Model/Board.java</url>
           <line>141</line>
-          <properties class="Model.Board" method="addProperty">
+          <properties class="Model.Board">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="76" />
@@ -178,7 +180,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Model/Board.java</url>
           <line>148</line>
-          <properties class="Model.Board" method="addRailroad">
+          <properties class="Model.Board">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="78" />
@@ -186,7 +188,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Model/Board.java</url>
           <line>153</line>
-          <properties class="Model.Board" method="addUtility">
+          <properties class="Model.Board">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="80" />
