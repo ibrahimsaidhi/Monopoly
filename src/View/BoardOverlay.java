@@ -16,23 +16,23 @@ public class BoardOverlay extends JPanel implements Serializable {
     HashMap<Integer, Point> boardLocations = new HashMap<Integer, Point>();
 
     public BoardOverlay(Game gameModel) {
-        setSize(950, 550);
+        setSize(950, 560);
         setOpaque(false);
         setLayout(null);
         this.game = gameModel;
-        storeHashmapLocations();
     }
 
     /**
      * Stores the coordinates of every square on the monopoly board into a hashmap
      */
     public void storeHashmapLocations(){
-        Point coord;
+        //game.setCustomBoard(game.getBackgroundFileName());
+                Point coord;
         for(int i = 0; i < game.getBoard().size(); i++){
-            String boardName = game.getBoard().getIndex(i).getName();
             if(i == 0){
                 coord = new Point(857, 395);
-                boardLocations.put(i, coord);
+                this.boardLocations.put(i, coord);
+                System.out.println("location successfully placed");
             } else if(i == 1){
                 coord = new Point(757, 395);
                 boardLocations.put(i, coord);
@@ -61,73 +61,73 @@ public class BoardOverlay extends JPanel implements Serializable {
                 coord = new Point(145, 395);
                 boardLocations.put(i, coord);
             } else if(i == 10){
-                coord = new Point(70, 385);
-                boardLocations.put(i, coord);
-            } else if(i == 11){
                 coord = new Point(5, 410);
                 boardLocations.put(i, coord);
-            } else if(i == 12){
+            } else if(i == 11){
                 coord = new Point(30, 345);
                 boardLocations.put(i, coord);
-            } else if(i == 13){
+            } else if(i == 12){
                 coord = new Point(30, 310);
                 boardLocations.put(i, coord);
-            } else if(i == 14){
+            } else if(i == 13){
                 coord = new Point(30, 275);
                 boardLocations.put(i, coord);
-            } else if(i == 15){
+            } else if(i == 14){
                 coord = new Point(30, 240);
                 boardLocations.put(i, coord);
-            } else if(i == 16){
+            } else if(i == 15){
                 coord = new Point(30, 205);
                 boardLocations.put(i, coord);
-            } else if(i == 17){
+            } else if(i == 16){
                 coord = new Point(30, 170);
                 boardLocations.put(i, coord);
-            } else if(i == 18){
+            } else if(i == 17){
                 coord = new Point(30, 135);
                 boardLocations.put(i, coord);
-            } else if(i == 19){
+            } else if(i == 18){
                 coord = new Point(30, 98);
                 boardLocations.put(i, coord);
-            } else if(i == 20){
+            } else if(i == 19){
                 coord = new Point(30, 65);
                 boardLocations.put(i, coord);
-            } else if(i == 21){
+            } else if(i == 20){
                 coord = new Point(50, 25);
                 boardLocations.put(i, coord);
-            } else if(i == 22){
+            } else if(i == 21){
                 coord = new Point(145, 10);
                 boardLocations.put(i, coord);
-            } else if(i == 23){
+            } else if(i == 22){
                 coord = new Point(220, 20);
                 boardLocations.put(i, coord);
-            } else if(i == 24){
+            } else if(i == 23){
                 coord = new Point(300, 10);
                 boardLocations.put(i, coord);
-            } else if(i == 25){
+            } else if(i == 24){
                 coord = new Point(375, 10);
                 boardLocations.put(i, coord);
-            } else if(i == 26){
+            } else if(i == 25){
                 coord = new Point(450, 30);
                 boardLocations.put(i, coord);
-            } else if(i == 27){
+            } else if(i == 26){
                 coord = new Point(528, 10);
                 boardLocations.put(i, coord);
-            } else if(i == 28){
+            } else if(i == 27){
                 coord = new Point(605, 10);
                 boardLocations.put(i, coord);
-            } else if(i == 29){
+            } else if(i == 28){
                 coord = new Point(680, 15);
                 boardLocations.put(i, coord);
-            } else if(i == 30){
+            } else if(i == 29){
                 coord = new Point(755, 10);
                 boardLocations.put(i, coord);
-            } else if(i == 31){
+            } else if(i == 30){
                 coord = new Point(70, 385);
                 boardLocations.put(i, coord);
-            } else if(i == 32){
+            } else if(i == 31){
                 coord = new Point(875, 67);
+                boardLocations.put(i, coord);
+            } else if(i == 32){
+                coord = new Point(880, 100);
                 boardLocations.put(i, coord);
             } else if(i == 33){
                 coord = new Point(860, 135);
@@ -205,12 +205,11 @@ public class BoardOverlay extends JPanel implements Serializable {
         super.paintComponent(graphics);
         //Draw a circle for the amount of players in the game
         for (int i = 0; i < game.getPlayers().size(); i++) {
-            int intPos = game.getCurrentPlayer().getPosition(); //Get the integer position of the current player
-            //String positionName = game.getBoard().getIndex(intPos).getName(); //Get the name of the square which player is currently on
+            int intPos = game.getPlayers().get(i).getPosition(); //Get the integer position of the current player
             if (boardLocations.containsKey(intPos)) {
                 graphics.drawOval(boardLocations.get(intPos).x, boardLocations.get(intPos).y, getWidth() / 30, getHeight() / 30);
                 graphics.fillOval(boardLocations.get(intPos).x, boardLocations.get(intPos).y, getWidth() / 30, getHeight() / 30);
-                graphics.setColor(setPlayerColor(game.getCurrentPlayer().getPlayerNumber())); //Passes player's number as parameter for getPlayerColor() which has a player's assigned color
+                graphics.setColor(setPlayerColor(game.getPlayers().get(i).getPlayerNumber())); //Passes player's number as parameter for getPlayerColor() which has a player's assigned color
             }
         }
     }

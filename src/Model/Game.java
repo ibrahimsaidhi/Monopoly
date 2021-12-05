@@ -1633,7 +1633,6 @@ public class Game implements Serializable {
      */
     public void setBackgroundFileName(String fileName){
         backgroundFileName = fileName.replaceAll("xml", "png");
-        System.out.println("File name: "+backgroundFileName + "\nBoard size: " + board.size()); //REMOVE LATER
     }
 
     public String getBackgroundFileName(){

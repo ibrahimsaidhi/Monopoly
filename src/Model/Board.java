@@ -33,7 +33,7 @@ public class Board implements Serializable {
     public void importFromXmlFile(String file) throws Exception {
         readSAX(new File(file));
         for(int i = 0; i < board.size(); i++){
-            System.out.println(board.get(i).getName());
+            //System.out.println(board.get(i).getName());
         }
     }
 

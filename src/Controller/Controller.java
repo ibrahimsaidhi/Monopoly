@@ -29,6 +29,7 @@ public class Controller implements ActionListener, Serializable {
                 customBoardChoice= gameView.customBoardRequest();
                 gameModel.setCustomBoard(customBoardChoice);
                 gameView.setBackground();
+                gameView.getBoardOverlay().storeHashmapLocations();
 
                 initialNumberOfHumanPlayers = gameView.numberOfPlayersRequest();
                 numberOfHumanPlayers = initialNumberOfHumanPlayers;
@@ -48,6 +49,7 @@ public class Controller implements ActionListener, Serializable {
                 break;
 
             case buy:
+                gameView.repaint();
                 gameModel.makePurchase();
                 gameView.unlockRollDieButton();
                 goToTheBottomOfTextField();
