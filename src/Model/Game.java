@@ -410,7 +410,7 @@ public class Game implements Serializable {
             }
             return (dieRoll1 + dieRoll2);
         }
-        return 0; //
+        return 0;
     }
 
     public boolean playerIsInJail(){
@@ -1633,7 +1633,6 @@ public class Game implements Serializable {
      */
     public void setBackgroundFileName(String fileName){
         backgroundFileName = fileName.replaceAll("xml", "png");
-        System.out.println("File name: "+backgroundFileName + "\nBoard size: " + board.size()); //REMOVE LATER
     }
 
     public String getBackgroundFileName(){

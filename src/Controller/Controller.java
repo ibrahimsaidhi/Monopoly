@@ -29,6 +29,7 @@ public class Controller implements ActionListener, Serializable {
                 customBoardChoice= gameView.customBoardRequest();
                 gameModel.setCustomBoard(customBoardChoice);
                 gameView.setBackground();
+                gameView.getBoardOverlay().storeHashmapLocations(); //Stores x,y positions which will be used to display a player's position on the GUI
 
                 initialNumberOfHumanPlayers = gameView.numberOfPlayersRequest();
                 numberOfHumanPlayers = initialNumberOfHumanPlayers;
@@ -48,6 +49,7 @@ public class Controller implements ActionListener, Serializable {
                 break;
 
             case buy:
+                gameView.repaint();
                 gameModel.makePurchase();
                 gameView.unlockRollDieButton();
                 goToTheBottomOfTextField();
@@ -140,6 +142,7 @@ public class Controller implements ActionListener, Serializable {
                     customBoardChoice = (String) gameStuff.get(7);
                     gameModel.setCustomBoard(customBoardChoice);
                     gameView.setBackground();
+                    gameView.getBoardOverlay().storeHashmapLocations(); //Stores x,y positions which will be used to display a player's position on the GUI
 
                     gameView.repaint();
                     gameView.setFeedbackArea("Previous game has been loaded\n" + "\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");

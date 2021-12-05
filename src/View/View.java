@@ -25,19 +25,11 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     transient BoardOverlay boardOverlay;
     transient MonopolyBoard monopolyBoard;
 
-    //MyPanel panel;
-
     public View(Game gameModel) {
         super("Monopoly");
         this.gameModel = gameModel;
         initialize();
     }
-
-    public View() {
-        super("Monopoly");
-        initialize();
-    }
-
 
     public static void main(String[] args) {
         Game gameModel = new Game();
@@ -45,10 +37,6 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         gameModel.setViewer(gameView);
         Controller gameController = new Controller(gameModel, gameView);
         gameView.initialize(gameController);
-    }
-
-    public BoardOverlay getBoardOverlay() {
-        return boardOverlay;
     }
 
     static int askUser(Integer[] choices) {
@@ -65,14 +53,13 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
     public void initialize() {
         //Initialize the View
-        JFrame myFrame = new JFrame("Monopoly");
         Container root = getContentPane();
         root.setLayout(new BorderLayout());
 
 
         //The layered pane will have multiple layers in order for us to overlay components
         JLayeredPane jLayeredPane = new JLayeredPane();
-        jLayeredPane.setSize(950, 550);
+        jLayeredPane.setSize(950, 560);
         monopolyBoard = new MonopolyBoard(this.gameModel.getBackgroundFileName());
         jLayeredPane.add(monopolyBoard, JLayeredPane.DEFAULT_LAYER);
 
@@ -168,6 +155,10 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
     }
 
+    public BoardOverlay getBoardOverlay(){
+        return boardOverlay;
+    }
+
     public void promptUtilityPurchase(){
         rollDieButton.setEnabled(false);
         int utilityPrice = ((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
@@ -186,17 +177,6 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
 
-    }
-
-    public void taxRailroad(int tax) {
-        Player ownedBy = gameModel.whoOwnsRailroad((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
-        if(!ownedBy.equals(gameModel.getCurrentPlayer())){
-            gameModel.getCurrentPlayer().decrementBalance(tax);
-            ownedBy.incrementBalance(tax);
-            setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a railroad owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
-            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
-            gameModel.lookingForWinner();
-        }
     }
 
     /**
