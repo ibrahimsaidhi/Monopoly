@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90a0b1b4-e1b3-4816-a2c8-c7323432a091" name="Default Changelist" comment="board xml for standard monopoly game">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-22_12_08_p_m___Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-11-22_12_08_p_m___Changes_.xml" afterDir="false" />
+    <list default="true" id="90a0b1b4-e1b3-4816-a2c8-c7323432a091" name="Default Changelist" comment="Added Restaurant.xml and fixed bug that added property to empty square in OrigonalBoard.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OriginalBoard.xml" beforeDir="false" afterPath="$PROJECT_DIR$/OriginalBoard.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +127,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638570012555</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Added Restaurant.xml and fixed bug that added property to empty square in OrigonalBoard.xml">
+      <created>1638664334134</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1638664334134</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -152,7 +157,8 @@
     <MESSAGE value="doubles rules with bugs" />
     <MESSAGE value="double rule working with human" />
     <MESSAGE value="board xml for standard monopoly game" />
-    <option name="LAST_COMMIT_MESSAGE" value="board xml for standard monopoly game" />
+    <MESSAGE value="Added Restaurant.xml and fixed bug that added property to empty square in OrigonalBoard.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Restaurant.xml and fixed bug that added property to empty square in OrigonalBoard.xml" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
