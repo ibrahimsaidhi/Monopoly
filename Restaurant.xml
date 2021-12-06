@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<board>
+    <Currency>€</Currency>
+    <Board>
+        <Square>Square</Square>
+        <name>Go!</name>
+        <index>0</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>M.Manze</name>
+        <color>brown</color>
+        <value>60</value>
+        <index>1</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>empty 1</name>
+        <index>2</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Tayyabs</name>
+        <color>brown</color>
+        <value>60</value>
+        <index>3</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>Service Tax</name>
+        <index>4</index>
+    </Board>
+    <Board>
+        <Railroad>Railroad</Railroad>
+        <name>Nandos</name>
+        <value>200</value>
+        <index>5</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>John Salt</name>
+        <color>light blue</color>
+        <value>100</value>
+        <index>6</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>empty 2</name>
+        <index>7</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Gilbert Scott</name>
+        <color>light blue</color>
+        <value>100</value>
+        <index>8</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Naamyaa Cafe</name>
+        <color>light blue</color>
+        <value>120</value>
+        <index>9</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>Just Visiting Jail</name>
+        <index>10</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>L'Oranger</name>
+        <color>purple</color>
+        <value>140</value>
+        <index>11</index>
+    </Board>
+    <Board>
+        <Utility>Utility</Utility>
+        <name>Borough Market</name>
+        <value>150</value>
+        <index>12</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Roux At Parliament Square</name>
+        <color>purple</color>
+        <value>140</value>
+        <index>13</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Massimmo</name>
+        <color>purple</color>
+        <value>160</value>
+        <index>14</index>
+    </Board>
+    <Board>
+        <Railroad>Railroad</Railroad>
+        <name>Pizza Express</name>
+        <value>200</value>
+        <index>15</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Opera Tavern</name>
+        <color>orange</color>
+        <value>180</value>
+        <index>16</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>empty 3</name>
+        <index>17</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Tom Aiken</name>
+        <color>orange</color>
+        <value>180</value>
+        <index>18</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>India Raj</name>
+        <color>orange</color>
+        <value>200</value>
+        <index>19</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>Free Lunch</name>
+        <index>20</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Savoy Grill</name>
+        <color>red</color>
+        <value>220</value>
+        <index>21</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>empty 4</name>
+        <index>22</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Luttyens</name>
+        <color>red</color>
+        <value>220</value>
+        <index>23</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Asia De Cuba</name>
+        <color>red</color>
+        <value>240</value>
+        <index>24</index>
+    </Board>
+    <Board>
+        <Railroad>Railroad</Railroad>
+        <name>Mcdonalds</name>
+        <value>200</value>
+        <index>25</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>J.Sheekey</name>
+        <color>yellow</color>
+        <value>260</value>
+        <index>26</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>DSTRKT</name>
+        <color>yellow</color>
+        <value>260</value>
+        <index>27</index>
+    </Board>
+    <Board>
+        <Utility>Utility</Utility>
+        <name>Maltby St Market</name>
+        <value>150</value>
+        <index>28</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Criterion</name>
+        <color>yellow</color>
+        <value>280</value>
+        <index>29</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>Jail</name>
+        <index>30</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Hibiscus</name>
+        <color>green</color>
+        <value>300</value>
+        <index>31</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>MeatLiquor</name>
+        <color>green</color>
+        <value>300</value>
+        <index>32</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>empty 5</name>
+        <index>33</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>SemPlice</name>
+        <color>green</color>
+        <value>320</value>
+        <index>34</index>
+    </Board>
+    <Board>
+        <Railroad>Railroad</Railroad>
+        <name>Jamies Italian</name>
+        <value>200</value>
+        <index>35</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>empty 6</name>
+        <index>36</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Galvin At Windows</name>
+        <color>blue</color>
+        <value>350</value>
+        <index>37</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>Luxury Tax</name>
+        <index>38</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Le Gavroche</name>
+        <color>blue</color>
+        <value>400</value>
+        <index>39</index>
+    </Board>
+</board>

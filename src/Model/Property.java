@@ -89,7 +89,7 @@ public class Property extends Square implements Serializable {
     }
 
     public int getTax(){
-        return (int) (this.getValue() * 0.1);
+        return (int) (this.getValue() * 0.25);
     }
 
 

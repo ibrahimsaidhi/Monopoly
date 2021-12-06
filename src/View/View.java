@@ -25,19 +25,11 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     transient BoardOverlay boardOverlay;
     transient MonopolyBoard monopolyBoard;
 
-    //MyPanel panel;
-
     public View(Game gameModel) {
         super("Monopoly");
         this.gameModel = gameModel;
         initialize();
     }
-
-    public View() {
-        super("Monopoly");
-        initialize();
-    }
-
 
     public static void main(String[] args) {
         Game gameModel = new Game();
@@ -45,10 +37,6 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         gameModel.setViewer(gameView);
         Controller gameController = new Controller(gameModel, gameView);
         gameView.initialize(gameController);
-    }
-
-    public BoardOverlay getBoardOverlay() {
-        return boardOverlay;
     }
 
     static int askUser(Integer[] choices) {
@@ -65,15 +53,14 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
     public void initialize() {
         //Initialize the View
-        JFrame myFrame = new JFrame("Monopoly");
         Container root = getContentPane();
         root.setLayout(new BorderLayout());
 
 
         //The layered pane will have multiple layers in order for us to overlay components
         JLayeredPane jLayeredPane = new JLayeredPane();
-        jLayeredPane.setSize(950, 550);
-        monopolyBoard = new MonopolyBoard();
+        jLayeredPane.setSize(950, 560);
+        monopolyBoard = new MonopolyBoard(this.gameModel.getBackgroundFileName());
         jLayeredPane.add(monopolyBoard, JLayeredPane.DEFAULT_LAYER);
 
         gameModel.addView(this);
@@ -145,106 +132,77 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         //Initialization of the frame
         this.setVisible(true);
         this.setResizable(false);
-        this.setSize(950, 650);
+        this.setSize(950, 660);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void setBoardOverlay(BoardOverlay boardOverlay) {
-        this.boardOverlay = boardOverlay;
+    /**
+     * Gets the png background file corresponding to xml image name
+     * and it paints it to the frame
+     */
+    public void setBackground(){
+        System.out.println(this.gameModel.getBackgroundFileName());
+        this.monopolyBoard.loadBackground(this.gameModel.getBackgroundFileName());
     }
 
-    public static void writeToFile(View view) throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("viewfile.txt"));
-        oos.writeObject(view.getBoardOverlay());
-    }
+    public void promptPropertyPurchase(boolean doubleAllowed){
 
-    public static BoardOverlay readFile(Game game) throws IOException, ClassNotFoundException{
-
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("viewfile.txt"));
-        BoardOverlay overlay = new BoardOverlay(game);
-        overlay = (BoardOverlay) ois.readObject();
-        return overlay;
-    }
-
-    public void setFeedbackAreaField(JTextArea feedbackArea) {
-        this.feedbackArea = feedbackArea;
-    }
-
-    public void setGameModel(Game gameModel) {
-        this.gameModel = gameModel;
-    }
-
-    public void promptPropertyPurchase(){
-        rollDieButton.setEnabled(false);
         int propertyPrice = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
-                "? It costs $" + propertyPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+                "? It costs "  + gameModel.getBoard().getCurrency() +  propertyPrice + " and you currently have "  + gameModel.getBoard().getCurrency() + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or ");
+
+        if(doubleAllowed){
+            unlockBuyButton();
+            lockPassTurnButton();
+            setFeedbackArea("roll again! \n");
+        }else{
+            unlockPassTurnButton();
+            lockRollButton();
+            setFeedbackArea("'Pass Turn' to move on.\n");
+        }
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
 
     }
 
-    public void promptUtilityPurchase(){
-        rollDieButton.setEnabled(false);
+    public BoardOverlay getBoardOverlay(){
+        return boardOverlay;
+    }
+
+    public void promptUtilityPurchase(boolean doubleAllowed){
         int utilityPrice = ((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
-                "? It costs $" + utilityPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+                "? It costs "  + gameModel.getBoard().getCurrency() +  utilityPrice + " and you currently have "  + gameModel.getBoard().getCurrency() +  gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or ");
+        if(doubleAllowed){
+            unlockBuyButton();
+            setFeedbackArea("roll again! \n");
+            lockPassTurnButton();
+        }else{
+            unlockPassTurnButton();
+            lockRollButton();
+            setFeedbackArea("'Pass Turn' to move on.\n");
+        }
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
 
     }
 
-    public void promptRailroadPurchase() {
-        rollDieButton.setEnabled(false);
+    public void promptRailroadPurchase(boolean doubleAllowed) {
         int railroadPrice = ((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
-                "? It costs $" + railroadPrice + " and you currently have $" + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+                "? It costs " + gameModel.getBoard().getCurrency() +  railroadPrice + " and you currently have "  + gameModel.getBoard().getCurrency() +  + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or ");
+        if(doubleAllowed){
+            unlockBuyButton();
+            setFeedbackArea("roll again! \n");
+            lockPassTurnButton();
+        }else{
+            lockRollButton();
+            setFeedbackArea("'Pass Turn' to move on.\n");
+            unlockPassTurnButton();
+        }
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
 
-    }
-
-    /**
-     * @author John Afolayan
-     * This method taxes a player whenver they land on another player's property
-     */
-    public void taxProperty(){
-        Player ownedBy = gameModel.whoOwnsProperty((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())); //player who owns property
-        if(!ownedBy.equals(gameModel.getCurrentPlayer())){ //If current player who lands on property doesn't own that property, tax them.
-            int amount = (int) (((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue() * 0.1); //amount to decrement by, 10%
-            gameModel.getCurrentPlayer().decrementBalance(amount); //remove $amount from player being taxed
-            ownedBy.incrementBalance(amount); //add $amount to player who owns property
-            setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a property owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + amount + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
-            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
-            gameModel.lookingForWinner();
-        }
-    }
-
-    /**
-     * @author Hamza
-     * This method taxes a player whenever they land of another players utility
-     */
-
-    public void taxUtility(int tax){
-        Player ownedBy = gameModel.whoOwnsUtility((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
-        if(!ownedBy.equals(gameModel.getCurrentPlayer())){
-            gameModel.getCurrentPlayer().decrementBalance(tax);
-            ownedBy.incrementBalance(tax);
-            setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a utility owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
-            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
-            gameModel.lookingForWinner();
-        }
-    }
-
-    public void taxRailroad(int tax) {
-        Player ownedBy = gameModel.whoOwnsRailroad((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition()));
-        if(!ownedBy.equals(gameModel.getCurrentPlayer())){
-            gameModel.getCurrentPlayer().decrementBalance(tax);
-            ownedBy.incrementBalance(tax);
-            setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You've landed on a railroad owned by player "+  ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + gameModel.getCurrentPlayer().getBalance());
-            gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
-            gameModel.lookingForWinner();
-        }
     }
 
     /**
@@ -294,6 +252,10 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     public void lockRollButton(){
         rollDieButton.setEnabled(false);
     }
+    public void unlockRollDieButton(){
+        rollDieButton.setEnabled(true);
+    }
+
     public void lockBuyButton(){
         buyButton.setEnabled(false);
     }
@@ -302,8 +264,14 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         buyButton.setEnabled(true);
     }
 
-    public void unlockRollDieButton(){
-        rollDieButton.setEnabled(true);
+    @Override
+    public void lockPassTurnButton(){
+        passTurnButton.setEnabled(false);
+    }
+
+    @Override
+    public void unlockPassTurnButton(){
+        passTurnButton.setEnabled(true);
     }
 
     public JTextArea getFeedbackArea() {
@@ -355,6 +323,38 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         return 0;
     }
 
+    public String customBoardRequest() {
+        String[] choices = new String[]{"OriginalBoard.xml", "Restaurant.xml" };
+        String choice = askUserChoiceOfBoard(choices);
+        return choice;
+    }
+
+    static String askUserChoiceOfBoard(String[] choices) {
+        String s = (String) JOptionPane.showInputDialog(
+                null,
+                "Which Board would you like to play on?",
+                "Select the Board!",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                choices,
+                choices[0]);
+        return s;
+    }
+
+    public String requestingHouseStatus(){
+        String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a house?");
+        return input;
+    }
+
+    public String requestingHotelStatus(){
+        String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a hotel?");
+        return input;
+    }
+
+    public void lockNewGameButton() {
+        newGameButton.setEnabled(false);
+    }
+
     /*
      * This method updates the model
      */
@@ -364,10 +364,9 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     @Override
-    public void dieCount(int value, int position) {
-        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die that added up to " + value);
+    public void dieCount(int dieRoll1, int dieRoll2, int position) {
+        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
         setFeedbackArea("\nYour new position is now " + position + ": " + gameModel.getBoardName());
-
     }
 
     @Override
@@ -378,51 +377,48 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     @Override
-    public void unlockPropertyBuy() {
+    public void unlockPropertyBuy(boolean doubleAllowed) {
         unlockBuyButton();
-        promptPropertyPurchase();
-        lockRollButton();
+        promptPropertyPurchase(doubleAllowed);
 
     }
 
     @Override
-    public void unlockUtilityBuy() {
+    public void unlockUtilityBuy(boolean doubleAllowed) {
         unlockBuyButton();
-        promptUtilityPurchase();
-        lockRollButton();
+        promptUtilityPurchase(doubleAllowed);
 
     }
 
     @Override
-    public void unlockRailroadBuy() {
+    public void unlockRailroadBuy(boolean doubleAllowed) {
         unlockBuyButton();
-        promptRailroadPurchase();
-        lockRollButton();
+        promptRailroadPurchase(doubleAllowed);
 
     }
 
     @Override
     public void passTurn(int playerNumber) {
         setFeedbackArea("\nCurrently turn of: Player " + playerNumber + "\n");
+        lockPassTurnButton();
+        lockBuyButton();
     }
 
     @Override
-    public void taxProperty(int tax, Player ownedBy, int playerNumber, int balance) {
+    public void taxProperty(int tax, Player ownedBy, int playerNumber, int balance, String currency) {
         if(!ownedBy.equals(gameModel.getCurrentPlayer())) { //If current player who lands on property doesn't own that property, tax them.
-            setFeedbackArea("\nPlayer " + playerNumber + ": You've landed on a property owned by player " + ownedBy.getPlayerNumber() + ". You've been taxed $" + tax + ", your new balance is $" + balance);
+            setFeedbackArea("\nPlayer " + playerNumber + ": You've landed on a property owned by player " + ownedBy.getPlayerNumber() + ". You've been taxed "+ currency + tax + ", your new balance is "  + gameModel.getBoard().getCurrency() +  + balance);
             gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
             gameModel.lookingForWinner();
         }
     }
 
     @Override
-    public void confirmPurchase(int playerNumber, String name, int balance) {
+    public void confirmPurchase(int playerNumber, String name, int balance, String currency) {
         lockBuyButton();
         setFeedbackArea("\nPlayer " + playerNumber + ": Congratulations, you now own: " + name +
-        "\nYour new balance is: $" + balance + "\nSpend wisely!");
+        "\nYour new balance is: "+  currency + balance + "\nSpend wisely!");
     }
-
-
 
     @Override
     public void printState(int i, int balance, String toString, int balance1) {
@@ -448,6 +444,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     @Override
     public void manualPassUpdate(int playerNumber) {
         setFeedbackArea("\nPlayer # " + playerNumber + " has passed their turn\n");
+        lockBuyButton();
         goToTheBottomOfTextField();
     }
 
@@ -462,19 +459,20 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     @Override
-    public void displayPlayerHasPassedGo() {
-        setFeedbackArea("\nCongratulations, you've passed GO! Your balance has increased by $200.");
+    public void displayPlayerHasPassedGo(String currency) {
+        setFeedbackArea("\nCongratulations, you've passed GO! Your balance has increased by " + currency + "200.");
     }
 
     @Override
-    public void displaySpecialPosition() {
-        setFeedbackArea("\nSince you landed on " + gameModel.getBoardName() + ", a fee of $" + gameModel.getSpecialPositionFee() + " has been deducted from your balance.");
+    public void displaySpecialPosition(String boardName, int specialPositionFee, String currency) {
+        setFeedbackArea("\nSince you landed on " + boardName + ", a fee of " + currency + specialPositionFee + " has been deducted from your balance.");
     }
 
     @Override
     public void AIRepaint() {
         setFeedbackArea(gameModel.aiAlgorithm());
         repaint();
+        lockPassTurnButton();
     }
 
     @Override
@@ -493,22 +491,22 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     @Override
-    public void confirmHouseTransaction() {
+    public void confirmHouseTransaction(String currency) {
         String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
 
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have bought a new " + propertyColor + " house for " + gameModel.getBoardName() +
-                ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+                ". Your current balance " + currency + gameModel.getCurrentPlayer().getBalance() + ".\n");
         gameModel.passTurn();
         checkPlayerBalance(gameModel.getCurrentPlayer());
         lookingForWinner();
     }
 
     @Override
-    public void confirmHouseSold() {
+    public void confirmHouseSold(String currency) {
         String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
 
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have sold a  " + propertyColor + " house from " + gameModel.getBoardName() +
-                ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+                ". Your current balance " + currency + gameModel.getCurrentPlayer().getBalance() + ".\n");
         gameModel.passTurn();
         checkPlayerBalance(gameModel.getCurrentPlayer());
         lookingForWinner();
@@ -535,22 +533,22 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     @Override
-    public void confirmHotelTransaction() {
+    public void confirmHotelTransaction(String currency) {
         String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
 
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have bought a new " + propertyColor + " hotel for " + gameModel.getBoardName() +
-                ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+                ". Your current balance " + currency + gameModel.getCurrentPlayer().getBalance() + ".\n");
         gameModel.passTurn();
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
     }
 
     @Override
-    public void confirmHotelSold() {
+    public void confirmHotelSold(String currency) {
         String propertyColor = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getColor();
 
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have sold a  " + propertyColor + " hotel from " + gameModel.getBoardName() +
-                ". Your current balance $" + gameModel.getCurrentPlayer().getBalance() + ".\n");
+                ". Your current balance "+ currency + gameModel.getCurrentPlayer().getBalance() + ".\n");
         gameModel.passTurn();
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
@@ -567,32 +565,36 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     @Override
-    public void payToLeaveJail(){
-            if (gameModel.playerIsInJail()) {
-                lockRollButton();
-                int input = JOptionPane.showConfirmDialog(null, "Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You are in Jail. Would you like to pay $50 bail to leave?" + "\nClick yes to pay bail or no to stay in jail.", "Pay bail?", JOptionPane.YES_NO_OPTION);
-                if (input == JOptionPane.YES_OPTION) {
-                    gameModel.playerIsLeavingJail();
-                } else if (input == JOptionPane.NO_OPTION) {
-                    setFeedbackArea("\nYikes :/ another night in jail doesn't sound fun. Good luck.");
-                } else {
-                    setFeedbackArea("Seems like there might have been an error. Please report it to the developer.");
-                }
-            }
-            repaint();
+    public void goingToJail(int dieRoll1, int dieRoll2, int currentPlayerPosition) {
+        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
+        setFeedbackArea("\nYou've Been caught speeding! Time to go to jail!");
+
     }
 
-    public String requestingHouseStatus(){
-        String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a house?");
-        return input;
+    @Override
+    public void freeFromJail(int dieRoll1, int dieRoll2, int currentPlayerPosition) {
+        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
+        setFeedbackArea("\nYou're free from jail! Be careful next time! your current position is now " + currentPlayerPosition + ": " + gameModel.getBoardName());
+
     }
 
-    public String requestingHotelStatus(){
-        String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a hotel?");
-        return input;
+    @Override
+    public void stayInJail(int currentPlayer) {
+        setFeedbackArea("sorry Player " + currentPlayer + " you're staying in jail for now");
+        goToTheBottomOfTextField();
     }
 
-    public void lockNewGameButton() {
-        newGameButton.setEnabled(false);
+    @Override
+    public void doubleRule() {
+        setFeedbackArea(" You rolled a double! roll again!");
+        goToTheBottomOfTextField();
+        unlockRollDieButton();
     }
+
+    @Override
+    public void freeWithFine(int playerNumber, String currency) {
+        setFeedbackArea("Player " +playerNumber + " payed " +currency+"200 to get out of jail, dont get caught again!");
+        goToTheBottomOfTextField();
+    }
+
 }

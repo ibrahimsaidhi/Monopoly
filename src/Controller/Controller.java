@@ -14,6 +14,8 @@ public class Controller implements ActionListener, Serializable {
     View gameView;
     Game gameModel;
     int numberOfHumanPlayers, numberOfAIPlayers, initialNumberOfHumanPlayers, totalPlayerAmount;
+    String customBoardChoice;
+    private static final String newGame = "New Game", rollDie = "Roll Die", buy = "Buy", passTurn = "Pass Turn", state = "State", bsHouse = "Buy/Sell House", bsHotel = "Buy/Sell Hotel", quit = "Quit Game", save = "Save Current Game", load = "Load Game";
 
     public Controller(Game gameModel, View gameView) {
         this.gameModel = gameModel;
@@ -23,40 +25,47 @@ public class Controller implements ActionListener, Serializable {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "New Game":
+            case newGame:
+                customBoardChoice= gameView.customBoardRequest();
+                gameModel.setCustomBoard(customBoardChoice);
+                gameView.setBackground();
+                gameView.getBoardOverlay().storeHashmapLocations(); //Stores x,y positions which will be used to display a player's position on the GUI
+
                 initialNumberOfHumanPlayers = gameView.numberOfPlayersRequest();
                 numberOfHumanPlayers = initialNumberOfHumanPlayers;
                 numberOfAIPlayers= gameView.numberOfAIPlayersRequest(numberOfHumanPlayers);
                 totalPlayerAmount = numberOfHumanPlayers + numberOfAIPlayers;
                 gameModel.initializePlayers(numberOfHumanPlayers, numberOfAIPlayers);
-
+                gameView.lockPassTurnButton();
                 break;
-            case "Roll Die":
+            case rollDie:
                 int diceRoll = gameModel.rollDie();
                 gameView.repaint();
                 gameView.lookingForWinner();
                 gameModel.checkSquare(diceRoll);
+                //gameView.unlockPassTurnButton();
                 goToTheBottomOfTextField();
 
                 break;
 
-            case "Buy":
+            case buy:
+                gameView.repaint();
                 gameModel.makePurchase();
                 gameView.unlockRollDieButton();
                 goToTheBottomOfTextField();
                 break;
-            case "Pass Turn":
+            case passTurn:
                 gameModel.manualPass();
                 gameView.lockBuyButton();
                 gameView.unlockRollDieButton();
                 goToTheBottomOfTextField();
-
+                //gameModel.aiAlgorithm(); //source of bug?
                 break;
-            case "State":
+            case state:
                 gameView.setFeedbackArea(gameModel.printState()+"\n");
                 goToTheBottomOfTextField();
                 break;
-            case "Buy/Sell House":
+            case bsHouse:
                 gameModel.checkingForHouseEligibility();
                 String input = gameView.requestingHouseStatus();
                 gameModel.buyingHouseEligibility();
@@ -79,7 +88,7 @@ public class Controller implements ActionListener, Serializable {
 
                 gameModel.clear();
                 break;
-            case "Buy/Sell Hotel":
+            case bsHotel:
                 gameModel.checkingForHouseEligibility();
                 String hotelInput = gameView.requestingHotelStatus();
                 gameModel.buyingHotelEligibility();
@@ -106,7 +115,7 @@ public class Controller implements ActionListener, Serializable {
 
                 gameModel.clear();
                 break;
-            case "Save Current Game":
+            case save:
                 try {
                     Game.writeToFile(gameModel);
                     //View.writeToFile(gameView);
@@ -116,7 +125,7 @@ public class Controller implements ActionListener, Serializable {
                 }
                 break;
 
-            case "Load Game":
+            case load:
                 try {
 
                     List<Object> gameStuff = Game.readFile();
@@ -130,8 +139,10 @@ public class Controller implements ActionListener, Serializable {
                     gameModel.setNumberOfHumanPlayers(numberOfHumanPlayers);
                     gameModel.setNumberOfAIPlayers(numberOfAIPlayers);
                     gameModel.setTotalNumberOfPlayers(totalPlayerAmount);
-                    Board board = (Board) gameStuff.get(7);
-                    gameModel.setBoard(board);
+                    customBoardChoice = (String) gameStuff.get(7);
+                    gameModel.setCustomBoard(customBoardChoice);
+                    gameView.setBackground();
+                    gameView.getBoardOverlay().storeHashmapLocations(); //Stores x,y positions which will be used to display a player's position on the GUI
 
                     gameView.repaint();
                     gameView.setFeedbackArea("Previous game has been loaded\n" + "\nCurrently turn of: Player " + gameModel.getCurrentPlayer().getPlayerNumber() + "\n");
@@ -141,7 +152,7 @@ public class Controller implements ActionListener, Serializable {
                     ioException.printStackTrace();
                 }
                 break;
-            case "Quit Game":
+            case quit:
                 gameModel.quitGame();
                 break;
         }

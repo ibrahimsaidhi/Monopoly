@@ -21,6 +21,8 @@ public class Player implements Serializable {
     private ArrayList<Property> ownedProperties = new ArrayList<>();
     private ArrayList<Utility> ownedUtility = new ArrayList<>();
     private ArrayList<Railroad> ownedRailroads  = new ArrayList<>();
+    private List<Integer> diceRolls = new ArrayList<>();
+
 
     int greenProperties = 0;
     int yellowProperties = 0;
@@ -30,8 +32,13 @@ public class Player implements Serializable {
     int lightBlueProperties = 0;
     int orangeProperties = 0;
     int redProperties = 0;
+    int doubleCount = 0;
+
+
     public enum PlayerType {Human, AI};
     private PlayerType type;
+    private boolean doubleAllowed;
+    private int singleCount = 0;
 
     //constructor
     public Player(int playerNumber){
@@ -191,9 +198,6 @@ public class Player implements Serializable {
     }
 
     public ArrayList<Railroad> getOwnedRailroads() {
-        for (int i =0; i < ownedRailroads.size();i++){
-            System.out.println(ownedRailroads.get(i));
-        }
         return ownedRailroads;
     }
 
@@ -221,8 +225,7 @@ public class Player implements Serializable {
      */
     public Integer rollDice() {
 
-        Integer numberOfDiceToRoll = 2; //rolling two dices
-        List<Integer> diceRolls = new ArrayList<>();
+        Integer numberOfDiceToRoll = 1; //rolling two dices`
         int dieRoll = 0;
         Random random = new Random();
         for (int i = 0; i < numberOfDiceToRoll; i++) {
@@ -231,11 +234,70 @@ public class Player implements Serializable {
             dieRoll += diceRoll;
         }
         if(dieRoll >=0){
-            return 1;
+            return dieRoll;
         } else {
             rollDice();
         }
         return 2;
+    }
+
+    public boolean isDouble(){
+        if (diceRolls.get(0) == diceRolls.get(1)){
+            addDoublesCount();
+            clearDiceRolls();
+            setDoubleAllowed(true);
+            return isDoubleAllowed();
+        }
+        clearDiceRolls();
+        if(doubleCount > 0) {
+            clearDoublesCount();
+        }
+        setDoubleAllowed(false);
+        return isDoubleAllowed();
+    }
+
+    private void clearDiceRolls() {
+        diceRolls.clear();
+    }
+
+    public void addDoublesCount(){
+        doubleCount += 1;
+    }
+
+    public void clearDoublesCount(){
+        doubleCount = 0;
+    }
+
+    public int getDoubleCount(){
+        return  doubleCount;
+    }
+
+    public boolean isDoubleAllowed() {
+        return doubleAllowed;
+    }
+
+    public void setDoubleAllowed(boolean doubleAllowed) {
+        this.doubleAllowed = doubleAllowed;
+    }
+
+    public int getSingleCount() {
+        return singleCount;
+    }
+
+    public void setSingleCount() {
+        this.singleCount += 1;
+    }
+
+    public void clearSingleCount(){
+        singleCount = 0;
+    }
+
+    public boolean singleStreak(){
+        if (singleCount == 3){
+            clearSingleCount();
+            return true;
+        }
+        return false;
     }
 
 }
