@@ -153,6 +153,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
         if(doubleAllowed){
             unlockBuyButton();
+            lockPassTurnButton();
             setFeedbackArea("roll again! \n");
         }else{
             lockRollButton();
@@ -174,6 +175,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         if(doubleAllowed){
             unlockBuyButton();
             setFeedbackArea("roll again! \n");
+            lockPassTurnButton();
         }else{
             lockRollButton();
             setFeedbackArea("'Pass Turn' to move on.\n");
@@ -190,6 +192,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         if(doubleAllowed){
             unlockBuyButton();
             setFeedbackArea("roll again! \n");
+            lockPassTurnButton();
         }else{
             lockRollButton();
             setFeedbackArea("'Pass Turn' to move on.\n");
@@ -581,6 +584,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         setFeedbackArea(" You rolled a double! roll again!");
         goToTheBottomOfTextField();
         unlockRollDieButton();
+        lockPassTurnButton();
     }
 
 }
