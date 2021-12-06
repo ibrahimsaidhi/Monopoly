@@ -1431,6 +1431,7 @@ public class Game implements Serializable {
 
         for(ModelUpdateListener v: this.views) {
             v.taxProperty(total, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance(),getBoard().getCurrency());
+            v.lockPassTurnButton();
         }
     }
 
@@ -1451,6 +1452,7 @@ public class Game implements Serializable {
 
         for(ModelUpdateListener v: this.views) {
             v.taxProperty(tax, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance(), getBoard().getCurrency());
+            v.lockPassTurnButton();
         }
 
     }
@@ -1467,6 +1469,7 @@ public class Game implements Serializable {
 
             for(ModelUpdateListener v: this.views) {
                 v.taxProperty(tax, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance(), getBoard().getCurrency());
+                v.lockPassTurnButton();
             }
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
@@ -1484,6 +1487,7 @@ public class Game implements Serializable {
             if (hasPlayerPassedGo()) {
                 for (ModelUpdateListener v : views) {
                     v.displayPlayerHasPassedGo(getBoard().getCurrency());
+                    v.lockPassTurnButton();
                 }
                 passTurn();
             }
