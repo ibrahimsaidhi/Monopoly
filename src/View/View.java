@@ -156,6 +156,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
             lockPassTurnButton();
             setFeedbackArea("roll again! \n");
         }else{
+            unlockPassTurnButton();
             lockRollButton();
             setFeedbackArea("'Pass Turn' to move on.\n");
         }
@@ -177,6 +178,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
             setFeedbackArea("roll again! \n");
             lockPassTurnButton();
         }else{
+            unlockPassTurnButton();
             lockRollButton();
             setFeedbackArea("'Pass Turn' to move on.\n");
         }
@@ -196,6 +198,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         }else{
             lockRollButton();
             setFeedbackArea("'Pass Turn' to move on.\n");
+            unlockPassTurnButton();
         }
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
@@ -575,7 +578,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
     @Override
     public void stayInJail(int currentPlayer) {
-        setFeedbackArea("sorry player" + currentPlayer + " you're staying in jail for now");
+        setFeedbackArea("sorry Player " + currentPlayer + " you're staying in jail for now");
         goToTheBottomOfTextField();
     }
 
@@ -584,7 +587,12 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         setFeedbackArea(" You rolled a double! Roll again!\n");
         goToTheBottomOfTextField();
         unlockRollDieButton();
-        lockPassTurnButton();
+    }
+
+    @Override
+    public void freeWithFine(int playerNumber, String currency) {
+        setFeedbackArea("Player " +playerNumber + " payed " +currency+"200 to get out of jail, dont get caught again!");
+        goToTheBottomOfTextField();
     }
 
 }

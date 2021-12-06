@@ -21,7 +21,7 @@ public class Player implements Serializable {
     private ArrayList<Property> ownedProperties = new ArrayList<>();
     private ArrayList<Utility> ownedUtility = new ArrayList<>();
     private ArrayList<Railroad> ownedRailroads  = new ArrayList<>();
-    List<Integer> diceRolls = new ArrayList<>();
+    private List<Integer> diceRolls = new ArrayList<>();
 
 
     int greenProperties = 0;
@@ -38,6 +38,7 @@ public class Player implements Serializable {
     public enum PlayerType {Human, AI};
     private PlayerType type;
     private boolean doubleAllowed;
+    private int singleCount = 0;
 
     //constructor
     public Player(int playerNumber){
@@ -277,6 +278,26 @@ public class Player implements Serializable {
 
     public void setDoubleAllowed(boolean doubleAllowed) {
         this.doubleAllowed = doubleAllowed;
+    }
+
+    public int getSingleCount() {
+        return singleCount;
+    }
+
+    public void setSingleCount() {
+        this.singleCount += 1;
+    }
+
+    public void clearSingleCount(){
+        singleCount = 0;
+    }
+
+    public boolean singleStreak(){
+        if (singleCount == 3){
+            clearSingleCount();
+            return true;
+        }
+        return false;
     }
 
 }

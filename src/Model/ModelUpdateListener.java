@@ -80,4 +80,6 @@ public interface ModelUpdateListener extends Serializable {
     void stayInJail(int currentPlayer);
 
     void doubleRule();
+
+    void freeWithFine(int playerNumber, String currency);
 }
