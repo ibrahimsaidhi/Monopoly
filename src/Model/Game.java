@@ -399,15 +399,23 @@ public class Game implements Serializable {
         else if(playerIsInJail() && doubleCheck){
             freePlayerFromJail();
             getCurrentPlayer().clearDoublesCount();
+            getCurrentPlayer().clearSingleCount();
             for(ModelUpdateListener v: this.views) {
                 v.freeFromJail(dieRoll1, dieRoll2, getCurrentPlayerPosition());
             }
         }
 
         else if(playerIsInJail() && !doubleCheck){
-            getCurrentPlayer().clearDoublesCount();
-            for(ModelUpdateListener v: this.views) {
-                v.stayInJail(getCurrentPlayer().getPlayerNumber());
+            getCurrentPlayer().setSingleCount();
+            if(getCurrentPlayer().singleStreak()){
+                freeWithFine();
+                for(ModelUpdateListener v: this.views) {
+                    v.freeWithFine(getCurrentPlayer().getPlayerNumber(), getBoard().getCurrency());
+                }
+            }else {
+                for (ModelUpdateListener v : this.views) {
+                    v.stayInJail(getCurrentPlayer().getPlayerNumber());
+                }
             }
         }
 
@@ -442,6 +450,13 @@ public class Game implements Serializable {
         for (ModelUpdateListener v: views){
             v.doubleRule();
         }
+    }
+
+    public void freeWithFine(){
+        getCurrentPlayer().setPosition(10);
+        getCurrentPlayer().decrementBalance(200);
+        checkPlayerBalance(getCurrentPlayer());
+        lookingForWinner();
     }
 
     public boolean hasPlayerPassedGo(){
@@ -623,7 +638,7 @@ public class Game implements Serializable {
     }
 
     public boolean isCurrentPositionUtilityOwned(){
-        Utility u = (Utility) getUtility(getCurrentPlayer().getPosition());
+        Utility u = getUtility(getCurrentPlayer().getPosition());
         for (int i = 0; i < players.size(); i++){
             if (players.get(i).getOwnedUtility().contains(u)){
                 return true;
