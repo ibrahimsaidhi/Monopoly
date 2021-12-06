@@ -59,7 +59,7 @@ public class Controller implements ActionListener, Serializable {
                 gameView.lockBuyButton();
                 gameView.unlockRollDieButton();
                 goToTheBottomOfTextField();
-                //gameModel.aiAlgorithm();
+                //gameModel.aiAlgorithm(); //source of bug?
                 break;
             case state:
                 gameView.setFeedbackArea(gameModel.printState()+"\n");
