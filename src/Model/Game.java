@@ -682,12 +682,14 @@ public class Game implements Serializable {
             int count = getCurrentPlayer().getDoubleCount();
             if (count == 3) {
                 goToJail();
+            } else if(count < 3 && getCurrentPlayer().isDouble()) {
+                aiAlgorithm();
+                return "Player " + getCurrentPlayer().getPlayerNumber() + " (AI) rolled a double so they went again. They landed on " + getBoardName();
             } else {
                 getCurrentPlayer().setPosition((totalDiceroll + getCurrentPlayerPosition()) % board.size()); //move AI player to position specified by die
-
-                if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Property) { //If player lands on a property
+                if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Property) { //If AI lands on a property
                     if (isCurrentPositionPropertyOwned()) { //If AI lands on a position owned by another player then tax them.
-                        int taxedAmount = (int) (0.1 * ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+                        int taxedAmount = ((Property) getBoard().getIndex(getCurrentPlayer().getPosition())).getTax();
                         Player tempPlayer = whoOwnsProperty((Property) getBoard().getIndex(getCurrentPlayer().getPosition())); //Get player who owns property
                         tempPlayer.incrementBalance(taxedAmount); //Increment balance for player who owns property.
                         checkPlayerBalance(getCurrentPlayer());
@@ -706,12 +708,12 @@ public class Game implements Serializable {
                     }
                 } else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Railroad) { //If player lands on a railroad
                     if (isCurrentPositionRailroadOwned()) { //If AI lands on a position owned by another player then tax them.
-                        int taxedAmount = (int) (0.1 * ((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+                        int railroadTax = getRailroadRent();
+                        taxRailroad(railroadTax);
                         Player tempPlayer = whoOwnsRailroad((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition())); //Get player who owns property
-                        tempPlayer.incrementBalance(taxedAmount); //Increment balance for player who owns property.
                         checkPlayerBalance(getCurrentPlayer());
                         lookingForWinner();
-                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by player " + tempPlayer.getPlayerNumber() + ". AI has been taxed " + getBoard().getCurrency() + taxedAmount;
+                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by player " + tempPlayer.getPlayerNumber() + ". AI has been taxed " + getBoard().getCurrency() + railroadTax;
                     } else if (!isCurrentPositionRailroadOwned()) { //If AI lands on an available property, it will decide whether to purchase it or not.
                         if (aiPurchaseDecision()) {
                             getCurrentPlayer().addRailroad((Railroad) getRailroad(getCurrentPlayer().getPosition()));
@@ -725,12 +727,12 @@ public class Game implements Serializable {
                     }
                 } else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Utility) { //If player lands on a utility
                     if (isCurrentPositionUtilityOwned()) { //If AI lands on a position owned by another player then tax them.
-                        int taxedAmount = (int) (0.1 * ((Utility) getBoard().getIndex(getCurrentPlayer().getPosition())).getValue());
+                        int utilityTax = getUtilityRent(totalDiceroll);
+                        taxUtility(utilityTax);
                         Player tempPlayer = whoOwnsUtility((Utility) getBoard().getIndex(getCurrentPlayer().getPosition())); //Get player who owns property
-                        tempPlayer.incrementBalance(taxedAmount); //Increment balance for player who owns property.
                         checkPlayerBalance(getCurrentPlayer());
                         lookingForWinner();
-                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by player " + tempPlayer.getPlayerNumber() + ". AI has been taxed " + getBoard().getCurrency() + taxedAmount;
+                        return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + "(AI): rolled two die, " + diceroll1 + " and " + diceroll2 + " and is now on: " + getBoard().getIndex(getCurrentPlayer().getPosition()).getName() + ".\nThis square is owned by player " + tempPlayer.getPlayerNumber() + ". AI has been taxed " + getBoard().getCurrency() + utilityTax;
                     } else if (!isCurrentPositionUtilityOwned()) { //If AI lands on an available utility, it will decide whether to purchase it or not.
                         if (aiPurchaseDecision()) {
                             getCurrentPlayer().addUtility((Utility) getUtility(getCurrentPlayer().getPosition()));
@@ -761,12 +763,14 @@ public class Game implements Serializable {
                 checkPlayerBalance(getCurrentPlayer());
                 lookingForWinner();
                 return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + " is bankrupt and has therefore been eliminated.\n";
-            } else if (isPlayerAnAI() && playerIsInJail()) {
+            } else if (isPlayerAnAI() && playerIsInJail()) { //If AI is in jail, they attempt to roll a double to get out
             boolean doubleCheck = getCurrentPlayer().isDouble();
             if(doubleCheck){
                 freePlayerFromJail();
                 getCurrentPlayer().clearDoublesCount();
-                return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + " rolled a double and is free from jail!";
+                return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + " (AI) rolled a double and is free from jail!";
+            } else {
+                return "\nPlayer " + getCurrentPlayer().getPlayerNumber() + " (AI) couldn't roll a double so they'll remain in jail :/";
             }
         }
             checkPlayerBalance(getCurrentPlayer());
