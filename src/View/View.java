@@ -401,6 +401,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     public void passTurn(int playerNumber) {
         setFeedbackArea("\nCurrently turn of: Player " + playerNumber + "\n");
         lockPassTurnButton();
+        lockBuyButton();
     }
 
     @Override
@@ -443,6 +444,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     @Override
     public void manualPassUpdate(int playerNumber) {
         setFeedbackArea("\nPlayer # " + playerNumber + " has passed their turn\n");
+        lockBuyButton();
         goToTheBottomOfTextField();
     }
 

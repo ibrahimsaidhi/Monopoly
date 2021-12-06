@@ -628,7 +628,7 @@ public class Game implements Serializable {
     }
 
     public boolean isCurrentPositionRailroadOwned(){
-        Railroad r = (Railroad) getRailroad(getCurrentPlayer().getPosition());
+        Railroad r = getRailroad(getCurrentPlayer().getPosition());
         for (int i = 0; i < players.size(); i++){
             if (players.get(i).getOwnedRailroads().contains(r)){
                 return true;
@@ -1507,13 +1507,8 @@ public class Game implements Serializable {
                 for (ModelUpdateListener v : views) {
                     v.displayPlayerHasPassedGo(getBoard().getCurrency());
                 }
-                if(getCurrentPlayer().isDoubleAllowed()){
-                    doubleRule();
-                } else {
-                    passTurn();
-                }
             }
-            else if (hasPlayerLandedOnSpecialPosition()) {
+            if (hasPlayerLandedOnSpecialPosition()) {
                 for (ModelUpdateListener v : views) {
                     v.displaySpecialPosition(getBoardName(), getSpecialPositionFee(), getBoard().getCurrency());
                 }
@@ -1523,7 +1518,7 @@ public class Game implements Serializable {
                     passTurn();
                 }
             }
-            else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Property) {
+            if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Property) {
                 if (!propertyOwned((Property) getBoard().getIndex(getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
 
                     for (ModelUpdateListener v : this.views) {
