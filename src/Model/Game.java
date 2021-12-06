@@ -499,7 +499,6 @@ public class Game implements Serializable {
      */
     public void setCurrentPlayerPosition(int pos) {
         getCurrentPlayer().setPosition((getCurrentPlayerPosition() + pos) % board.size());
-        int position = getCurrentPlayerPosition();
     }
 
     /**
@@ -647,6 +646,10 @@ public class Game implements Serializable {
         return false;
     }
 
+    /**
+     * Decides whether an AI will purchase an available position which they landed on
+     * @return true or false
+     */
     public boolean aiPurchaseDecision(){
         Random bool = new Random();
         if(getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Property){
@@ -1453,6 +1456,7 @@ public class Game implements Serializable {
 
         for(ModelUpdateListener v: this.views) {
             v.taxProperty(total, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance(),getBoard().getCurrency());
+            v.lockPassTurnButton();
         }
     }
 
@@ -1473,6 +1477,7 @@ public class Game implements Serializable {
 
         for(ModelUpdateListener v: this.views) {
             v.taxProperty(tax, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance(), getBoard().getCurrency());
+            v.lockPassTurnButton();
         }
 
     }
@@ -1489,6 +1494,7 @@ public class Game implements Serializable {
 
             for(ModelUpdateListener v: this.views) {
                 v.taxProperty(tax, ownedBy, getCurrentPlayer().getPlayerNumber(), getCurrentPlayer().getBalance(), getBoard().getCurrency());
+                v.lockPassTurnButton();
             }
             checkPlayerBalance(getCurrentPlayer());
             lookingForWinner();
@@ -1506,6 +1512,7 @@ public class Game implements Serializable {
             if (hasPlayerPassedGo()) {
                 for (ModelUpdateListener v : views) {
                     v.displayPlayerHasPassedGo(getBoard().getCurrency());
+                    v.lockPassTurnButton();
                 }
             }
             if (hasPlayerLandedOnSpecialPosition()) {

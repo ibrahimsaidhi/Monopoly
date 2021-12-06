@@ -141,7 +141,6 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
      * and it paints it to the frame
      */
     public void setBackground(){
-        System.out.println(this.gameModel.getBackgroundFileName());
         this.monopolyBoard.loadBackground(this.gameModel.getBackgroundFileName());
     }
 
@@ -586,7 +585,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
     @Override
     public void doubleRule() {
-        setFeedbackArea(" You rolled a double! roll again!");
+        setFeedbackArea(" You rolled a double! Roll again!\n");
         goToTheBottomOfTextField();
         unlockRollDieButton();
     }
