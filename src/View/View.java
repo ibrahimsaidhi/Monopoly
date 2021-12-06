@@ -141,7 +141,6 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
      * and it paints it to the frame
      */
     public void setBackground(){
-        System.out.println(this.gameModel.getBackgroundFileName());
         this.monopolyBoard.loadBackground(this.gameModel.getBackgroundFileName());
     }
 

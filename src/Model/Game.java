@@ -646,6 +646,10 @@ public class Game implements Serializable {
         return false;
     }
 
+    /**
+     * Decides whether an AI will purchase an available position which they landed on
+     * @return true or false
+     */
     public boolean aiPurchaseDecision(){
         Random bool = new Random();
         if(getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Property){
