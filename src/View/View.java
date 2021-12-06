@@ -581,7 +581,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
     @Override
     public void doubleRule() {
-        setFeedbackArea(" You rolled a double! roll again!");
+        setFeedbackArea(" You rolled a double! Roll again!\n");
         goToTheBottomOfTextField();
         unlockRollDieButton();
         lockPassTurnButton();

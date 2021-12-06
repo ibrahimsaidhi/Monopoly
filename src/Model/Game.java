@@ -484,7 +484,6 @@ public class Game implements Serializable {
      */
     public void setCurrentPlayerPosition(int pos) {
         getCurrentPlayer().setPosition((getCurrentPlayerPosition() + pos) % board.size());
-        int position = getCurrentPlayerPosition();
     }
 
     /**
