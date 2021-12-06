@@ -145,11 +145,19 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         this.monopolyBoard.loadBackground(this.gameModel.getBackgroundFileName());
     }
 
-    public void promptPropertyPurchase(){
-        rollDieButton.setEnabled(false);
+    public void promptPropertyPurchase(boolean doubleAllowed){
+
         int propertyPrice = ((Property) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
-                "? It costs "  + gameModel.getBoard().getCurrency() +  propertyPrice + " and you currently have "  + gameModel.getBoard().getCurrency() + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+                "? It costs "  + gameModel.getBoard().getCurrency() +  propertyPrice + " and you currently have "  + gameModel.getBoard().getCurrency() + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or ");
+
+        if(doubleAllowed){
+            unlockBuyButton();
+            setFeedbackArea("roll again! \n");
+        }else{
+            lockRollButton();
+            setFeedbackArea("'Pass Turn' to move on.\n");
+        }
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
 
@@ -159,21 +167,33 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         return boardOverlay;
     }
 
-    public void promptUtilityPurchase(){
-        rollDieButton.setEnabled(false);
+    public void promptUtilityPurchase(boolean doubleAllowed){
         int utilityPrice = ((Utility) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
-                "? It costs "  + gameModel.getBoard().getCurrency() +  utilityPrice + " and you currently have "  + gameModel.getBoard().getCurrency() +  gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+                "? It costs "  + gameModel.getBoard().getCurrency() +  utilityPrice + " and you currently have "  + gameModel.getBoard().getCurrency() +  gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or ");
+        if(doubleAllowed){
+            unlockBuyButton();
+            setFeedbackArea("roll again! \n");
+        }else{
+            lockRollButton();
+            setFeedbackArea("'Pass Turn' to move on.\n");
+        }
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
 
     }
 
-    public void promptRailroadPurchase() {
-        rollDieButton.setEnabled(false);
+    public void promptRailroadPurchase(boolean doubleAllowed) {
         int railroadPrice = ((Railroad) gameModel.getBoard().getIndex(gameModel.getCurrentPlayer().getPosition())).getValue();
         setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": Would you like to purchase " + gameModel.getBoardName() +
-                "? It costs " + gameModel.getBoard().getCurrency() +  railroadPrice + " and you currently have "  + gameModel.getBoard().getCurrency() +  + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or 'Pass Turn' to move on.\n");
+                "? It costs " + gameModel.getBoard().getCurrency() +  railroadPrice + " and you currently have "  + gameModel.getBoard().getCurrency() +  + gameModel.getCurrentPlayer().getBalance() + ".\nClick the 'Buy' button to purchase or ");
+        if(doubleAllowed){
+            unlockBuyButton();
+            setFeedbackArea("roll again! \n");
+        }else{
+            lockRollButton();
+            setFeedbackArea("'Pass Turn' to move on.\n");
+        }
         gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
         gameModel.lookingForWinner();
 
@@ -315,6 +335,20 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         return s;
     }
 
+    public String requestingHouseStatus(){
+        String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a house?");
+        return input;
+    }
+
+    public String requestingHotelStatus(){
+        String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a hotel?");
+        return input;
+    }
+
+    public void lockNewGameButton() {
+        newGameButton.setEnabled(false);
+    }
+
     /*
      * This method updates the model
      */
@@ -337,26 +371,23 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     @Override
-    public void unlockPropertyBuy() {
+    public void unlockPropertyBuy(boolean doubleAllowed) {
         unlockBuyButton();
-        promptPropertyPurchase();
-        lockRollButton();
+        promptPropertyPurchase(doubleAllowed);
 
     }
 
     @Override
-    public void unlockUtilityBuy() {
+    public void unlockUtilityBuy(boolean doubleAllowed) {
         unlockBuyButton();
-        promptUtilityPurchase();
-        lockRollButton();
+        promptUtilityPurchase(doubleAllowed);
 
     }
 
     @Override
-    public void unlockRailroadBuy() {
+    public void unlockRailroadBuy(boolean doubleAllowed) {
         unlockBuyButton();
-        promptRailroadPurchase();
-        lockRollButton();
+        promptRailroadPurchase(doubleAllowed);
 
     }
 
@@ -545,17 +576,11 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
         goToTheBottomOfTextField();
     }
 
-    public String requestingHouseStatus(){
-        String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a house?");
-        return input;
+    @Override
+    public void doubleRule() {
+        setFeedbackArea(" You rolled a double! roll again!");
+        goToTheBottomOfTextField();
+        unlockRollDieButton();
     }
 
-    public String requestingHotelStatus(){
-        String input = JOptionPane.showInputDialog(this, "Are you here to buy or sell a hotel?");
-        return input;
-    }
-
-    public void lockNewGameButton() {
-        newGameButton.setEnabled(false);
-    }
 }

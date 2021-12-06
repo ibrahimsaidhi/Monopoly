@@ -430,11 +430,18 @@ public class Game implements Serializable {
 
     public void freePlayerFromJail(){
         getCurrentPlayer().setPosition(10); //Sets player position to just visiting jail.
+        getCurrentPlayer().setDoubleAllowed(false);
     }
 
     public void goToJail(){
         getCurrentPlayer().setPosition(30);
         getCurrentPlayer().clearDoublesCount();
+    }
+
+    public void doubleRule(){
+        for (ModelUpdateListener v: views){
+            v.doubleRule();
+        }
     }
 
     public boolean hasPlayerPassedGo(){
@@ -1489,49 +1496,73 @@ public class Game implements Serializable {
                     v.displayPlayerHasPassedGo(getBoard().getCurrency());
                     v.lockPassTurnButton();
                 }
-                passTurn();
+                if(getCurrentPlayer().isDoubleAllowed()){
+                    doubleRule();
+                } else {
+                    passTurn();
+                }
             }
             else if (hasPlayerLandedOnSpecialPosition()) {
                 for (ModelUpdateListener v : views) {
                     v.displaySpecialPosition(getBoardName(), getSpecialPositionFee(), getBoard().getCurrency());
                 }
-                passTurn();
+                if(getCurrentPlayer().isDoubleAllowed()){
+                    doubleRule();
+                } else {
+                    passTurn();
+                }
             }
             else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Property) {
                 if (!propertyOwned((Property) getBoard().getIndex(getCurrentPlayer().getPosition()))) { //If property landed on isn't owned
 
                     for (ModelUpdateListener v : this.views) {
-                        v.unlockPropertyBuy();
+                        v.unlockPropertyBuy(getCurrentPlayer().isDoubleAllowed());
                     }
                 } else if (propertyOwned((Property) getBoard().getIndex(getCurrentPlayer().getPosition()))) { //If property landed on is owned by someone else
                     this.taxProperty();
-                    passTurn();
+                    if(getCurrentPlayer().isDoubleAllowed()){
+                        doubleRule();
+                    } else {
+                        passTurn();
+                    }
                 }
             } else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Utility) {
                 if (!utilityOwned((Utility) getBoard().getIndex(getCurrentPlayer().getPosition()))) { //If utility landed on isn't owned
                     for (ModelUpdateListener v : this.views) {
-                        v.unlockUtilityBuy();
+                        v.unlockUtilityBuy(getCurrentPlayer().isDoubleAllowed());
                     }
                 } else if (utilityOwned((Utility) getBoard().getIndex(getCurrentPlayer().getPosition()))) { //If utility landed on is owned by someone else
                     int tax = getUtilityRent(diceRoll);
                     this.taxUtility(tax);
-                    passTurn();
+                    if(getCurrentPlayer().isDoubleAllowed()){
+                        doubleRule();
+                    } else {
+                        passTurn();
+                    }
                 }
             } else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Railroad) {
                 if (!railroadsOwned((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition()))) { //If RailRoad landed on isn't owned
                     for (ModelUpdateListener v : this.views) {
-                        v.unlockRailroadBuy();
+                        v.unlockRailroadBuy(getCurrentPlayer().isDoubleAllowed());
                     }
                 } else if (railroadsOwned((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition()))) { //If Railroad landed on is owned by someone else
                     int rent = getRailroadRent();
                     this.taxRailroad(rent);
-                    passTurn();
+                    if(getCurrentPlayer().isDoubleAllowed()){
+                        doubleRule();
+                    } else {
+                        passTurn();
+                    }
                 }
 
             }else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Square){
                 checkPlayerBalance(getCurrentPlayer());
                 lookingForWinner();
-                passTurn();
+                if(getCurrentPlayer().isDoubleAllowed()){
+                    doubleRule();
+                } else {
+                    passTurn();
+                }
             }
         }
         else if(playerIsInJail() && !isPlayerAnAI()){
@@ -1610,7 +1641,11 @@ public class Game implements Serializable {
             for(ModelUpdateListener v: this.views) {
                 v.confirmPurchase(getCurrentPlayer().getPlayerNumber(), getBoardName(), getCurrentPlayer().getBalance(), getBoard().getCurrency());
             }
-            passTurn();
+            if(getCurrentPlayer().isDoubleAllowed()){
+                doubleRule();
+            } else {
+                passTurn();
+            }
 
         }
         else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Utility) {
@@ -1623,7 +1658,11 @@ public class Game implements Serializable {
                 v.confirmPurchase(getCurrentPlayer().getPlayerNumber(), getBoardName(), getCurrentPlayer().getBalance(), getBoard().getCurrency());
             }
 
-            passTurn();
+            if(getCurrentPlayer().isDoubleAllowed()){
+                doubleRule();
+            } else {
+                passTurn();
+            }
         }
         else if (getBoard().getIndex(getCurrentPlayer().getPosition()) instanceof Railroad) {
             getCurrentPlayer().addRailroad((Railroad) getBoard().getIndex(getCurrentPlayer().getPosition()));
@@ -1634,7 +1673,11 @@ public class Game implements Serializable {
             for(ModelUpdateListener v: this.views) {
                 v.confirmPurchase(getCurrentPlayer().getPlayerNumber(), getBoardName(), getCurrentPlayer().getBalance(), getBoard().getCurrency());
             }
-            passTurn();
+            if(getCurrentPlayer().isDoubleAllowed()){
+                doubleRule();
+            } else {
+                passTurn();
+            }
         }
 
     }

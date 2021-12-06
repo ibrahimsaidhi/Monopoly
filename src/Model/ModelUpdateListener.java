@@ -9,11 +9,11 @@ public interface ModelUpdateListener extends Serializable {
 
     void initializeLoadedGame(int numberOfPlayers, int playerNumber);
 
-    void unlockPropertyBuy();
+    void unlockPropertyBuy(boolean doubleAllowed);
 
-    void unlockUtilityBuy();
+    void unlockUtilityBuy(boolean doubleAllowed);
 
-    void unlockRailroadBuy();
+    void unlockRailroadBuy(boolean doubleAllowed);
 
     void lockPassTurnButton();
 
@@ -78,4 +78,6 @@ public interface ModelUpdateListener extends Serializable {
     void freeFromJail(int dieRoll1, int dieRoll2, int currentPlayerPosition);
 
     void stayInJail(int currentPlayer);
+
+    void doubleRule();
 }
