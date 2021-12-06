@@ -33,8 +33,11 @@ public class Player implements Serializable {
     int orangeProperties = 0;
     int redProperties = 0;
     int doubleCount = 0;
+
+
     public enum PlayerType {Human, AI};
     private PlayerType type;
+    private boolean doubleAllowed;
 
     //constructor
     public Player(int playerNumber){
@@ -226,8 +229,8 @@ public class Player implements Serializable {
         Random random = new Random();
         for (int i = 0; i < numberOfDiceToRoll; i++) {
             int diceRoll = random.nextInt(6) + 1;
-            diceRolls.add(diceRoll);
-            dieRoll += diceRoll;
+            diceRolls.add(4);
+            dieRoll += 4;
         }
         if(dieRoll >=0){
             return dieRoll;
@@ -241,13 +244,15 @@ public class Player implements Serializable {
         if (diceRolls.get(0) == diceRolls.get(1)){
             addDoublesCount();
             clearDiceRolls();
-            return true;
+            setDoubleAllowed(true);
+            return isDoubleAllowed();
         }
         clearDiceRolls();
         if(doubleCount > 0) {
             clearDoublesCount();
         }
-        return false;
+        setDoubleAllowed(false);
+        return isDoubleAllowed();
     }
 
     private void clearDiceRolls() {
@@ -264,6 +269,14 @@ public class Player implements Serializable {
 
     public int getDoubleCount(){
         return  doubleCount;
+    }
+
+    public boolean isDoubleAllowed() {
+        return doubleAllowed;
+    }
+
+    public void setDoubleAllowed(boolean doubleAllowed) {
+        this.doubleAllowed = doubleAllowed;
     }
 
 }
