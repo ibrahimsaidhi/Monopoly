@@ -487,7 +487,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
     @Override
     public void cannotPurchase() {
-        setFeedbackArea("Sorry, you cannot buy a house at the moment. Please try again later...");
+        setFeedbackArea("\nSorry, you cannot buy a house at the moment. Please try again later...\n");
     }
 
     @Override
@@ -514,22 +514,22 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
     @Override
     public void cannotSell() {
-        setFeedbackArea("Sorry, you cannot sell a house at the moment. Please try again later...\n");
+        setFeedbackArea("\nSorry, you cannot sell a house at the moment. Please try again later...\n");
     }
 
     @Override
     public void purchasingHotel() {
-        JOptionPane.showMessageDialog(this, "You are able to purchase hotels!" );
+        setFeedbackArea("\nYou are able to purchase hotels!\n" );
     }
 
     @Override
     public void cannotPurchaseHotel(){
-        setFeedbackArea("Sorry, you cannot buy a hotel at the moment. Please try again later...\n");
+        setFeedbackArea("\nSorry, you cannot buy a hotel at the moment. Please try again later...\n");
     }
 
     @Override
     public void notPurchasingAHotel() {
-        JOptionPane.showMessageDialog(this, "You cannot buy a hotel for " + gameModel.getBoardName() + " as it is not a property\n");
+        setFeedbackArea("\nYou cannot buy a hotel for " + gameModel.getBoardName() + " as it is not a property\n");
     }
 
     @Override
@@ -575,25 +575,24 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     public void freeFromJail(int dieRoll1, int dieRoll2, int currentPlayerPosition) {
         setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
         setFeedbackArea("\nYou're free from jail! Be careful next time! your current position is now " + currentPlayerPosition + ": " + gameModel.getBoardName());
-
     }
 
     @Override
     public void stayInJail(int currentPlayer) {
-        setFeedbackArea("sorry Player " + currentPlayer + " you're staying in jail for now");
+        setFeedbackArea("Sorry Player " + currentPlayer + ", you're staying in jail for now");
         goToTheBottomOfTextField();
     }
 
     @Override
     public void doubleRule() {
-        setFeedbackArea(" You rolled a double! roll again!");
+        setFeedbackArea("\nYou rolled a double! Roll again!\n");
         goToTheBottomOfTextField();
         unlockRollDieButton();
     }
 
     @Override
     public void freeWithFine(int playerNumber, String currency) {
-        setFeedbackArea("Player " +playerNumber + " payed " +currency+"200 to get out of jail, dont get caught again!");
+        setFeedbackArea("\nPlayer " +playerNumber + " payed " +currency+"200 to get out of jail. Don't get caught again!\n");
         goToTheBottomOfTextField();
     }
 
