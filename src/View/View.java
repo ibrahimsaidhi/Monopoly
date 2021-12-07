@@ -573,7 +573,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     @Override
     public void freeFromJail(int dieRoll1, int dieRoll2, int currentPlayerPosition) {
         setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
-        setFeedbackArea("\nYou're free from jail! Be careful next time! your current position is now " + currentPlayerPosition + ": " + gameModel.getBoardName());
+        setFeedbackArea("\nYou're free from jail! Be careful next time! Your current position is now " + currentPlayerPosition + ": " + gameModel.getBoardName());
 
     }
 
