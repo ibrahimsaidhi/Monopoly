@@ -43,7 +43,6 @@ public class Controller implements ActionListener, Serializable {
                 gameView.repaint();
                 gameView.lookingForWinner();
                 gameModel.checkSquare(diceRoll);
-                //gameView.unlockPassTurnButton();
                 goToTheBottomOfTextField();
 
                 break;
@@ -59,7 +58,6 @@ public class Controller implements ActionListener, Serializable {
                 gameView.lockBuyButton();
                 gameView.unlockRollDieButton();
                 goToTheBottomOfTextField();
-                //gameModel.aiAlgorithm(); //source of bug?
                 break;
             case state:
                 gameView.setFeedbackArea(gameModel.printState()+"\n");
@@ -122,6 +120,7 @@ public class Controller implements ActionListener, Serializable {
                     gameView.setFeedbackArea("The game has been saved!");
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
+                    gameView.setFeedbackArea("There was an error saving the game.");
                 }
                 break;
 
