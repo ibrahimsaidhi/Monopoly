@@ -289,7 +289,7 @@ public class Game implements Serializable {
          *
          */
         return("\nThere are " + players.size() + " active players in the game currently and you are player " + getCurrentPlayer().getPlayerNumber() + ".\nYou own the following properties: "
-                + getCurrentPlayer().getOwnedProperties().toString() +  "You own the following houses: " + getCurrentPlayer().getOwnedHouses().toString() +
+                + getCurrentPlayer().getOwnedProperties().toString() +  "\nYou own the following houses: " + getCurrentPlayer().getOwnedHouses().toString() +
                 "\nYou are on position: " + board.getIndex(getCurrentPlayer().getPosition()).getName() + ", your current balance is "  + getBoard().getCurrency() +  getCurrentPlayer().getBalance() + " and your color on the board is " + BoardOverlay.getPlayerColor(currentPlayerInt));
     }
 
