@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 
-public class Property extends Square {
+public class Property extends Square implements Serializable {
     private String name;
     private String color;
 
@@ -88,7 +89,7 @@ public class Property extends Square {
     }
 
     public int getTax(){
-        return (int) (this.getValue() * 0.1);
+        return (int) (this.getValue() * 0.25);
     }
 
 

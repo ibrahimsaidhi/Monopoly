@@ -1,21 +1,31 @@
 package Model;
 
-public interface ModelUpdateListener {
+import java.io.Serializable;
+
+public interface ModelUpdateListener extends Serializable {
     void modelUpdated();
 
-    void dieCount(int value, int position);
+    void dieCount(int dieRoll1, int dieRoll2, int position);
 
-    void unlockPropertyBuy();
+    void initializeLoadedGame(int numberOfPlayers, int playerNumber);
 
-    void unlockUtilityBuy();
+    void unlockPropertyBuy(boolean doubleAllowed);
 
-    void unlockRailroadBuy();
+    void unlockUtilityBuy(boolean doubleAllowed);
+
+    void unlockRailroadBuy(boolean doubleAllowed);
+
+    void lockPassTurnButton();
+
+    void unlockPassTurnButton();
 
     void passTurn(int playerNumber);
 
-    void taxProperty(int tax, Player ownedBy, int playerNumber, int balance);
+    void taxProperty(int tax, Player ownedBy, int playerNumber, int balance, String currency);
 
-    void confirmPurchase(int playerNumber, String name, int balance);
+    void confirmPurchase(int playerNumber, String name, int balance, String currency);
+
+    void loadingSavedGame(int playerNumber);
 
     void printState(int i, int balance, String toString, int balance1);
 
@@ -27,9 +37,9 @@ public interface ModelUpdateListener {
 
     void displayBankruptPlayer(int playerNumber);
 
-    void displayPlayerHasPassedGo();
+    void displayPlayerHasPassedGo(String currency);
 
-    void displaySpecialPosition();
+    void displaySpecialPosition(String boardName, int specialPositionFee, String currency);
 
     void AIRepaint();
 
@@ -39,9 +49,9 @@ public interface ModelUpdateListener {
 
     void cannotPurchase();
 
-    void confirmHouseTransaction();
+    void confirmHouseTransaction(String currency);
 
-    void confirmHouseSold();
+    void confirmHouseSold(String currency);
 
     void cannotSell();
 
@@ -49,16 +59,27 @@ public interface ModelUpdateListener {
 
     void notPurchasingAHotel();
 
-    void confirmHotelTransaction();
+    void confirmHotelTransaction(String currency);
 
-    void confirmHotelSold();
+    void confirmHotelSold(String currency);
 
     void cannotPurchaseHotel();
 
     void cannotSellHotel();
 
-    void payToLeaveJail();
+
+
 
 
     void sellingHouse();
+
+    void goingToJail(int dieRoll1, int dieRoll2, int currentPlayerPosition);
+
+    void freeFromJail(int dieRoll1, int dieRoll2, int currentPlayerPosition);
+
+    void stayInJail(int currentPlayer);
+
+    void doubleRule();
+
+    void freeWithFine(int playerNumber, String currency);
 }
