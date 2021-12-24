@@ -10,7 +10,7 @@ The game rules can be found [here.](https://www.officialgamerules.org/monopoly)
 ### Features
 •	Boards are initialized using an XML file, therefore anyone can add a custom version of their preference via XML
 
-•	This game features artifically intelligent player(s). The AI player makes decisions based on predetermined outcomes
+•	This game features artificially intelligent player(s). The AI player makes decisions based on predetermined outcomes
 
 •	An instance of a game can be saved, it is saved to a text file called *gamefile.txt* (click *Load Game* upon a new game instance to reload the saved instance)
 
@@ -29,7 +29,7 @@ There are five versions of Monopoly:
 
 ![](Screenshots/The%20Simpsons.gif)
 
-### Design Decion & Major Class Functionality
+### Design Decision & Major Class Functionality
 
 **Game**
 
@@ -41,9 +41,9 @@ There are five versions of Monopoly:
 
 • After a user selects the board they want to play on, Game automatically sets the corresponding background file name to use (since our XML and PNG files have the same name but different file types). Controller then gets the background file name, passes it to view which places it on the frame.
 
-• After a user selects the board they want to play on, Game also stores the XML file name and picture file name into variables. These variables are used as getters when a user decides to save a state of a game. Since an image isn’t serializable, the load feature gets the string of which XML version was used as well as which png image was used from Game class. This is, of course, handled by Controller.
+• After a user selects the board they want to play on, Game also stores the XML file name and picture file name into variables. These variables are used as getters when a user decides to save a state of a game. Since an image isn’t serializable, the load feature gets the string of which XML version was used as well as which PNG image was used from Game class. This is, of course, handled by Controller.
 
-• When a game is saved, Game creates a file called gamefile.txt which contains all data of a saved Game’s instance. If another save is made, the .txt file is overwritten.
+• When a game is saved, Game creates a file called gamefile.txt which contains all data of a saved Game’s instance. If another save is made, the gamesave.txt file is overwritten.
 
 **View**
 
@@ -132,7 +132,7 @@ There are five versions of Monopoly:
 
 • Your options are New Game, Load Game, Roll Die, Pass Turn, State, Buy/Sell Hotel, Buy/Sell House, Save Current Game, Quit Game 
 
-◦ New Game: Choose the board you would like to play on and the amount of human/ai you would like to play with.
+◦ New Game: Choose the board you would like to play on and the amount of human/AI you would like to play with.
 
 ◦ Load Game: Click the ‘Load Game’ button and if a gamefile.txt file exits, the previous game instance will be loaded, unless an exception occurs.
 
@@ -142,9 +142,9 @@ There are five versions of Monopoly:
 
       ▪ Observe the player color changing to a new index on the GUI frame. Choose your next action depending on which square you land on (see above).
 
-      ▪ If a human rolls a die and lands on a spot which no action is required (no prompt to buy a house, pay to leave jail, etc.), the game automatically passes turn to the Ais and they make their moves in succession.
+      ▪ If a human rolls a die and lands on a spot which no action is required (no prompt to buy a house, pay to leave jail, etc.), the game automatically passes turn to the AIs, and they make their moves in succession.
 
-◦ Pass Turn: Passes the turn from you to the next player (used to opt out of purchsaing)
+◦ Pass Turn: Passes the turn from you to the next player (used to opt out of purchasing)
 
       ▪ Click the Pass Turn button at the bottom right.
 
@@ -195,8 +195,8 @@ Clone the project from GitHub: https://github.com/John-Afolayan/Monopoly and run
 ![](Screenshots/Save%20Game.png)
 
 ### Known Issues
-In the case which a player lands on a taxable square after passing Go, they are not taxed.
-Cancelling out of popup dialogues e.g. buy/sell house/hotel, throws unhandled NullPointerExceptions
+•	In the case which a player lands on a taxable square after passing Go, they are not taxed.
+•	Cancelling out of popup dialogues e.g. buy/sell house/hotel, throws unhandled NullPointerExceptions
 
 
-**This game was created for educational purposes and no copyright infringement was intended.**
+####This game was created for educational purposes and no copyright infringement was intended.
