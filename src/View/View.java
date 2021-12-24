@@ -290,7 +290,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     public int numberOfPlayersRequest() {
-        Integer[] choices = new Integer[]{2, 3, 4, 5, 6, 7, 8};
+        Integer[] choices = new Integer[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
         int choice = askUser(choices);
         return choice;
     }
@@ -323,7 +323,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     public String customBoardRequest() {
-        String[] choices = new String[]{"OriginalBoard.xml", "Restaurant.xml" };
+        String[] choices = new String[]{"OriginalBoard.xml", "Restaurant.xml", "Simpsons.xml", "Futurama.xml", "CityVille.xml" };
         String choice = askUserChoiceOfBoard(choices);
         return choice;
     }
@@ -364,7 +364,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
     @Override
     public void dieCount(int dieRoll1, int dieRoll2, int position) {
-        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
         setFeedbackArea("\nYour new position is now " + position + ": " + gameModel.getBoardName());
     }
 
@@ -404,9 +404,13 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
     }
 
     @Override
-    public void taxProperty(int tax, Player ownedBy, int playerNumber, int balance, String currency) {
+    public void taxSquare(int tax, Player ownedBy, int playerNumber, int balance, String currency) {
         if(!ownedBy.equals(gameModel.getCurrentPlayer())) { //If current player who lands on property doesn't own that property, tax them.
-            setFeedbackArea("\nPlayer " + playerNumber + ": You've landed on a property owned by player " + ownedBy.getPlayerNumber() + ". You've been taxed "+ currency + tax + ", your new balance is "  + gameModel.getBoard().getCurrency() +  + balance);
+            if(gameModel.isPlayerAnAI()){
+                setFeedbackArea("\nPlayer " + playerNumber + "(AI): You've  landed on a square owned by player " + ownedBy.getPlayerNumber() + ". You've been taxed "+ currency + tax + ", your new balance is "  + gameModel.getBoard().getCurrency() +  + balance);
+            } else {
+                setFeedbackArea("\nPlayer " + playerNumber + ": You've landed on a square owned by player " + ownedBy.getPlayerNumber() + ". You've been taxed "+ currency + tax + ", your new balance is "  + gameModel.getBoard().getCurrency() +  + balance);
+            }
             gameModel.checkPlayerBalance(gameModel.getCurrentPlayer());
             gameModel.lookingForWinner();
         }
@@ -565,14 +569,14 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
     @Override
     public void goingToJail(int dieRoll1, int dieRoll2, int currentPlayerPosition) {
-        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
         setFeedbackArea("\nYou've Been caught speeding! Time to go to jail!");
 
     }
 
     @Override
     public void freeFromJail(int dieRoll1, int dieRoll2, int currentPlayerPosition) {
-        setFeedbackArea("Player " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
+        setFeedbackArea("\nPlayer " + gameModel.getCurrentPlayer().getPlayerNumber() + ": You have rolled two die " + dieRoll1 + " and " + dieRoll2 + " which add up to " + (dieRoll1 + dieRoll2));
         setFeedbackArea("\nYou're free from jail! Be careful next time! Your current position is now " + currentPlayerPosition + ": " + gameModel.getBoardName());
 
     }
@@ -592,7 +596,7 @@ public class View extends JFrame implements ModelUpdateListener, Serializable {
 
     @Override
     public void freeWithFine(int playerNumber, String currency) {
-        setFeedbackArea("\nPlayer " +playerNumber + " payed " +currency+"200 to get out of jail. Don't get caught again!\n");
+        setFeedbackArea("\nPlayer " +playerNumber + " paid " + currency + "200 to get out of jail. Don't get caught again!\n");
         goToTheBottomOfTextField();
     }
 

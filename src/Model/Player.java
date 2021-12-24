@@ -33,6 +33,7 @@ public class Player implements Serializable {
     int orangeProperties = 0;
     int redProperties = 0;
     int doubleCount = 0;
+    int turnsSpentInJail = 0;
 
 
     public enum PlayerType {Human, AI};
@@ -51,7 +52,6 @@ public class Player implements Serializable {
     public ArrayList<House> getOwnedHouses() {
         return ownedHouses;
     }
-
 
     public ArrayList<Hotel> getOwnedHotels() {
         return ownedHotels;
@@ -218,6 +218,20 @@ public class Player implements Serializable {
      */
     public int getPlayerNumber() {
         return playerNumber;
+    }
+
+    public int getTurnsSpentInJail(){
+        return turnsSpentInJail;
+    }
+
+    public void incrementTurnsSpentInJail(){
+        if(turnsSpentInJail < 3){
+            turnsSpentInJail++;
+        }
+    }
+
+    public void clearTurnsSpentInJail(){
+        this.turnsSpentInJail = 0;
     }
 
     /**
