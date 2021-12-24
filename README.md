@@ -196,6 +196,7 @@ Clone the project from GitHub: https://github.com/John-Afolayan/Monopoly and run
 
 ### Known Issues
 •	In the case which a player lands on a taxable square after passing Go, they are not taxed.
+
 •	Cancelling out of popup dialogues e.g. buy/sell house/hotel, throws unhandled NullPointerExceptions
 
 
