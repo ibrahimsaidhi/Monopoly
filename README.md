@@ -200,4 +200,4 @@ Clone the project from GitHub: https://github.com/John-Afolayan/Monopoly and run
 •	Cancelling out of popup dialogues e.g. buy/sell house/hotel, throws unhandled NullPointerExceptions
 
 
-####This game was created for educational purposes and no copyright infringement was intended.
+### This game was created for educational purposes and no copyright infringement was intended.
