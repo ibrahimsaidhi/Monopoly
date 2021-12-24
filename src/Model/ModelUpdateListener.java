@@ -21,7 +21,7 @@ public interface ModelUpdateListener extends Serializable {
 
     void passTurn(int playerNumber);
 
-    void taxProperty(int tax, Player ownedBy, int playerNumber, int balance, String currency);
+    void taxSquare(int tax, Player ownedBy, int playerNumber, int balance, String currency);
 
     void confirmPurchase(int playerNumber, String name, int balance, String currency);
 

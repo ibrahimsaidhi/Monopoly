@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<board>
+    <Currency>$</Currency>
+    <Board>
+        <Square>Square</Square>
+        <name>Go</name>
+        <index>0</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Tire Yard</name>
+        <color>brown</color>
+        <value>60</value>
+        <index>1</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>empty 1</name>
+        <index>2</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Cletus' Shack</name>
+        <color>brown</color>
+        <value>60</value>
+        <index>3</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>Legitimate Businessman's Protection Tax</name>
+        <index>4</index>
+    </Board>
+    <Board>
+        <Railroad>Railroad</Railroad>
+        <name>North Haverbrook Express</name>
+        <value>200</value>
+        <index>5</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Herman's Military Antiques</name>
+        <color>light blue</color>
+        <value>100</value>
+        <index>6</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>empty 2</name>
+        <index>7</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>The Android's Dungeon</name>
+        <color>light blue</color>
+        <value>100</value>
+        <index>8</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Kwik-E-Mart</name>
+        <color>light blue</color>
+        <value>120</value>
+        <index>9</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>Just Visiting Jail</name>
+        <index>10</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Disco Stu's</name>
+        <color>purple</color>
+        <value>140</value>
+        <index>11</index>
+    </Board>
+    <Board>
+        <Utility>Utility</Utility>
+        <name>Springfield Nuclear Power Plant</name>
+        <value>150</value>
+        <index>12</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>The Jazz Hole</name>
+        <color>purple</color>
+        <value>140</value>
+        <index>13</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Moe's</name>
+        <color>purple</color>
+        <value>160</value>
+        <index>14</index>
+    </Board>
+    <Board>
+        <Railroad>Railroad</Railroad>
+        <name>Springfield Station</name>
+        <value>200</value>
+        <index>15</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Noise Land Video Arcade</name>
+        <color>orange</color>
+        <value>180</value>
+        <index>16</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>empty 3</name>
+        <index>17</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Sir-Putt-A-Lots</name>
+        <color>orange</color>
+        <value>180</value>
+        <index>18</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Barney's Bowl-A-Rama</name>
+        <color>orange</color>
+        <value>200</value>
+        <index>19</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>Free Parking</name>
+        <index>20</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Ye Olde Off-Ramp Inn</name>
+        <color>red</color>
+        <value>220</value>
+        <index>21</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>empty 4</name>
+        <index>22</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Sleep-Eazy Motel</name>
+        <color>red</color>
+        <value>220</value>
+        <index>23</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Rancho Relaxo</name>
+        <color>red</color>
+        <value>240</value>
+        <index>24</index>
+    </Board>
+    <Board>
+        <Railroad>Railroad</Railroad>
+        <name>Shelbyville Express</name>
+        <value>200</value>
+        <index>25</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>The Frying Dutchman</name>
+        <color>yellow</color>
+        <value>260</value>
+        <index>26</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>The Happy Sumo</name>
+        <color>yellow</color>
+        <value>260</value>
+        <index>27</index>
+    </Board>
+    <Board>
+        <Utility>Utility</Utility>
+        <name>Springfield Dam HydroElectric CO.</name>
+        <value>150</value>
+        <index>28</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>The Gilded Truffle</name>
+        <color>yellow</color>
+        <value>280</value>
+        <index>29</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>Jail</name>
+        <index>30</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Duff Gardens</name>
+        <color>green</color>
+        <value>300</value>
+        <index>31</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Itchy and Scratchy Land</name>
+        <color>green</color>
+        <value>300</value>
+        <index>32</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>empty 5</name>
+        <index>33</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Krustylu Studios</name>
+        <color>green</color>
+        <value>320</value>
+        <index>34</index>
+    </Board>
+    <Board>
+        <Railroad>Railroad</Railroad>
+        <name>Ogdenville Express</name>
+        <value>200</value>
+        <index>35</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>empty 6</name>
+        <index>36</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Springfield Glen Country Club</name>
+        <color>blue</color>
+        <value>350</value>
+        <index>37</index>
+    </Board>
+    <Board>
+        <Square>Square</Square>
+        <name>First Church of Springfield Offering Plate</name>
+        <index>38</index>
+    </Board>
+    <Board>
+        <Property>Property</Property>
+        <name>Burns Manor</name>
+        <color>blue</color>
+        <value>400</value>
+        <index>39</index>
+    </Board>
+</board>
