@@ -1,4 +1,8 @@
 # Monopoly
+
+## Contributors
+John Afolayan, Ibrahim Said, Hamza Zafar
+
 ### Description
 The project is a simplified version of the classic board game Monopoly. It is simplified by eliminating the Chance/Community chest cards and by not allowing mortgages nor sales and trades between players. The cost of rent, houses and hotels are simplified by using fixed percentages of the initial cost of the property.
 
